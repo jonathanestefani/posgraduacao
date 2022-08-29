@@ -13,6 +13,9 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/customers', [ 'uses' => 'CustomerController@index'] );
+    $router->post('/customers', [ 'uses' => 'CustomerController@store'] );
+    $router->put('/customers', [ 'uses' => 'CustomerController@store'] );
+    $router->delete('/customers', [ 'uses' => 'CustomerController@destroy'] );
 
     $router->get('/', function () use ($router) {
         return $router->app->version();

@@ -2,11 +2,13 @@
 
 namespace App\BaseRepository;
 
+use App\Exceptions\ErrorServiceBaseRepositoryException;
 use Illuminate\Http\Request;
 
 trait THttpRequest
 {
     protected Array $request = [];
+    protected String $operation = "";
 
     public function setRequest(Request &$request)
     {
@@ -16,6 +18,23 @@ trait THttpRequest
             $this->filtersRequest = isset($this->request['filters']) && count($this->request['filters']) > 0 ? $this->request['filters'] : [];
         }
 
+        if (isset($this->request["id"]) && $this->request["id"] != '0') {
+            $this->defineModelInstance($this->request["id"]);
+        } else {
+            $this->operation = "create";
+        }
+
         return $this;
+    }
+
+    protected function defineModelInstance($id)
+    {
+        $this->modelClassInstance = $this->modelClass::find($id);
+
+        if (empty($this->modelClassInstance)) {
+            throw new ErrorServiceBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
+        }
+
+        $this->operation = "update";
     }
 }

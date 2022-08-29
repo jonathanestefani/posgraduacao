@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbsFilter
 {
-    private $builder;
+    protected $builder;
 
     public function __construct(Builder $builder)
     {
