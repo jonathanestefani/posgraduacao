@@ -1,5 +1,22 @@
 version: "3"
 services:
+  posbackend_apigateway:
+    image: tangramor/nginx-php8-fpm
+    user: 0:0
+    container_name: posbackend_apigateway
+    environment:
+      TZ: "America/Sao_Paulo"
+      WEBROOT: "/var/www/html"
+    ports:
+      - "10000:80"
+    volumes:
+      - ./api_gateway:/var/www/html
+      - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/etc/php/php.ini:/etc/php8/php.ini
+      - ./docker/etc/nginx/conf.d/api_gateway.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - netork_pos_backend
+
   posbackend_customers:
     image: tangramor/nginx-php8-fpm
     user: 0:0
@@ -8,12 +25,32 @@ services:
       TZ: "America/Sao_Paulo"
       WEBROOT: "/var/www/html"
     ports:
-      - "8000:80"
+      - "10001:80"
     volumes:
       - ./customers:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
-      - ./docker/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/etc/nginx/conf.d/customers.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - netork_pos_backend
+    depends_on:
+      - pospostgresql
+    links:
+      - pospostgresql
+  posbackend_localization:
+    image: tangramor/nginx-php8-fpm
+    user: 0:0
+    container_name: posbackend_localization
+    environment:
+      TZ: "America/Sao_Paulo"
+      WEBROOT: "/var/www/html"
+    ports:
+      - "10002:80"
+    volumes:
+      - ./localization:/var/www/html
+      - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/etc/php/php.ini:/etc/php8/php.ini
+      - ./docker/etc/nginx/conf.d/localization.conf:/etc/nginx/conf.d/default.conf
     networks:
       - netork_pos_backend
     depends_on:

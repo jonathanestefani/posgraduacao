@@ -13,6 +13,7 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/customers', [ 'uses' => 'CustomerController@index'] );
+    $router->get('/customers/{id}', [ 'uses' => 'CustomerController@show'] );
     $router->post('/customers', [ 'uses' => 'CustomerController@store'] );
     $router->put('/customers', [ 'uses' => 'CustomerController@store'] );
     $router->delete('/customers', [ 'uses' => 'CustomerController@destroy'] );
