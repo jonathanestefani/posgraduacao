@@ -53,7 +53,7 @@ class CustomerController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update($id, Request $request)
     {
         try {
             $data = (new StoreService(Customer::class))->setRequest($request)->execute();
@@ -81,12 +81,14 @@ class CustomerController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
         try {
-            $data = (new DestroyService(Customer::class))->setRequest($request)->execute();
+            $request = new Request(['id' => $id]);
 
-            return response()->json($data);
+            (new DestroyService(Customer::class))->setRequest($request)->execute();
+
+            return response()->json([]);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);
         } catch (\Throwable $th) {

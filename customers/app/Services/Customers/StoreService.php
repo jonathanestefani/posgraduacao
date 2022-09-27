@@ -6,7 +6,6 @@ use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
 use App\BaseRepository\THttpRequest;
-use App\Exceptions\ErrorServiceBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +16,9 @@ class StoreService extends ARepository implements IService
 
     public function execute()
     {
+        Log::info('execute');
+        Log::info(EOperation::CREATE);
+
         try {
             switch ($this->operation) {
                 case EOperation::CREATE:

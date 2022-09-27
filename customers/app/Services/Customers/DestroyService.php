@@ -3,7 +3,7 @@
 namespace App\Services\Customers;
 
 use App\BaseRepository\Abs\ARepository;
-use App\BaseRepository\Crud\TCrud;
+use App\BaseRepository\Crud\TDestroy;
 use App\BaseRepository\THttpRequest;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class DestroyService extends ARepository implements IService
 {
-    use THttpRequest, TCrud;
+    use THttpRequest, TDestroy;
 
     public function execute()
     {
