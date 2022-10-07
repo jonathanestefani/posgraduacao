@@ -62,6 +62,8 @@ $app->singleton(
 
 $app->configure('app');
 
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

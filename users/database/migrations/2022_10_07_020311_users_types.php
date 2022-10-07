@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Cities extends Migration
+class UsersTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class Cities extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('users_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('country_id');
             $table->string('name', 255);
-            $table->string('uf', 2);
+            $table->enum('type', ['admin','person','company']);
+            $table->integer('status')->nullable();
 
-            $table->foreign('uf')->references('uf')->on('states');
-            $table->foreign('country_id')->references('id')->on('countries');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +31,6 @@ class Cities extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('users_types');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Countries extends Migration
+class Users extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class Countries extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_type_id');
             $table->string('name', 255);
-            $table->string('abbrev', 10)->nullable();
+            $table->string('email', 255);
+            $table->string('password', 255);
+            $table->integer('status');
+
+            $table->foreign('user_type_id')->references('id')->on('users_types');
+
             $table->timestamps();
-            $table->dateTime('deleted_at', $precision = 0)->nullable();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +35,6 @@ class Countries extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('users');
     }
 }
