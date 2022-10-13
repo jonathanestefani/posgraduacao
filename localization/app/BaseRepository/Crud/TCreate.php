@@ -8,8 +8,8 @@ trait TCreate {
     {
         try {
             $this->crudValidation();
-            $this->modelClassInstance = $this->modelClass::create($this->request)->refresh();
-            return $this->modelClassInstance;
+            $this->data = $this->modelClass::create($this->request)->refresh();
+            return $this->data;
         } catch (\Throwable $th) {
             throw $th;
         }

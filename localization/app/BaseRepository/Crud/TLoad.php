@@ -9,9 +9,13 @@ trait TLoad {
     public function load($id)
     {
         try {
-            $this->modelClassInstance = $this->modelClass::find($id);
+            if (method_exists($this, 'defineAggregate')) {
+                $this->defineAggregate();
+            }
 
-            if (empty($this->modelClassInstance)) {
+            $this->data = $this->instance->find($id);
+
+            if (empty($this->instance)) {
                 throw new ErrorServiceBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
             }
         } catch (\Throwable $th) {

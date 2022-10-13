@@ -16,9 +16,13 @@ trait GET
         try {
             $address_api = $this->getAddressApi($api_name);
 
+            Log::info($address_api . $api_name);
+
             $response = Http::get($address_api . $api_name, $request->all());
 
             if ($response->failed()) {
+                Log::info($response);
+
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');
             } else {
                 return new Response($response->body());    
@@ -30,7 +34,7 @@ trait GET
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return new Response(["message" => "Ocorreu um erro ao carregar os dados dos clientes!"], 500);
+            return new Response(["message" => "Ocorreu um erro ao carregar os dados!"], 500);
         }
     }
 

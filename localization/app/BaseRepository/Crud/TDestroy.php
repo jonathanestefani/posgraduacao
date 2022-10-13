@@ -9,8 +9,8 @@ trait TDestroy {
     public function destroy()
     {
         try {
-            $this->modelClassInstance->deleted_at = new DateTime('now');
-            $this->modelClassInstance->save();
+            $this->data->deleted_at = new DateTime('now');
+            $this->data->save();
             return true;
         } catch (\Throwable $th) {
             throw $th;

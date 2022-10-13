@@ -21,11 +21,11 @@ trait TFilters
 
                 $class = $listFilterClass->getFilterClass();
 
-                $this->instanceModel = (new $class($this->instanceModel))->execute( $listFilterClass->getFilterKey() , $value);
+                $this->instance = (new $class($this->instance))->execute( $listFilterClass->getFilterKey() , $value);
             }
         }
 
-        return $this->instanceModel;
+        return $this->instance;
     }
 
 }

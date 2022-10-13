@@ -4,6 +4,7 @@ namespace App\Services\Cities;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TCrud;
+use App\BaseRepository\TAggregate;
 use App\BaseRepository\THttpRequest;
 use App\Exceptions\ErrorServiceBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
@@ -13,13 +14,11 @@ use Throwable;
 
 class LoadService extends ARepository implements IService
 {
-    use THttpRequest, TCrud;
+    use THttpRequest, TCrud, TAggregate;
 
     public function execute() {
         try {
-            $this->load($this->request["id"]);
-
-            return $this->modelClassInstance;
+            return $this->data;
         } catch (ErrorServiceBaseRepositoryException $th) {
             Log::error($th);
         

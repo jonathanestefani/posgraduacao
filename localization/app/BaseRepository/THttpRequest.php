@@ -29,9 +29,13 @@ trait THttpRequest
 
     protected function openModelInstance($id)
     {
-        $this->modelClassInstance = $this->modelClass::find($id);
+        if (method_exists($this, 'defineAggregate')) {
+            $this->defineAggregate();
+        }
 
-        if (empty($this->modelClassInstance)) {
+        $this->data = $this->instance->find($id);
+
+        if (empty($this->data)) {
             throw new ErrorServiceBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
         }
 

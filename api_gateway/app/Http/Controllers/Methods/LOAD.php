@@ -16,6 +16,9 @@ trait LOAD
         try {
             $address_api = $this->getAddressApi($api_name);
 
+            Log::info('asdasdas');
+            Log::info($address_api . $api_name . '/' . $id);
+
             $response = Http::get($address_api . $api_name . '/' . $id, $request->all());
 
             if ($response->failed()) {

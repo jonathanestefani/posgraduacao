@@ -14,7 +14,11 @@ trait PUT
     public function update($api_name, $id, Request $request)
     {
         try {
+            Log::info($api_name);
+
             $address_api = $this->getAddressApi($api_name);
+
+            Log::info($address_api . $api_name . '/' . $id);
 
             $response = Http::put($address_api . $api_name . '/' . $id, $request->all());
 

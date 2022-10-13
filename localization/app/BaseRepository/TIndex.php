@@ -3,9 +3,6 @@
 namespace App\BaseRepository;
 
 use App\BaseRepository\Enum\ETypeCall;
-use Illuminate\Contracts\Pagination\Paginator;
-
-// use \Illuminate\Pagination\Paginator;
 
 trait TIndex 
 {
@@ -15,8 +12,9 @@ trait TIndex
 
     public function Index()
     {
-        $this->instanceModel = $this->modelClass::query();
-        $this->defineAggregate();
+        if (method_exists($this, 'defineAggregate')) {
+            $this->defineAggregate();
+        }
 
         $this->beforeExecute(ETypeCall::INDEX);
 
@@ -47,7 +45,7 @@ trait TIndex
             return $this->getStructPagination();
         }
 
-        $result = $this->instanceModel->paginate($perPage);
+        $result = $this->instance->paginate($perPage);
 
         return $result;
     }
@@ -56,19 +54,13 @@ trait TIndex
     {
         $currentPage = isset($this->request["page"]) ? $this->request["page"] : 1;
 
-        $this->instanceModel->skip($this->limit)->take($currentPage);
-
-        /*
-        Paginator::currentPageResolver(function () use ($currentPage) {
-            return $currentPage;
-        });
-        */
+        $this->instance->skip($this->limit)->take($currentPage);
     }
 
     private function getStructPagination() {
         return [
-            "data" => $this->instanceModel->get(),
-            "total" => $this->instanceModel->count(),
+            "data" => $this->instance->get(),
+            "total" => $this->instance->count(),
             "last_page" => 1,
             "from" => 1,
             "to" => 1,

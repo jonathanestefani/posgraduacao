@@ -17,20 +17,20 @@ services:
     networks:
       - netork_pos_backend
 
-  posbackend_customers:
+  posbackend_person:
     image: tangramor/nginx-php8-fpm
     user: 0:0
-    container_name: posbackend_customers
+    container_name: posbackend_person
     environment:
       TZ: "America/Sao_Paulo"
       WEBROOT: "/var/www/html"
-    ports:
-      - "10001:80"
+    expose:
+      - "80"
     volumes:
-      - ./customers:/var/www/html
+      - ./person:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
-      - ./docker/etc/nginx/conf.d/customers.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/etc/nginx/conf.d/person.conf:/etc/nginx/conf.d/default.conf
     networks:
       - netork_pos_backend
     depends_on:
@@ -45,8 +45,8 @@ services:
     environment:
       TZ: "America/Sao_Paulo"
       WEBROOT: "/var/www/html"
-    ports:
-      - "10002:80"
+    expose:
+      - "80"
     volumes:
       - ./localization:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -59,20 +59,41 @@ services:
     links:
       - pospostgresql
 
-  posbackend_users:
+  posbackend_job:
     image: tangramor/nginx-php8-fpm
     user: 0:0
-    container_name: posbackend_users
+    container_name: posbackend_job
     environment:
       TZ: "America/Sao_Paulo"
       WEBROOT: "/var/www/html"
-    ports:
-      - "10003:80"
+    expose:
+      - "80"
     volumes:
-      - ./users:/var/www/html
+      - ./job:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
-      - ./docker/etc/nginx/conf.d/users.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/etc/nginx/conf.d/job.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - netork_pos_backend
+    depends_on:
+      - pospostgresql
+    links:
+      - pospostgresql
+  
+  posbackend_attendance:
+    image: tangramor/nginx-php8-fpm
+    user: 0:0
+    container_name: posbackend_attendance
+    environment:
+      TZ: "America/Sao_Paulo"
+      WEBROOT: "/var/www/html"
+    expose:
+      - "80"
+    volumes:
+      - ./attendance:/var/www/html
+      - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/etc/php/php.ini:/etc/php8/php.ini
+      - ./docker/etc/nginx/conf.d/attendance.conf:/etc/nginx/conf.d/default.conf
     networks:
       - netork_pos_backend
     depends_on:

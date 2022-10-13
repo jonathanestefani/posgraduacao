@@ -43,8 +43,6 @@ class CitiesController extends Controller
                 "id" => $id
             ]);
 
-            Log::info($params);
-
             $data = (new LoadService(Cities::class))->setRequest($params)->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {

@@ -3,6 +3,7 @@
 namespace App\BaseRepository;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 trait TAggregate
 {
@@ -13,9 +14,9 @@ trait TAggregate
         if (count($this->with) > 0) {
             foreach ($this->with as $tableRelationModel => $scope) {
                 if (gettype($scope) == "object") {
-                    $this->modelClassInstance->with([$tableRelationModel => $scope])->whereHas($tableRelationModel, $scope);
+                    $this->instance->with([$tableRelationModel => $scope])->whereHas($tableRelationModel, $scope);
                 } else {
-                    $this->modelClassInstance->with($scope);
+                    $this->instance->with($scope);
                 }
             }
         }

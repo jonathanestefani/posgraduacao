@@ -14,10 +14,10 @@ class ListFilter
     }
 
     public function getFilterClass() {
-        $this->filterClass;
+        return $this->filterClass;
     }
 
     public function getFilterKey() {
-        $this->filterKey;
+        return $this->filterKey;
     }
 }

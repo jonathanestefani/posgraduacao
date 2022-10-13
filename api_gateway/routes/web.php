@@ -11,19 +11,21 @@
 |
 */
 
-use App\Http\Controllers\ApiController;
-use Illuminate\Support\Facades\Log;
-
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('/{api_name}', [ 'uses' => 'ApiController@index'] );
-    $router->get('/{api_name}/{id}', [ 'uses' => 'ApiController@show'] );
-    $router->post('/{api_name}', [ 'uses' => 'ApiController@store'] );
-    $router->put('/{api_name}/{id}', [ 'uses' => 'ApiController@update'] );
-    $router->delete('/{api_name}/{id}', [ 'uses' => 'ApiController@destroy'] );
+    // Matches "/api/register
+    $router->post('register', 'AuthController@register');
 
-    /*
-    $router->get('/', function () use ($router) {
-        return $router->app->version();
-    });
-    */
+    // Matches "/api/login
+    $router->post('login', 'AuthController@login');
+
+    $router->get('/{api_name}', ['uses' => 'ApiController@index']);
+    $router->get('/{api_name}/{id}', ['uses' => 'ApiController@show']);
+    $router->post('/{api_name}', ['uses' => 'ApiController@store']);
+    $router->put('/{api_name}/{id}', ['uses' => 'ApiController@update']);
+    $router->delete('/{api_name}/{id}', ['uses' => 'ApiController@destroy']);
 });
+
+/*
+$router->group(['prefix' => 'api'], function () use ($router) {
+});
+*/

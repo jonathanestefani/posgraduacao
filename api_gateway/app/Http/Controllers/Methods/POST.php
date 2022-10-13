@@ -16,9 +16,13 @@ trait POST
         try {
             $address_api = $this->getAddressApi($api_name);
 
+            Log::info($address_api . $api_name);
+
             $response = Http::post($address_api . $api_name, $request->all());
 
             if ($response->failed()) {
+                Log::info($response);
+
                 throw new ErrorApiCallException('Não foi possível executar a operação na api');
             } else {
                 return new Response($response->body());

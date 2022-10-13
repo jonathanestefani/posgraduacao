@@ -6,6 +6,7 @@ abstract class ARepository
 {
     protected $modelClass;
     protected $instance;
+    protected $data;
 
     public function __construct($model)
     {
@@ -16,6 +17,7 @@ abstract class ARepository
 
     public function setModel($model) {
         $this->modelClass = $model;
+        $this->instance = $model::query();
     }
 
     // ENUM EMethodTypeAtCall

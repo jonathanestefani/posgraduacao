@@ -13,16 +13,19 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/cities', [ 'uses' => 'CitiesController@index'] );
+    $router->get('/cities/{id}', [ 'uses' => 'CitiesController@show'] );
     $router->post('/cities', [ 'uses' => 'CitiesController@store'] );
     $router->put('/cities', [ 'uses' => 'CitiesController@store'] );
     $router->delete('/cities', [ 'uses' => 'CitiesController@destroy'] );
 
     $router->get('/states', [ 'uses' => 'StatesController@index'] );
+    $router->get('/states/{id}', [ 'uses' => 'StatesController@show'] );
     $router->post('/states', [ 'uses' => 'StatesController@store'] );
     $router->put('/states', [ 'uses' => 'StatesController@store'] );
     $router->delete('/states', [ 'uses' => 'StatesController@destroy'] );
 
     $router->get('/countries', [ 'uses' => 'CountriesController@index'] );
+    $router->get('/countries/{id}', [ 'uses' => 'CountriesController@show'] );
     $router->post('/countries', [ 'uses' => 'CountriesController@store'] );
     $router->put('/countries', [ 'uses' => 'CountriesController@store'] );
     $router->delete('/countries', [ 'uses' => 'CountriesController@destroy'] );

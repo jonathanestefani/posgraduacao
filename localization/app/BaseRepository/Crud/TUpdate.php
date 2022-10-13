@@ -7,9 +7,9 @@ trait TUpdate {
     public function update()
     {
         try {
-            $this->modelClassInstance->fill($this->request);
-            $this->modelClassInstance->save();
-            return $this->modelClassInstance->refresh();
+            $this->data->fill($this->request);
+            $this->data->save();
+            return $this->data->refresh();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -18,7 +18,7 @@ trait TUpdate {
     public function upsert($keys)
     {
         try {
-            $this->modelClassInstance->upsert($this->request, $keys);
+            $this->modelClass::upsert($this->request, $keys);
             return true;
         } catch (\Throwable $th) {
             throw $th;
