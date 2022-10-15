@@ -24,6 +24,10 @@ trait TAll
 
         $this->data = $this->instance->get();
 
+        if (method_exists($this, 'loadRelationsByApi')) {
+            $this->loadRelationsByApi();
+        }
+
         $this->afterExecute(ETypeCall::ALL);
 
         return $this->data;

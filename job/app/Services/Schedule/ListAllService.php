@@ -4,6 +4,7 @@ namespace App\Services\Schedule;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Filters\FilterDate;
+use App\BaseRepository\Filters\FilterNumber;
 use App\BaseRepository\TAll;
 use App\BaseRepository\TFilters;
 use App\BaseRepository\Filters\ListFilter;
@@ -18,14 +19,19 @@ class ListAllService extends ARepository implements IService
 {
     use THttpRequest, TFilters, TAggregate, TAll;
 
-    public function __construct()
+    public function __construct($model)
     {
-        $this->with = ['job'];
+        $this->with = [
+            'job',
+        ];
+
+        parent::__construct($model);
     }
 
     private function defineFilters()
     {
         $this->filters = [
+            "job_id" => new ListFilter(FilterNumber::class, "job_id"),
             "job" => new ListFilter(FilterJob::class, "date"),
             "date" => new ListFilter(FilterDate::class, "date")
         ];

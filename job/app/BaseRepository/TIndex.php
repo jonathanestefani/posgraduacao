@@ -28,6 +28,10 @@ trait TIndex
 
         $this->data = $this->executePagination();
 
+        if (method_exists($this, 'loadRelationsByApi')) {
+            $this->loadRelationsByApi();
+        }
+
         $this->afterExecute(ETypeCall::INDEX);
 
         return $this->data;

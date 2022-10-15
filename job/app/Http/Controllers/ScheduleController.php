@@ -21,6 +21,8 @@ class ScheduleController extends Controller
         try {
             $data = [];
 
+            Log::info($request);
+
             if ($request->all == true) {
                 $data = (new ListAllService(Schedule::class))->setRequest($request)->execute();
             } else {

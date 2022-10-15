@@ -2,6 +2,13 @@
 
 namespace App\BaseRepository\Abs;
 
+use App\Exceptions\ErrorApiCallException;
+use App\Exceptions\ErrorServiceException;
+use App\Services\Utils\UtilsService;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+
 abstract class ARepository
 {
     protected $modelClass;

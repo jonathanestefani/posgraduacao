@@ -3,6 +3,7 @@
 namespace App\BaseRepository;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 trait TFilters
 {
@@ -17,7 +18,9 @@ trait TFilters
         if (count($this->filtersRequest) > 0) 
         {
             foreach($this->filtersRequest as $key => $value) {
-                $listFilterClass = $this->customFilters[$key];
+                $listFilterClass = $this->filters[$key];
+
+                Log::info($key);
 
                 $class = $listFilterClass->getFilterClass();
 

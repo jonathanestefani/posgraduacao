@@ -16,8 +16,6 @@ trait GET
         try {
             $address_api = $this->getAddressApi($api_name);
 
-            Log::info($address_api . $api_name);
-
             $response = Http::get($address_api . $api_name, $request->all());
 
             if ($response->failed()) {

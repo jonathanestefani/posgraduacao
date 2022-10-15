@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorServiceException;
 use App\Http\Controllers\Controller;
-use App\Models\Users;
+use App\Models\User;
 use App\Services\Auth\AuthService;
 use DateTime;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class AuthController extends Controller
     protected function token($token): array
     {
         $auth = auth()->user();
-        $user = Users::find($auth->id);
+        $user = User::find($auth->id);
 
         if ($user) {
             $user->last_login = new DateTime('now');

@@ -17,10 +17,21 @@ class ListIndexService extends ARepository implements IService
 {
     use THttpRequest, TFilters, TAggregate, TIndex;
 
+    public function __construct($model)
+    {
+        $this->with = [
+            'job',
+        ];
+
+        parent::__construct($model);
+    }
+
     private function defineFilters()
     {
         $this->filters = [
-            "name" => new ListFilter(FilterStringLike::class, "name")
+            "job_id" => new ListFilter(FilterNumber::class, "job_id"),
+            "job" => new ListFilter(FilterJob::class, "date"),
+            "date" => new ListFilter(FilterDate::class, "date")
         ];
     }
 

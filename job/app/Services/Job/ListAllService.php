@@ -3,6 +3,7 @@
 namespace App\Services\Job;
 
 use App\BaseRepository\Abs\ARepository;
+use App\BaseRepository\Api\LoadApi;
 use App\BaseRepository\TAll;
 use App\BaseRepository\TFilters;
 use App\BaseRepository\Filters\FilterStringLike;
@@ -16,6 +17,16 @@ use Illuminate\Support\Facades\Log;
 class ListAllService extends ARepository implements IService
 {
     use THttpRequest, TFilters, TAggregate, TAll;
+
+    public function __construct($model)
+    {
+        $this->with = [
+            'info',
+            'api' => new LoadApi('persons', 'person_id')
+        ];
+
+        parent::__construct($model);
+    }
 
     private function defineFilters()
     {
