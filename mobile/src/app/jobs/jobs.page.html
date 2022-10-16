@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Serviços disponíveis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-list inset ion-item *ngFor="let item of listJobs" (click)="itemSelected(item)">
+    <ion-card>
+      <ion-card-content>
+        {{ item.person.name }}
+      </ion-card-content>
+      <ion-list>
+        <ion-item>
+          {{ item.name }}
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </ion-list>
+</ion-content>

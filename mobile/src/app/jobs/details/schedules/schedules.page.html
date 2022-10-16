@@ -1,0 +1,25 @@
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      {{ job.name }}
+      {{ job.person.name }}
+    </ion-card-content>
+    <ion-item>
+      <ion-input type="date" [(ngModel)]="filters.date" (change)="getListAllSchedules()" placeholder="Data" value="2022-10-05"></ion-input>
+    </ion-item>
+    <ion-list inset radio-group>
+      <ion-item *ngFor="let item of listSchedules" (click)="setSchedule(item)">
+        <ion-label>{{ item.date }} - {{ item.time }}</ion-label>
+        <ion-radio checked="true" value="go"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button ion-button full (click)="requestSchedule()">
+      Solicitar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

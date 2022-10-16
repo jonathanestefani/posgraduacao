@@ -1,0 +1,12 @@
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      {{ job.person.name }}
+    </ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let item of job.info">
+        {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,44 @@
+<ion-app>
+  <ion-split-pane contentId="main">
+    <ion-menu no-border contentId="main">
+      <ion-header no-border
+        style="background-image: url('/assets/logo.jpg') !important;background-repeat: no-repeat !important;border-top: 23px solid #003e59;background-size: contain !important;background-position-y: 0px;">
+        <!--
+                <ion-toolbar color="primary">
+                    <ion-title>Menu</ion-title>
+                </ion-toolbar>
+                -->
+        <ion-list no-border style="z-index: 1;background:transparent !important;padding-top:80px !important;">
+          <ion-item lines="none" style="background:transparent !important;">
+            <ion-thumbnail style="width:50px;background:transparent !important;" item-start>
+              <ion-icon style="font-size:50px;color: #003e59 !important;" name="person-outline"></ion-icon>
+            </ion-thumbnail>
+            <ion-label
+              style="background:transparent !important;color: #003e59 !important;font-weight:bold;font-size: 14px;margin-top: 4px;margin-left: 3px;">
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
+            <ion-item lines="none" color="bar-balanced" [routerDirection]="'root'" [routerLink]="page.url">
+              <ion-icon style="color:#003e59 !important;font-size:32px !important;" slot="start" icon="md-{{page.icon}}"
+                [name]="page.icon"></ion-icon>
+              <ion-label style="color:#003e59 !important;font-size:17px !important;font-weight:500 !important;">
+                {{page.title}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+      <ion-footer color="danger">
+        <ion-item style="background:linear-gradient(300deg, orangered 92%, darkred 91%) !important;"
+          [routerLink]="'/login'" routerDirection="forward">
+          <ion-icon style="color:white;" slot="start" icon="md-log-out" name="log-out"></ion-icon>
+          <ion-label style="color:white;">Sair</ion-label>
+        </ion-item>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
