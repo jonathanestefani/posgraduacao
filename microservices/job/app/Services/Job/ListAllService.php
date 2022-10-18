@@ -12,6 +12,7 @@ use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
+use App\Services\Job\filters\filterSearch;
 use Illuminate\Support\Facades\Log;
 
 class ListAllService extends ARepository implements IService
@@ -31,6 +32,7 @@ class ListAllService extends ARepository implements IService
     private function defineFilters()
     {
         $this->filters = [
+            "search" => new ListFilter(filterSearch::class, "name"),
             "name" => new ListFilter(FilterStringLike::class, "name")
         ];
     }

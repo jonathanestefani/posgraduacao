@@ -15,13 +15,17 @@ const routes: Routes = [
     loadChildren: () => import('./jobs/jobs.module').then( m => m.JobsPageModule)
   },
   {
-    path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    path: 'record',
+    loadChildren: () => import('./record/record.module').then( m => m.RecordPageModule)
   },
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
 ];
 

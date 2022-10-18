@@ -13,7 +13,7 @@ export class Alertas {
       let msgColor = "";
 
       if (vtipo == 'E') {
-        durac = 10000;
+        durac = 5000;
       }
 
       if (vtipo === 'E') {

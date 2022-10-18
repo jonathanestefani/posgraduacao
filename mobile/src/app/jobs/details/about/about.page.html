@@ -1,12 +1,17 @@
-<ion-content>
-  <ion-card>
+<ion-content no-padding>
+  <ion-card no-padding>
+    <ion-card-header>
+      <ion-avatar>
+        <img width="50px" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <h2>{{ job.person.name }}</h2>
+    </ion-card-header>
     <ion-card-content>
-      {{ job.person.name }}
+      
+        <ion-item *ngFor="let item of job.info">
+          {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
+        </ion-item>
+      
     </ion-card-content>
-    <ion-list>
-      <ion-item *ngFor="let item of job.info">
-        {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
-      </ion-item>
-    </ion-list>
   </ion-card>
 </ion-content>

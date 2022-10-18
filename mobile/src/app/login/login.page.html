@@ -1,10 +1,11 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-title style="text-align: center">Gestor de Consultas</ion-title>
+    <ion-toolbar color="warning">
+        <ion-title style="text-align: center;">Gestor de Consultas</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+    <img src="assets/logo.jpg" />
     <ion-card>
         <ion-item>
             <ion-label>
@@ -18,15 +19,14 @@
             </ion-label>
             <ion-input type="password" id="password" placeholder="Informe sua senha..." [(ngModel)]="form.password"></ion-input>
         </ion-item>
+    
+        <ion-button *ngIf="!isLoading" color="danger" expand="full" size="small" fill="solid" (click)=login()>Acessar
+        </ion-button>
     </ion-card>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
-        <ion-button *ngIf="!isLoading" color="primary" expand="full" fill="solid" (click)=login()>Acessar
-        </ion-button>
-    </ion-toolbar>
-    <ion-toolbar>
-        <ion-button *ngIf="!isLoading" color="primary" expand="full" fill="solid" (click)=register()>Não sou cadastrado
+        <ion-button *ngIf="!isLoading" color="warning" size="small" expand="full" fill="solid" (click)=register()>Não sou cadastrado
         </ion-button>
     </ion-toolbar>
 </ion-footer>

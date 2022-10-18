@@ -50,7 +50,7 @@ export class LoginPage implements OnInit {
   }
 
   register() {
-    this.navControl.navigateForward('register');
+    this.navControl.navigateForward('record');
   }
 
 }

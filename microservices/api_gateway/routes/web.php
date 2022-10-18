@@ -13,7 +13,8 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/register
-    $router->post('register', 'AuthController@register');
+    $router->post('record', 'UserController@store');
+    $router->put('record/{id}', 'UserController@update');
 
     // Matches "/api/login
     $router->post('login', 'AuthController@login');

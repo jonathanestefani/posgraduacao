@@ -17,8 +17,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'id',
         'name',
-        'type',
+        'email',
+        'password',
+        'user_type_id',
         'status',
+        'last_login',
         'created_at',
         'updated_at',
         'deleted_at'

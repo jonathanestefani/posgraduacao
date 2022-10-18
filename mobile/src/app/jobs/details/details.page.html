@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start" [routerLink]="['','jobs']" routerDirection=“back” color="light">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start" [routerLink]="['','jobs']" color="light">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Detalhes</ion-title>
@@ -10,7 +10,7 @@
 <ion-content>
 
   <ion-tabs #myTabs>
-    <ion-tab-bar slot="bottom">
+    <ion-tab-bar slot="bottom" color="warning">
       <ion-tab-button tab="about">
         <ion-icon name="information-circle"></ion-icon>
         <ion-label>Sobre</ion-label>

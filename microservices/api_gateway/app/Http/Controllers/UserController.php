@@ -12,9 +12,15 @@ use App\Exceptions\ErrorServiceException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store']]);
+    }
+
     public function index(Request $request)
     {
         try {
@@ -55,6 +61,23 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'user_type_id' => 'required|int|not_in:0',
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'password' => 'required|string',
+            ], [
+                'user_type_id' => "O tipo de usuário é obrigatório!",
+                'name' => "O nome é obrigatório!",
+                'email' => "O e-mail é obrigatório!",
+                'password' => "Senha é obrigatório!",
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                return new Response(["message" => $errors], 422);
+            }
+
             $data = (new StoreService(User::class))->setRequest($request)->execute();
 
             return response()->json($data);
@@ -69,6 +92,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'user_type_id' => 'required|int|not_in:0',
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'password' => 'required|string',
+            ], [
+                'user_type_id' => "O tipo de usuário é obrigatório!",
+                'name' => "O nome é obrigatório!",
+                'email' => "O e-mail é obrigatório!",
+                'password' => "Senha é obrigatório!",
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                return new Response(["message" => $errors], 422);
+            }
+
+            Log::info($request->all());
+
             $data = (new StoreService(User::class))->setRequest($request)->execute();
 
             return response()->json($data);

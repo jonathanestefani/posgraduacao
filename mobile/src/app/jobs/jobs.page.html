@@ -1,23 +1,29 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Serviços disponíveis</ion-title>
   </ion-toolbar>
+  <ion-toolbar color="warning">
+    <ion-searchbar [(ngModel)]="filters.search" animated="true" (keyup.enter)="getListAllJobs()" placeholder="Buscar profissionais"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
-  <ion-list inset ion-item *ngFor="let item of listJobs" (click)="itemSelected(item)">
-    <ion-card>
-      <ion-card-content>
-        {{ item.person.name }}
-      </ion-card-content>
-      <ion-list>
+  <ion-card no-padding>
+    <ion-card-content no-padding>
+      <ion-list style="padding: 10px 0;" lines="full" *ngFor="let item of listJobs" (click)="itemSelected(item)">
+        <ion-item lines="none">
+          <ion-avatar>
+            <img width="50px" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <h2>{{ item.person.name }}</h2>
+        </ion-item>
         <ion-item>
           {{ item.name }}
-        </ion-item>
+        </ion-item>        
       </ion-list>
-    </ion-card>
-  </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

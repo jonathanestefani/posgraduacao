@@ -9,10 +9,16 @@ export class AppComponent {
 
   appPages = [
     {
+      title: 'Perfil',
+      url: '/profile',
+      icon: 'home',
+      style: 'business-outline'
+    },
+    {
       title: 'Serviços',
       url: '/jobs',
       icon: 'home',
-      style: 'bar-balanced'
+      style: 'business-outline'
     },
   ];
   constructor() { }
