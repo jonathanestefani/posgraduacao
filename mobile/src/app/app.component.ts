@@ -20,6 +20,12 @@ export class AppComponent {
       icon: 'home',
       style: 'business-outline'
     },
+    {
+      title: 'Minha agenda',
+      url: '/schedule',
+      icon: 'home',
+      style: 'business-outline'
+    },
   ];
   constructor() { }
 }

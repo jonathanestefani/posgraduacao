@@ -11,6 +11,7 @@ services:
       - "10000:80"
     volumes:
       - ./microservices/api_gateway:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/api_gateway.conf:/etc/nginx/conf.d/default.conf
@@ -28,6 +29,7 @@ services:
       - "80"
     volumes:
       - ./microservices/person:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/person.conf:/etc/nginx/conf.d/default.conf
@@ -49,6 +51,7 @@ services:
       - "80"
     volumes:
       - ./microservices/localization:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/localization.conf:/etc/nginx/conf.d/default.conf
@@ -70,6 +73,7 @@ services:
       - "80"
     volumes:
       - ./microservices/job:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/job.conf:/etc/nginx/conf.d/default.conf
@@ -91,6 +95,7 @@ services:
       - "80"
     volumes:
       - ./microservices/schedule:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/schedule.conf:/etc/nginx/conf.d/default.conf
@@ -112,6 +117,7 @@ services:
       - "80"
     volumes:
       - ./microservices/attendance:/var/www/html
+      - ./microservices/shared/baseRepository:/var/www/html/app/BaseRepository
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/etc/php/php.ini:/etc/php8/php.ini
       - ./docker/etc/nginx/conf.d/attendance.conf:/etc/nginx/conf.d/default.conf
