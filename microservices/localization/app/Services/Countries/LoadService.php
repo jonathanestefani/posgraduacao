@@ -6,7 +6,7 @@ use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\TAggregate;
 use App\BaseRepository\THttpRequest;
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +19,7 @@ class LoadService extends ARepository implements IService
     public function execute() {
         try {
             return $this->data;
-        } catch (ErrorServiceBaseRepositoryException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             Log::error($th);
         
             throw new ErrorServiceException($th->getMessage());

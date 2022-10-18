@@ -2,7 +2,7 @@
 
 namespace App\BaseRepository\Crud;
 
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 
 trait TCrud {
     use TCreate, TUpdate, TLoad, TDestroy;
@@ -10,7 +10,7 @@ trait TCrud {
     private function crudValidation()
     {
         if (!isset($this->request)) {
-            throw new ErrorServiceBaseRepositoryException("Parâmetros não definidos");
+            throw new ErrorBaseRepositoryException("Parâmetros não definidos");
         }
     }
 }

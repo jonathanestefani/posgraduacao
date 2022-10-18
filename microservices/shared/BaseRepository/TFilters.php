@@ -3,7 +3,6 @@
 namespace App\BaseRepository;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 trait TFilters
 {

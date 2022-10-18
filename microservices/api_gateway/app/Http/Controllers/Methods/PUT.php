@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Methods;
 
-use App\Exceptions\ErrorApiCallException;
+use App\BaseRepository\Exceptions\ErrorApiCallException;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

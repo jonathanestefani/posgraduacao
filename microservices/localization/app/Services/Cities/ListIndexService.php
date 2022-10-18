@@ -9,7 +9,7 @@ use App\BaseRepository\Filters\ListFilter;
 use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
 use App\BaseRepository\TIndex;
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +31,7 @@ class ListIndexService extends ARepository implements IService
         try {
             $this->defineFilters();
             return $this->Index();
-        } catch (ErrorServiceBaseRepositoryException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             Log::error($th);
         
             throw new ErrorServiceException($th->getMessage());

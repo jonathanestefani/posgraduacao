@@ -2,9 +2,9 @@
 
 namespace App\BaseRepository\Api;
 
-use App\Exceptions\ErrorApiCallException;
-use App\Exceptions\ErrorServiceException;
-use App\Services\Utils\UtilsService;
+use App\BaseRepository\Exceptions\ErrorApiCallException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
+use App\BaseRepository\Utils\UtilsService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -65,7 +65,7 @@ class LoadApi
             }
         } catch (ErrorApiCallException $th) {
             return new Response(["message" => $th->getMessage()], 404);
-        } catch (ErrorServiceException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             return new Response(["message" => $th->getMessage()], 404);
         } catch (\Throwable $th) {
             Log::error($th);
@@ -78,12 +78,7 @@ class LoadApi
         try {
             $address_api = UtilsService::getAddressApi($this->api_name);
 
-            Log::info($address_api . $this->api_name);
-            Log::info($this->params);
-
             $response = Http::get($address_api . $this->api_name, $this->params);
-
-            Log::info($response);
 
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');
@@ -92,7 +87,7 @@ class LoadApi
             }
         } catch (ErrorApiCallException $th) {
             return new Response(["message" => $th->getMessage()], 404);
-        } catch (ErrorServiceException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             return new Response(["message" => $th->getMessage()], 404);
         } catch (\Throwable $th) {
             Log::error($th);

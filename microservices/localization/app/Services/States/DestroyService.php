@@ -5,7 +5,7 @@ namespace App\Services\States;
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\THttpRequest;
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +19,7 @@ class DestroyService extends ARepository implements IService
     {
         try {
             $this->destroy();
-        } catch (ErrorServiceBaseRepositoryException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             Log::error($th);
         
             throw new ErrorServiceException($th->getMessage());

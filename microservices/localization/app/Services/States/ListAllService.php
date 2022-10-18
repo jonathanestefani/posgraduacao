@@ -9,7 +9,7 @@ use App\BaseRepository\Filters\FilterStringLike;
 use App\BaseRepository\Filters\ListFilter;
 use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
@@ -32,7 +32,7 @@ class ListAllService extends ARepository implements IService
             $this->defineFilters();
 
             return $this->All();
-        } catch (ErrorServiceBaseRepositoryException $th) {
+        } catch (ErrorBaseRepositoryException $th) {
             Log::error($th);
         
             throw new ErrorServiceException($th->getMessage());

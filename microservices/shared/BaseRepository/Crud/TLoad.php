@@ -2,7 +2,7 @@
 
 namespace App\BaseRepository\Crud;
 
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 
 trait TLoad {
 
@@ -16,7 +16,7 @@ trait TLoad {
             $this->data = $this->instance->find($id);
 
             if (empty($this->instance)) {
-                throw new ErrorServiceBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
+                throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
             }
         } catch (\Throwable $th) {
             throw $th;

@@ -2,7 +2,7 @@
 
 namespace App\BaseRepository;
 
-use App\Exceptions\ErrorServiceBaseRepositoryException;
+use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 use Illuminate\Http\Request;
 
 trait THttpRequest
@@ -36,7 +36,7 @@ trait THttpRequest
         $this->data = $this->instance->find($id);
 
         if (empty($this->data)) {
-            throw new ErrorServiceBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
+            throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
         }
 
         $this->operation = "update";

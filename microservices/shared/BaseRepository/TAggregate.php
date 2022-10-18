@@ -3,7 +3,6 @@
 namespace App\BaseRepository;
 
 use Closure;
-use Illuminate\Support\Facades\Log;
 
 trait TAggregate
 {
