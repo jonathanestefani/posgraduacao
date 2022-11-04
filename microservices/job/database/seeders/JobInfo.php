@@ -1,0 +1,50 @@
+<?php
+
+namespace Database\Seeders;
+
+use DateTime;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class JobInfo extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        DB::table('job_info')->upsert(
+            [
+                [
+                    "id" => 1,
+                    "job_id" => 1,
+                    "name" => "Especialista",
+                    "text" => "Pediatra",
+                    "value" => "",
+                    "created_at" => new DateTime("now")
+                ],
+                [
+                    "id" => 2,
+                    "job_id" => 2,
+                    "name" => "Especialista",
+                    "text" => "Oftalmologista",
+                    "value" => "",
+                    "created_at" => new DateTime("now")
+                ],
+                [
+                    "id" => 3,
+                    "job_id" => 3,
+                    "name" => "Especialista",
+                    "text" => "Cardiologista",
+                    "value" => "",
+                    "created_at" => new DateTime("now")
+                ],
+            ],
+            [
+                "id"
+            ]
+        );
+    }
+}

@@ -10,6 +10,7 @@ services:
     ports:
       - "10000:80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/api_gateway:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -28,6 +29,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/person:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -50,6 +52,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/localization:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -72,6 +75,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/job:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -94,6 +98,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/schedule:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -116,6 +121,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
       - ./microservices/attendance:/var/www/html
       - ./docker/etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf

@@ -15,7 +15,7 @@ class Users extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('user')->insert([
             [
                 "id"=> 1,
                 "user_type_id" => 1,
