@@ -3,6 +3,7 @@
 namespace App\BaseRepository;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 trait TFilters
 {
@@ -20,6 +21,8 @@ trait TFilters
                 $listFilterClass = $this->filters[$key];
 
                 $class = $listFilterClass->getFilterClass();
+
+                Log::info((array) $class);
 
                 $this->instance = (new $class($this->instance))->setFilters($this->filtersRequest)->execute( $listFilterClass->getFilterKey(), $value);
             }

@@ -14,6 +14,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, SoftDeletes;
 
+    protected $table = 'user';
+
     protected $fillable = [
         'id',
         'name',

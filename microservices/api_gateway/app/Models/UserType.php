@@ -11,12 +11,9 @@ class UserType extends Model
 
     protected $fillable = [
         'id',
-        'user_type_id',
+        'type',
         'name',
-        'email',
-        'password',
         'status',
-        'user_type_id',
         'created_at',
         'updated_at',
         'deleted_at'

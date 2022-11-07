@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class AbsFilter
 {
     protected $builder;
+    protected Array $filters;
 
     public function __construct(Builder $builder)
     {
@@ -14,4 +15,10 @@ abstract class AbsFilter
     }
 
     abstract public function execute(String $key, $value): Builder;
+
+    public function setFilters(Array $filters) {
+        $this->filters = $filters;
+
+        return $this;
+    }
 }
