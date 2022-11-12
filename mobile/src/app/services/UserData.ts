@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UserData {
     static user: any = {};
-    
+
     public static setUser(user) {
         UserData.user = JSON.stringify(user);
         localStorage.setItem('user', UserData.user);

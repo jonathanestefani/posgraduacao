@@ -10,9 +10,8 @@
 <ion-content padding>
     <ion-card>
         <ion-item>
-             <ion-select [(ngModel)]="form.user_type_id" placeholder="Selecione o tipo de usuário">
-                <ion-select-option value=2>Usuário</ion-select-option>
-                <ion-select-option value=3>Empresa</ion-select-option>
+            <ion-select [(ngModel)]="form.user_type_id" placeholder="Selecione o tipo de usuário">
+                <ion-select-option [value]="item.id" *ngFor="let item of listUserType">{{ item.name }}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item>
@@ -24,7 +23,8 @@
         <ion-item>
             <ion-input type="password" id="password" placeholder="Informe sua senha..." [(ngModel)]="form.password"></ion-input>
         </ion-item>
-        <ion-button *ngIf="!isLoading" color="danger" size="small" expand="full" fill="solid" (click)=save()>Salvar
+        <ion-button *ngIf="!isLoading" color="danger" size="small" expand="full" fill="solid" (click)=save()>
+            Salvar
         </ion-button>
     </ion-card>
 </ion-content>

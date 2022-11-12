@@ -21,6 +21,12 @@ export class AppComponent {
       style: 'business-outline'
     },
     {
+      title: 'Cadastrar Serviço',
+      url: '/jobs/record',
+      icon: 'home',
+      style: 'business-outline'
+    },
+    {
       title: 'Minha agenda',
       url: '/schedule',
       icon: 'home',

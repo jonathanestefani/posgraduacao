@@ -8,23 +8,19 @@ export class RecordService {
 
   resource = 'record';
 
-  types = [
-    { id: 1, name: "Administrador" },
-    { id: 2, name: "Usuário" },
-    { id: 3, name: "Empresa" },
+  static types = [
+    { id: 1, name: "Administrador", hide: true },
+    { id: 2, name: "Usuário", hide: false },
+    { id: 3, name: "Empresa", hide: false },
   ];
 
   constructor(private http: ApiService) { }
 
-  public record(params: {}) {
+  public record(params: any) {
     if (params['id']) {
       return this.http.put(this.resource + '/' + params['id'], params);
     } else {
       return this.http.post(this.resource, params);
     }
-  }
-
-  public getTypes() {
-    return this.types;
   }
 }

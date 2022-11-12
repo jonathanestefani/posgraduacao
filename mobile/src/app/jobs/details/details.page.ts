@@ -21,7 +21,7 @@ export class DetailsPage implements OnInit {
 
   constructor(private navControl: NavController,
               public router: Router) {
-    
+
     this.job = JSON.parse(localStorage.getItem('job_details'));
 
     this.tabAbout = AboutPage;
@@ -31,8 +31,7 @@ export class DetailsPage implements OnInit {
 
   ionViewDidEnter() {
     this.tabRef.select('about');
-   }
-  
+  }
 
   ngOnInit() {}
 

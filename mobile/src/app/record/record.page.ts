@@ -21,6 +21,8 @@ export class RecordPage implements OnInit {
     status: 1
   };
 
+  listUserType = RecordService.types.filter(elem => elem.hide == false);
+
   isLoading: false;
 
   constructor(private navControl: NavController,

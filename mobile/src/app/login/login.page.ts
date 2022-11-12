@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Alertas } from '../providers/alertas';
 import { LoginService } from '../services/login/login.service';
+import { RecordService } from '../services/record/record.service';
 import { UserData } from '../services/UserData';
 
 @Component({
@@ -12,9 +13,13 @@ import { UserData } from '../services/UserData';
 export class LoginPage implements OnInit {
 
   form = {
-    email: "jonathan.estefani@gmail.com",
-    password: "admin"
+    email: 'jonathan.estefani@gmail.com',
+    password: 'admin',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    user_type_id: 2
   };
+
+  listUserType = RecordService.types.filter(elem => elem.hide == false);
 
   isLoading: false;
 

@@ -8,6 +8,11 @@
     <img src="assets/logo.jpg" />
     <ion-card>
         <ion-item>
+            <ion-select [(ngModel)]="form.user_type_id" placeholder="Selecione o tipo de usuário">
+               <ion-select-option [value]="item.id" *ngFor="let item of listUserType">{{ item.name }}</ion-select-option>
+           </ion-select>
+       </ion-item>
+        <ion-item>
             <ion-label>
                 <ion-icon name="contact"></ion-icon>
             </ion-label>
