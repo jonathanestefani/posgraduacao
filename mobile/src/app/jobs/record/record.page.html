@@ -1,23 +1,14 @@
 <ion-header>
   <ion-toolbar color="warning">
-    <ion-buttons slot="start" [routerLink]="['','login']" color="light">
+    <ion-buttons slot="start" [routerLink]="['','jobs']" color="light">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center">Cadastro de Serviço</ion-title>
-    <ion-button
-      *ngIf="!isLoading"
-      slot="end"
-      color="danger"
-      size="small"
-      fill="solid"
-      (click)="save()"
-    >
-      Salvar
-    </ion-button>
+    <ion-title>Cadastro de Serviço</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+
   <ion-tabs #myTabs>
     <ion-tab-bar slot="bottom" color="warning">
       <ion-tab-button tab="about">
@@ -27,7 +18,9 @@
       <ion-tab-button tab="schedules">
         <ion-icon name="calendar"></ion-icon>
         <ion-label>Horários</ion-label>
+        <ion-badge>6</ion-badge>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
+
 </ion-content>

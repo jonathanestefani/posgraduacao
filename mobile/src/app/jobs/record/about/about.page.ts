@@ -9,16 +9,13 @@ import { NavController } from '@ionic/angular';
 })
 export class AboutPage implements OnInit {
 
-  listJobs: [];
-  job = {};
+  form = {
+    id: 0,
+    name: ''
+  };
 
   constructor(private navControl: NavController,
-              public router: Router) {
-
-    this.job = JSON.parse(localStorage.getItem('job_details'));
-
-    console.log(this.job);
-   }
+              public router: Router) {}
 
   ngOnInit() {
   }

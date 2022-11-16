@@ -13,8 +13,8 @@ export class JobsPage implements OnInit {
   listJobs: [];
   isLoading: false;
   filters = {
-    search: ""
-  }
+    search: ''
+  };
 
   constructor(private navControl: NavController,
               private jobsService: JobsService,
@@ -31,7 +31,7 @@ export class JobsPage implements OnInit {
     try {
       const response = await this.jobsService.getJobs({
         filters: { ...this.filters }
-      });   
+      });
 
       console.log(response);
 

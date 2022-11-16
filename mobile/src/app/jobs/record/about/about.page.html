@@ -1,17 +1,10 @@
 <ion-content no-padding>
   <ion-card no-padding>
     <ion-card-header>
-      <ion-avatar>
-        <img width="50px" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
-      <h2>{{ job.person.name }}</h2>
+      <ion-label>Nome</ion-label>
+      <ion-input type="text" id="name" [(ngModel)]="form.name"></ion-input>
     </ion-card-header>
     <ion-card-content>
-      
-        <ion-item *ngFor="let item of job.info">
-          {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
-        </ion-item>
-      
     </ion-card-content>
   </ion-card>
 </ion-content>

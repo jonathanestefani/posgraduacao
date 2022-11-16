@@ -1,24 +1,38 @@
 <ion-content>
-  <ion-card>
-    <ion-item>
-      <ion-input type="date" [(ngModel)]="filters.date" (change)="getListAllSchedules()" placeholder="Data" value="2022-10-05"></ion-input>
-    </ion-item>
-
-    <ion-list inset>
-      <ion-radio-group value="scheduleSelected">
-        <ion-item *ngFor="let item of listSchedules" (click)="setSchedule(item)">
-          <ion-label>{{ item.date }} - {{ item.time }}</ion-label>
-          <ion-radio checked="true" value="{{ item.id }}"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-list>
-
-  </ion-card>
+  <ion-slides
+    [options]="slideOpts"
+    #slide
+    effect="fade"
+    (ionSlideDidChange)="onSlideChange()"
+  >
+    <ion-slide>
+      <app-days-of-week
+        (listDaysOfTheWeekSelected)="setListDaysOfTheWeek($event)"
+      ></app-days-of-week>
+    </ion-slide>
+    <ion-slide>
+      <app-hours-of-the-week
+        [listDaysOfTheWeekSelected]="listDaysOfTheWeekSelected"
+      ></app-hours-of-the-week>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
 <ion-footer>
-  <ion-toolbar>
-    <ion-button ion-button color="danger" expand="full" (click)="addSchedule()">
-      Adicionar
-    </ion-button>
-  </ion-toolbar>
+  <ion-item>
+    <ion-row style="display: flex; justify-content: space-between">
+      <ion-button *ngIf="!isBeginning" fill="clear" (click)="slide.slidePrev()"
+        >Voltar <ion-icon slot="start" name="arrow-back-outline"></ion-icon
+      ></ion-button>
+      <ion-button
+        *ngIf="!isBeginning"
+        color="danger"
+        (click)="slide.slidePrev()"
+        >Salvar</ion-button
+      >
+
+      <ion-button *ngIf="!isEnd" fill="clear" (click)="slide.slideNext();"
+        >Próximo <ion-icon slot="end" name="arrow-forward"></ion-icon
+      ></ion-button>
+    </ion-row>
+  </ion-item>
 </ion-footer>

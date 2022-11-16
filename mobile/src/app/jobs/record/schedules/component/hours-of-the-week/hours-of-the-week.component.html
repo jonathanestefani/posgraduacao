@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-list *ngFor="let item of listDaysOfTheWeekSelected">
+    <ion-item>
+      <ion-label>
+        {{ item.name }}
+      </ion-label>
+    </ion-item>
+    <ion-card>
+      <ion-label>
+        <ion-input type="time" placeholder="Horário incial" value="08:00"></ion-input>
+      </ion-label>
+      <ion-label>
+        <ion-input type="time" placeholder="Horário final" value="18:00"></ion-input>
+      </ion-label>
+    </ion-card>
+  </ion-list>
+  <card *ngIf="listDaysOfTheWeekSelected.length == 0">
+    <ion-card-header>
+      <label>Nenhum dia da semana selecionado!</label>
+    </ion-card-header>
+  </card>
+</ion-content>

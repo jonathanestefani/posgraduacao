@@ -9,13 +9,13 @@ const routes: Routes = [
     component: RecordPage,
     children: [
       {
-        path: 'about',
-        loadChildren: () => import('./about/about-routing.module').then( m => m.AboutPageRoutingModule)
+        path: 'schedules',
+        loadChildren: () => import('./schedules/schedules.module').then( m => m.SchedulesPageModule)
       },
       {
-        path: 'schedules',
-        loadChildren: () => import('./schedules/schedules-routing.module').then( m => m.SchedulesPageRoutingModule)
-      }
+        path: 'about',
+        loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+      },
     ]
   },
 ];

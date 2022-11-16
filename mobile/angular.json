@@ -18,6 +18,9 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "stream"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -180,7 +183,10 @@
     "schematicCollections": [
       "@ionic/angular-toolkit"
     ],
-    "analytics": "49dc706c-34d0-43ab-bb0a-55e23bca87cb"
+    "analytics": "49dc706c-34d0-43ab-bb0a-55e23bca87cb",
+    "cache": {
+      "enabled": false
+    }
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
