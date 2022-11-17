@@ -13,6 +13,11 @@ import { SchedulesService } from 'src/app/services/schedules/schedules.service';
 export class SchedulesPage implements OnInit {
   @ViewChild('slide') slide: IonSlides;
 
+  form = {
+    name: '',
+    status: 1
+  };
+
   listDaysOfTheWeekSelected = [];
 
   isBeginning = true;
@@ -39,6 +44,30 @@ export class SchedulesPage implements OnInit {
   async onSlideChange($event) {
     this.isBeginning = await this.slide.isBeginning();
     this.isEnd = await this.slide.isEnd();
+  }
+
+  async save() {
+    await this.alertas.loadShow();
+
+    try {
+      /*
+      const response = await this.attendancesService.getJobs({
+        this.form
+      });
+      */
+
+      // console.log(response);
+
+      // this.listJobs = response.data;
+
+      await this.alertas.loadStop();
+    } catch (error) {
+      await this.alertas.loadStop();
+
+      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+
+      console.log(error);
+    }
   }
 
 }

@@ -6,6 +6,9 @@
     (ionSlideDidChange)="onSlideChange()"
   >
     <ion-slide>
+      <app-about></app-about>
+    </ion-slide>
+    <ion-slide>
       <app-days-of-week
         (listDaysOfTheWeekSelected)="setListDaysOfTheWeek($event)"
       ></app-days-of-week>
@@ -26,10 +29,9 @@
       <ion-button
         *ngIf="!isBeginning"
         color="danger"
-        (click)="slide.slidePrev()"
+        (click)="save()"
         >Salvar</ion-button
       >
-
       <ion-button *ngIf="!isEnd" fill="clear" (click)="slide.slideNext();"
         >Próximo <ion-icon slot="end" name="arrow-forward"></ion-icon
       ></ion-button>

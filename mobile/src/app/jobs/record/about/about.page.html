@@ -1,10 +1,18 @@
-<ion-content no-padding>
-  <ion-card no-padding>
-    <ion-card-header>
-      <ion-label>Nome</ion-label>
-      <ion-input type="text" id="name" [(ngModel)]="form.name"></ion-input>
-    </ion-card-header>
-    <ion-card-content>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+<ion-card>
+  <ion-card-header>
+    <label>Informações do serviço</label>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="form.name" placeholder="Nome" value=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea [(ngModel)]="job_info[0].text" [placeholder]="job_info[0].name"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" [(ngModel)]="job_info[1].value" [placeholder]="job_info[1].name"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

@@ -1,13 +1,13 @@
-<card>
+<ion-card>
   <ion-card-header>
     <label>Selecione o(s) dia(s) da semana</label>
   </ion-card-header>
-</card>
-  <ion-list inset>
-    <ion-radio-group value="scheduleSelected">
-      <ion-item *ngFor="let item of listDaysOfTheWeek">
-        <ion-label>{{ item.name }}</ion-label>
-        <ion-checkbox checked="false" value="{{ item.id }}" (ionChange)="setItem($event)"></ion-checkbox>
-      </ion-item>
-    </ion-radio-group>
-  </ion-list>
+</ion-card>
+<ion-list inset>
+  <ion-radio-group value="scheduleSelected">
+    <ion-item *ngFor="let item of listDaysOfTheWeek">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-checkbox checked="false" value="{{ item.id }}" (ionChange)="setItem($event)"></ion-checkbox>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>

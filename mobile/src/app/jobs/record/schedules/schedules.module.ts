@@ -9,7 +9,6 @@ import { DaysOfWeekComponent } from './component/days-of-week/days-of-week.compo
 import { SchedulesPage } from './schedules.page';
 import { HoursOfTheWeekComponent } from './component/hours-of-the-week/hours-of-the-week.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

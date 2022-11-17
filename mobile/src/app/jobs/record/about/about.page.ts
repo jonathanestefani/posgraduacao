@@ -8,16 +8,21 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-
   form = {
     id: 0,
-    name: ''
+    name: '',
+    status: 1,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    job_info: [],
   };
 
-  constructor(private navControl: NavController,
-              public router: Router) {}
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  job_info = [
+    { name: 'Descrição', text: '', value: '' },
+    { name: 'Valor', text: '', value: '' },
+  ];
 
-  ngOnInit() {
-  }
+  constructor(private navControl: NavController, public router: Router) {}
 
+  ngOnInit() {}
 }

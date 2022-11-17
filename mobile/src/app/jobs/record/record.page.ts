@@ -12,7 +12,11 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class RecordPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
-  job = {};
+  job = {
+    id: 0,
+    name: '',
+    status: 1
+  };
 
   tabAbout: any;
   tabSchedule: any;
@@ -24,7 +28,6 @@ export class RecordPage implements OnInit {
 
     this.tabAbout = AboutPage;
     this.tabSchedule = SchedulesPage;
-
   }
 
   ionViewDidEnter() {
