@@ -15,14 +15,16 @@ trait TFilters
 
     private function executeFilters(): Builder
     {
+        if (method_exists($this, 'defineFilters')) {
+            $this->defineFilters();
+        }
+
         if (count($this->filtersRequest) > 0) 
         {
             foreach($this->filtersRequest as $key => $value) {
                 $listFilterClass = $this->filters[$key];
 
                 $class = $listFilterClass->getFilterClass();
-
-                Log::info((array) $class);
 
                 $this->instance = (new $class($this->instance))->setFilters($this->filtersRequest)->execute( $listFilterClass->getFilterKey(), $value);
             }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Schedule;
+namespace App\Services\ScheduleWeek;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
 use App\BaseRepository\THttpRequest;
 use App\Exceptions\ErrorServiceException;
-use App\Models\Schedule;
 use App\Services\IServices\IService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,8 +18,6 @@ class StoreService extends ARepository implements IService
     public function execute()
     {
         try {
-            $this->request['time'] = strtotime($this->request['time']);
-
             // $this->validScheduleDateTime();
 
             switch ($this->operation) {

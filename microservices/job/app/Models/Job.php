@@ -21,7 +21,7 @@ class Job extends Model
         'deleted_at'
     ];
 
-    public function info()
+    public function job_info()
     {
         return $this->hasMany(JobInfo::class, 'job_id', 'id');
     }

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
-use App\Models\JobInfo;
-use App\Services\Job\DestroyService;
-use App\Services\Job\ListAllService;
-use App\Services\Job\ListIndexService;
-use App\Services\Job\LoadService;
-use App\Services\Job\StoreService;
-use App\Services\JobInfo\StoreService as StoreJobInfoService;
+use App\Models\ScheduleTime;
+use App\Services\ScheduleTime\DestroyService;
+use App\Services\ScheduleTime\ListAllService;
+use App\Services\ScheduleTime\ListIndexService;
+use App\Services\ScheduleTime\LoadService;
+use App\Services\ScheduleTime\StoreService;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
 
-class JobController extends Controller
+class ScheduleTimeController extends Controller
 {
 
     public function index(Request $request)
@@ -24,9 +22,9 @@ class JobController extends Controller
             $data = [];
 
             if ($request->all == true) {
-                $data = (new ListAllService(Job::class))->setRequest($request)->execute();
+                $data = (new ListAllService(ScheduleTime::class))->setRequest($request)->execute();
             } else {
-                $data = (new ListIndexService(Job::class))->setRequest($request)->execute();
+                $data = (new ListIndexService(ScheduleTime::class))->setRequest($request)->execute();
             }
 
             return response()->json($data);
@@ -45,7 +43,9 @@ class JobController extends Controller
                 "id" => $id
             ]);
 
-            $data = (new LoadService(Job::class))->setRequest($params)->execute();
+            Log::info($params);
+
+            $data = (new LoadService(ScheduleTime::class))->setRequest($params)->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);
@@ -58,19 +58,7 @@ class JobController extends Controller
     public function update($id, Request $request)
     {
         try {
-            $jobs = [];
-            foreach ($request->job_info as $value) {
-                $form = $value;
-                $form['job_id'] = $id;
-
-                $form = new Request($form);
-
-                $jobs[] = (new StoreJobInfoService(JobInfo::class))->setRequest($form)->execute();
-            }
-
-            $data = (new StoreService(Job::class))->setRequest($request)->execute();
-
-            $data = (new LoadService(Job::class))->setRequest($request)->execute();
+            $data = (new StoreService(ScheduleTime::class))->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
@@ -84,21 +72,9 @@ class JobController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = (new StoreService(Job::class))->setRequest($request)->execute();
+            Log::info($request);
 
-            Log::info($data);
-
-            $jobs = [];
-            foreach ($request->job_info as $key => $value) {
-                $form = $value;
-                $form['job_id'] = $data->id;
-
-                $form = new Request($form);
-
-                $jobs[] = (new StoreJobInfoService(JobInfo::class))->setRequest($form)->execute();
-            }
-
-            $data['jobs'] = $jobs;
+            $data = (new StoreService(ScheduleTime::class))->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
@@ -114,7 +90,7 @@ class JobController extends Controller
         try {
             $request = new Request(['id' => $id]);
 
-            (new DestroyService(Job::class))->setRequest($request)->execute();
+            (new DestroyService(ScheduleTime::class))->setRequest($request)->execute();
 
             return response()->json([]);
         } catch (ErrorServiceException $th) {

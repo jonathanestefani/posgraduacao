@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Schedule;
+namespace App\Services\ScheduleTime;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TLoad;

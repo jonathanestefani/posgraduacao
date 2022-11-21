@@ -5,25 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Schedule extends Model
+class ScheduleWeek extends Model
 {
     use SoftDeletes;
 
-    protected $table = "schedule";
+    protected $table = "schedule_week";
 
     protected $fillable = [
         'id',
         'job_id',
-        'date',
-        'time',
-        'status',
+        'day_week',
         'created_at',
         'updated_at',
         'deleted_at'
     ];
 
     protected $casts = [
-        'date' => 'date:d/m/Y',
-        'time' => 'date:h:i:s'
+        'created_at' => 'date:d/m/Y',
+        'updated_at' => 'date:d/m/Y',
+        'deleted_at' => 'date:d/m/Y',
     ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Schedule\Filters;
+namespace App\Services\ScheduleTime\Filters;
 
 use App\BaseRepository\Filters\ListFilter;
 use Illuminate\Database\Eloquent\Builder;

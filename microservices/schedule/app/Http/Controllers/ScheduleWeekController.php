@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
-use App\Services\Schedule\DestroyService;
-use App\Services\Schedule\ListAllService;
-use App\Services\Schedule\ListIndexService;
-use App\Services\Schedule\LoadService;
-use App\Services\Schedule\StoreService;
+use App\Models\ScheduleWeek;
+use App\Services\ScheduleWeek\DestroyService;
+use App\Services\ScheduleWeek\ListAllService;
+use App\Services\ScheduleWeek\ListIndexService;
+use App\Services\ScheduleWeek\LoadService;
+use App\Services\ScheduleWeek\StoreService;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
 
-class ScheduleController extends Controller
+class ScheduleWeekController extends Controller
 {
 
     public function index(Request $request)
@@ -22,9 +22,9 @@ class ScheduleController extends Controller
             $data = [];
 
             if ($request->all == true) {
-                $data = (new ListAllService(Schedule::class))->setRequest($request)->execute();
+                $data = (new ListAllService(ScheduleWeek::class))->setRequest($request)->execute();
             } else {
-                $data = (new ListIndexService(Schedule::class))->setRequest($request)->execute();
+                $data = (new ListIndexService(ScheduleWeek::class))->setRequest($request)->execute();
             }
 
             return response()->json($data);
@@ -45,7 +45,7 @@ class ScheduleController extends Controller
 
             Log::info($params);
 
-            $data = (new LoadService(Schedule::class))->setRequest($params)->execute();
+            $data = (new LoadService(ScheduleWeek::class))->setRequest($params)->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);
@@ -58,7 +58,7 @@ class ScheduleController extends Controller
     public function update($id, Request $request)
     {
         try {
-            $data = (new StoreService(Schedule::class))->setRequest($request)->execute();
+            $data = (new StoreService(ScheduleWeek::class))->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
@@ -74,7 +74,7 @@ class ScheduleController extends Controller
         try {
             Log::info($request);
 
-            $data = (new StoreService(Schedule::class))->setRequest($request)->execute();
+            $data = (new StoreService(ScheduleWeek::class))->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
@@ -90,7 +90,7 @@ class ScheduleController extends Controller
         try {
             $request = new Request(['id' => $id]);
 
-            (new DestroyService(Schedule::class))->setRequest($request)->execute();
+            (new DestroyService(ScheduleWeek::class))->setRequest($request)->execute();
 
             return response()->json([]);
         } catch (ErrorServiceException $th) {

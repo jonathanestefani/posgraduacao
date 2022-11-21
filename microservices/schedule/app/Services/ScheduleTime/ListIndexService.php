@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Services\Schedule;
+namespace App\Services\ScheduleTime;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Api\LoadApi;
-use App\BaseRepository\Filters\FilterDate;
-use App\BaseRepository\Filters\FilterNumber;
-use App\BaseRepository\TAll;
 use App\BaseRepository\TFilters;
 use App\BaseRepository\Filters\ListFilter;
 use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
+use App\BaseRepository\TIndex;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
-use App\Services\Schedule\Filters\FilterJob;
 use Illuminate\Support\Facades\Log;
 
-class ListAllService extends ARepository implements IService
+class ListIndexService extends ARepository implements IService
 {
-    use THttpRequest, TFilters, TAggregate, TAll;
+    use THttpRequest, TFilters, TAggregate, TIndex;
 
     public function __construct($model)
     {
@@ -42,8 +39,7 @@ class ListAllService extends ARepository implements IService
     {
         try {
             $this->defineFilters();
-
-            return $this->All();
+            return $this->Index();
         } catch (\Throwable $th) {
             Log::error($th);
 

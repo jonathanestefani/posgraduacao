@@ -2,9 +2,11 @@
 
 namespace App\BaseRepository\Filters;
 
+use stdClass;
+
 class ListFilter
 {
-    private $filterClass;
+    private stdClass $filterClass;
     private string $filterKey = "";
 
     public function __construct($filterClass, String $filterKey)

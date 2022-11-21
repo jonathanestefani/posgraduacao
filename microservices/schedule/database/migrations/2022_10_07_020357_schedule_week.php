@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Schedule extends Migration
+class ScheduleWeek extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class Schedule extends Migration
      */
     public function up()
     {
-        Schema::create('schedule', function (Blueprint $table) {
+        Schema::create('schedule_week', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('job_id');
-            $table->date('date', 255);
-            $table->bigInteger('time');
-            $table->integer('status');
+            $table->enum('day_week', ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']);
 
             $table->timestamps();
             $table->softDeletes();
@@ -32,6 +30,6 @@ class Schedule extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule');
+        Schema::dropIfExists('schedule_week');
     }
 }

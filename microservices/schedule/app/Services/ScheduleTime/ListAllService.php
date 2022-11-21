@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Services\Job;
+namespace App\Services\ScheduleTime;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Api\LoadApi;
+use App\BaseRepository\Filters\FilterDate;
+use App\BaseRepository\Filters\FilterNumber;
 use App\BaseRepository\TAll;
 use App\BaseRepository\TFilters;
-use App\BaseRepository\Filters\FilterStringLike;
 use App\BaseRepository\Filters\ListFilter;
 use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
 use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
-use App\Services\Job\filters\filterSearch;
+use App\Services\ScheduleTime\Filters\FilterJob;
 use Illuminate\Support\Facades\Log;
 
 class ListAllService extends ARepository implements IService
@@ -22,8 +23,7 @@ class ListAllService extends ARepository implements IService
     public function __construct($model)
     {
         $this->with = [
-            'job_info',
-            'api' => new LoadApi('persons', 'person_id')
+            'api' => new LoadApi('jobs', 'job_id', 'job'),
         ];
 
         parent::__construct($model);
@@ -32,8 +32,8 @@ class ListAllService extends ARepository implements IService
     private function defineFilters()
     {
         $this->filters = [
-            "search" => new ListFilter(filterSearch::class, "name"),
-            "name" => new ListFilter(FilterStringLike::class, "name")
+            "job_id" => new ListFilter(FilterNumber::class, "job_id"),
+            "job" => new ListFilter(FilterJob::class, "date"),
         ];
     }
 

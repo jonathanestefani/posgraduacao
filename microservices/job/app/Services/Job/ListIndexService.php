@@ -22,7 +22,7 @@ class ListIndexService extends ARepository implements IService
     public function __construct($model)
     {
         $this->with = [
-            'info',
+            'job_info',
             'api' => new LoadApi('persons', 'person_id', 'person')
         ];
 

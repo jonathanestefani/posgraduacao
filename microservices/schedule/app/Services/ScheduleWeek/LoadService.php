@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Job;
+namespace App\Services\ScheduleWeek;
 
 use App\BaseRepository\Abs\ARepository;
 use App\BaseRepository\Crud\TLoad;
@@ -16,8 +16,6 @@ class LoadService extends ARepository implements IService
 
     public function __construct($model)
     {
-        $this->with = ['job_info'];
-
         parent::__construct($model);
 
         return $this;

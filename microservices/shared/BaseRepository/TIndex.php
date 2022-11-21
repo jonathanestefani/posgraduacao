@@ -23,7 +23,7 @@ trait TIndex
         }
 
         if (method_exists($this, 'executeOrder')) {
-            $this->applyOrder();
+            $this->executeOrder();
         }
 
         $this->data = $this->executePagination();
