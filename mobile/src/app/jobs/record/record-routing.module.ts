@@ -13,7 +13,16 @@ const routes: Routes = [
         loadChildren: () => import('./schedules/schedules.module').then( m => m.SchedulesPageModule)
       },
       {
+        path: 'schedules/:id',
+        loadChildren: () => import('./schedules/schedules.module').then( m => m.SchedulesPageModule)
+      },
+      {
         path: 'about',
+        loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+      },
+      {
+        path: 'about/:id',
+        pathMatch: 'full',
         loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
       },
     ]

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonSlides, NavController } from '@ionic/angular';
 import { Alertas } from 'src/app/providers/alertas';
 import { AttendancesService } from 'src/app/services/attendances/attendances.service';
@@ -13,10 +13,7 @@ import { SchedulesService } from 'src/app/services/schedules/schedules.service';
 export class SchedulesPage implements OnInit {
   @ViewChild('slide') slide: IonSlides;
 
-  form = {
-    name: '',
-    status: 1
-  };
+  job_id: number = 0;
 
   listDaysOfTheWeekSelected = [];
 
@@ -30,12 +27,17 @@ export class SchedulesPage implements OnInit {
 
   constructor(private navControl: NavController,
               public router: Router,
+              private activeRoute: ActivatedRoute,
               private schedulesService: SchedulesService,
               private attendancesService: AttendancesService,
               private alertas: Alertas) {
    }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.job_id = this.activeRoute.snapshot.params.id;
+
+    this.getSchedulesById();
+  }
 
   setListDaysOfTheWeek(event) {
     this.listDaysOfTheWeekSelected = event;
@@ -44,6 +46,12 @@ export class SchedulesPage implements OnInit {
   async onSlideChange($event) {
     this.isBeginning = await this.slide.isBeginning();
     this.isEnd = await this.slide.isEnd();
+  }
+
+  getSchedulesById() {
+    this.schedulesService.getSchedules({
+      job_id: this.job_id
+    });
   }
 
   async save() {

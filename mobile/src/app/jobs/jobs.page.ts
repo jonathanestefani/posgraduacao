@@ -41,7 +41,7 @@ export class JobsPage implements OnInit {
     } catch (error) {
       await this.alertas.loadStop();
 
-      this.alertas.toastShow("Houve um problema ao tentar buscar os serviços disponíveis!", "E");
+      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
 
       console.log(error);
     }

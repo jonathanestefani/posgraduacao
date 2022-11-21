@@ -11,11 +11,11 @@
 
   <ion-tabs #myTabs>
     <ion-tab-bar slot="bottom" color="warning">
-      <ion-tab-button tab="about">
+      <ion-tab-button (click)="accessTab('about')">
         <ion-icon name="information-circle"></ion-icon>
         <ion-label>Sobre</ion-label>
       </ion-tab-button>
-      <ion-tab-button *ngIf="job.id > 0" tab="schedules">
+      <ion-tab-button *ngIf="job_id > 0" (click)="accessTab('schedules')">
         <ion-icon name="calendar"></ion-icon>
         <ion-label>Horários</ion-label>
         <ion-badge>6</ion-badge>

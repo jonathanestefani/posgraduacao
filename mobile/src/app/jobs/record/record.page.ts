@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonTabs, NavController } from '@ionic/angular';
 import { AboutPage } from './about/about.page';
 import { SchedulesPage } from './schedules/schedules.page';
@@ -12,28 +12,39 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class RecordPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
-  job = {
-    id: 0,
-    name: '',
-    status: 1
-  };
+  job_id: number = 0;
 
   tabAbout: any;
   tabSchedule: any;
 
-  constructor(private navControl: NavController,
+  constructor(private activeRoute: ActivatedRoute,
+              private navControl: NavController,
               public router: Router) {
 
-    this.job = JSON.parse(localStorage.getItem('job_details'));
+    //= JSON.parse(localStorage.getItem('job_details'));
 
     this.tabAbout = AboutPage;
     this.tabSchedule = SchedulesPage;
   }
 
   ionViewDidEnter() {
-    this.tabRef.select('schedules');
+    // this.tabRef.select('about');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.job_id = this.activeRoute.snapshot.children[0].params.id;
+
+    console.log('ngOnInit', this.activeRoute.snapshot.children[0].params.id);
+  }
+
+  accessTab(tab) {
+    console.log(tab, this.job_id);
+
+    if (this.job_id > 0) {
+      this.navControl.navigateForward('/jobs/record/' + tab + '/' + this.job_id);
+    } else {
+      this.navControl.navigateForward('/jobs/record/' + tab);
+    }
+  }
 
 }

@@ -35,13 +35,16 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "@typescript-eslint/ban-tslint-comment": "warn"
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/ban-tslint-comment": "warn"
+      }
     }
   ]
 }

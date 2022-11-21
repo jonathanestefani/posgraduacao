@@ -22,7 +22,7 @@ export class AppComponent {
     },
     {
       title: 'Cadastrar Serviço',
-      url: '/jobs/record',
+      url: '/jobs/record/about',
       icon: 'home',
       style: 'business-outline'
     },
