@@ -43,8 +43,6 @@ class ScheduleWeekController extends Controller
                 "id" => $id
             ]);
 
-            Log::info($params);
-
             $data = (new LoadService(ScheduleWeek::class))->setRequest($params)->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {
@@ -58,6 +56,8 @@ class ScheduleWeekController extends Controller
     public function update($id, Request $request)
     {
         try {
+            Log::info($request);
+
             $data = (new StoreService(ScheduleWeek::class))->setRequest($request)->execute();
 
             return response()->json($data);

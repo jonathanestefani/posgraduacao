@@ -11,7 +11,16 @@
 |
 */
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
+    if (env('APP_ROUTE_DEBUG') == true) {
+        $request = Request::capture();
+
+        Log::info(print_r($request->server->all()));
+    }
+
     $router->get('/attendances', [ 'uses' => 'AttendanceController@index'] );
     $router->get('/attendances/{id}', [ 'uses' => 'AttendanceController@show'] );
     $router->post('/attendances', [ 'uses' => 'AttendanceController@store'] );

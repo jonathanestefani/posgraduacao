@@ -2,24 +2,40 @@
 
 namespace App\BaseRepository\Filters;
 
-use stdClass;
-
 class ListFilter
 {
-    private stdClass $filterClass;
-    private string $filterKey = "";
+    private $class;
+    private string $key = "";
+    private $value;
+    protected Array $filters;
 
-    public function __construct($filterClass, String $filterKey)
+    public function __construct($class, String $key)
     {
-        $this->filterClass = $filterClass;
-        $this->filterKey = $filterKey;
+        $this->class = $class;
+        $this->key = $key;
     }
 
-    public function getFilterClass() {
-        return $this->filterClass;
+    public function getclass() {
+        return $this->class;
     }
 
-    public function getFilterKey() {
-        return $this->filterKey;
+    public function getkey() {
+        return $this->key;
+    }
+
+    public function setValue($value) {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    public function setFilters(Array $filters) {
+        $this->filtersRequest = $filters;
+
+        return $this;
+    }
+
+    public function execute(&$instance) {
+        (new $this->class($instance))->setFilters($this->filtersRequest)->execute($this->key, $this->value);
     }
 }

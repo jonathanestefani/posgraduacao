@@ -46,7 +46,7 @@ class Route extends Command
         $content = "<?php\n\nreturn [\n\t\"api_names\" => [\n";
 
         foreach ($routes as $value) {
-            $content .= "\t\t \"$value->name\" => \"$value->protocol://$value->route" . (!empty($value->port) ? ':' . (string) $value->port : '') . '/' . (!empty($value->endpoint) ? (string) $value->endpoint : '') . "\",\n";
+            $content .= "\t\t \"$value->name\" => \"$value->protocol://$value->route" . (!empty($value->port) ? ':' . (string) $value->port : '') . (!empty($value->endpoint) ? (string) $value->endpoint : '') . "\",\n";
         }
 
         $content .= "\t]\n];";

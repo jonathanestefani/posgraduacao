@@ -11,14 +11,15 @@ use Illuminate\Support\Facades\Http;
 
 trait POST
 {
-    public function store($api_name, Request $request)
+    public function store()
     {
         try {
-            $address_api = $this->getAddressApi($api_name);
+            Log::info($this->address_api . $this->resource);
+            Log::info($this->parameters);
 
-            Log::info($address_api . $api_name);
+            return;
 
-            $response = Http::post($address_api . $api_name, $request->all());
+            $response = Http::post($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {
                 Log::info($response);

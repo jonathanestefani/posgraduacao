@@ -11,7 +11,16 @@
 |
 */
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
+    if (env('APP_ROUTE_DEBUG') == true) {
+        $request = Request::capture();
+
+        Log::info(print_r($request->server->all()));
+    }
+
     $router->get('/jobs', [ 'uses' => 'JobController@index'] );
     $router->get('/jobs/{id}', [ 'uses' => 'JobController@show'] );
     $router->post('/jobs', [ 'uses' => 'JobController@store'] );

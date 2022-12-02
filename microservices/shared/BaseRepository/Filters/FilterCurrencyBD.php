@@ -3,16 +3,15 @@
 namespace App\BaseRepository\Filters;
 
 use App\BaseRepository\Abs\AbsFilter;
-use Illuminate\Database\Eloquent\Builder;
 
 class FilterCurrencyBD extends AbsFilter
 {
-    public function execute(string $key, $value): Builder
+    public function execute(string $key, $value)
     {
         if (gettype($value) === 'array') {
-            return $this->builder->whereIn($key, $value);
+            $this->builder->whereIn($key, $value);
+        } else {
+            $this->builder->where($key, number_format($value, 2, '.', ''));
         }
-
-        return $this->builder->where($key, number_format($value, 2, '.', ''));
     }
 }

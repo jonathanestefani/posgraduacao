@@ -11,6 +11,10 @@
 |
 */
 
+use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Log;
+use Laravel\Lumen\Http\Request;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/register
     $router->post('record', 'UserController@store');
@@ -19,14 +23,35 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/login
     $router->post('login', 'AuthController@login');
 
+    try {
+        $request = Request::capture();
+
+        if (env('APP_ROUTE_DEBUG') == true) {
+            Log::info(print_r($request->server->all()));
+        }
+
+        (new ApiController())->callMethodGateway($request, $router);
+    } catch (\Throwable $th) {
+        echo 'Houve um problema interno no api gateway, favor verificar com o suporte técnico!';
+        exit;
+    }
+
+    /*
     $router->get('/{api_name}', ['uses' => 'ApiController@index']);
-    $router->get('/{api_name}/{id}', ['uses' => 'ApiController@show']);
-    $router->post('/{api_name}', ['uses' => 'ApiController@store']);
+
+    $router->get('/{api_name}/{id}', [
+        'uses' => 'ApiController@show'
+    ]);
+
+    $router->get('/{api_name}/{name}/{id}', [
+        'uses' => 'ApiController@show'
+    ]);
+
+    $router->post('/{api_name}', [
+        'uses' => 'ApiController@store'
+    ]);
+
     $router->put('/{api_name}/{id}', ['uses' => 'ApiController@update']);
     $router->delete('/{api_name}/{id}', ['uses' => 'ApiController@destroy']);
+    */
 });
-
-/*
-$router->group(['prefix' => 'api'], function () use ($router) {
-});
-*/

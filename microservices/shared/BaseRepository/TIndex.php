@@ -12,8 +12,8 @@ trait TIndex
 
     public function Index()
     {
-        if (method_exists($this, 'defineAggregate')) {
-            $this->defineAggregate();
+        if (method_exists($this, 'executeAggregate')) {
+            $this->executeAggregate();
         }
 
         $this->beforeExecute(ETypeCall::INDEX);
@@ -63,12 +63,18 @@ trait TIndex
 
     private function getStructPagination() {
         return [
+            "current_page" => 1,
+            "first_page_url" => "",
+            "from" => "",
             "data" => $this->instance->get(),
             "total" => $this->instance->count(),
             "last_page" => 1,
+            "last_page_url" => "",
+            "links" => [],
             "from" => 1,
             "to" => 1,
-            "per_page" => -1
+            "per_page" => -1,
+            "prev_page_url" => ""
         ];
     }
 }

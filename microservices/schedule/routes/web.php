@@ -11,10 +11,25 @@
 |
 */
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('/schedules', [ 'uses' => 'ScheduleController@index'] );
-    $router->get('/schedules/{id}', [ 'uses' => 'ScheduleController@show'] );
-    $router->post('/schedules', [ 'uses' => 'ScheduleController@store'] );
-    $router->put('/schedules/{id}', [ 'uses' => 'ScheduleController@update'] );
-    $router->delete('/schedules/{id}', [ 'uses' => 'ScheduleController@destroy'] );
+    if (env('APP_ROUTE_DEBUG') == true) {
+        $request = Request::capture();
+
+        Log::info(print_r($request->server->all()));
+    }
+
+    $router->get('/schedules/week', [ 'uses' => 'ScheduleWeekController@index'] );
+    $router->get('/schedules/week/{id}', [ 'uses' => 'ScheduleWeekController@show'] );
+    $router->post('/schedules/week', [ 'uses' => 'ScheduleWeekController@store'] );
+    $router->put('/schedules/week/{id}', [ 'uses' => 'ScheduleWeekController@update'] );
+    $router->delete('/schedules/week/{id}', [ 'uses' => 'ScheduleWeekController@destroy'] );
+
+    $router->get('/schedules/time', [ 'uses' => 'ScheduleTimeController@index'] );
+    $router->get('/schedules/time/{id}', [ 'uses' => 'ScheduleTimeController@show'] );
+    $router->post('/schedules/time', [ 'uses' => 'ScheduleTimeController@store'] );
+    $router->put('/schedules/time/{id}', [ 'uses' => 'ScheduleTimeController@update'] );
+    $router->delete('/schedules/time/{id}', [ 'uses' => 'ScheduleTimeController@destroy'] );
 });

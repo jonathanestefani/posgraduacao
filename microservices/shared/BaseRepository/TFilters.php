@@ -3,7 +3,6 @@
 namespace App\BaseRepository;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 trait TFilters
 {
@@ -24,9 +23,13 @@ trait TFilters
             foreach($this->filtersRequest as $key => $value) {
                 $listFilterClass = $this->filters[$key];
 
-                $class = $listFilterClass->getFilterClass();
+                $listFilterClass->setFilters($this->filtersRequest)->setValue($value)->execute($this->instance);
 
-                $this->instance = (new $class($this->instance))->setFilters($this->filtersRequest)->execute( $listFilterClass->getFilterKey(), $value);
+                /*
+                $ListFilterInstance = $listFilterClass->getclass();
+
+                (new $ListFilterInstance($this->instance))->setFilters($this->filtersRequest)->execute( $listFilterClass->getKey(), $value);
+                */
             }
         }
 

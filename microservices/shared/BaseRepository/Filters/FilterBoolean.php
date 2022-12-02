@@ -3,12 +3,11 @@
 namespace App\BaseRepository\Filters;
 
 use App\BaseRepository\Abs\AbsFilter;
-use Illuminate\Database\Eloquent\Builder;
 
 class FilterBoolean extends AbsFilter
 {
-    public function execute($key, $value): Builder
+    public function execute($key, $value)
     {
-        return $this->builder->where($key, $value);
+        $this->builder->where($key, $value);
     }
 }

@@ -3,16 +3,15 @@
 namespace App\BaseRepository\Filters;
 
 use App\BaseRepository\Abs\AbsFilter;
-use Illuminate\Database\Eloquent\Builder;
 
 class FilterStringLike extends AbsFilter
 {
-    public function execute(String $key, $value): Builder
+    public function execute(String $key, $value)
     {
         if (gettype($value) === 'array') {
-            return $this->builder->whereIn($key, $value);
+            $this->builder->whereIn($key, $value);
+        } else {
+            $this->builder->where($key, "LIKE", "%{$value}%");
         }
-
-        return $this->builder->where($key, "LIKE", "%{$value}%");
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\BaseRepository;
 
-use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
+use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 
 trait THttpRequest
@@ -14,9 +14,8 @@ trait THttpRequest
     {
         $this->request = $request->all();
 
-        if (method_exists($this, 'executeFilters')) {
-            $this->filtersRequest = isset($this->request['filters']) && count($this->request['filters']) > 0 ? $this->request['filters'] : [];
-        }
+        $this->loadHttpFilters();
+        $this->loadHttpAggregate();
 
         if (isset($this->request["id"]) && $this->request["id"] != '0') {
             $this->openModelInstance($this->request["id"]);
@@ -25,6 +24,18 @@ trait THttpRequest
         }
 
         return $this;
+    }
+
+    private function loadHttpFilters() {
+        if (method_exists($this, 'executeFilters')) {
+            $this->filtersRequest = isset($this->request['filters']) && count($this->request['filters']) > 0 ? $this->request['filters'] : [];
+        }
+    }
+
+    private function loadHttpAggregate() {
+        if (method_exists($this, 'executeAggregate') && isset($this->request['with'])) {
+            $this->with = isset($this->request['with']) && count($this->request['with']) > 0 ? $this->request['with'] : [];
+        }
     }
 
     protected function openModelInstance($id)
@@ -36,7 +47,7 @@ trait THttpRequest
         $this->data = $this->instance->find($id);
 
         if (empty($this->data)) {
-            throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
+            throw new ErrorServiceException("Não foi possível encontrar os dados na base de dados!");
         }
 
         $this->operation = "update";

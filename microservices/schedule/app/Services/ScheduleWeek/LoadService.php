@@ -3,23 +3,17 @@
 namespace App\Services\ScheduleWeek;
 
 use App\BaseRepository\Abs\ARepository;
-use App\BaseRepository\Crud\TLoad;
-use App\BaseRepository\TAggregate;
-use App\BaseRepository\THttpRequest;
-use App\Exceptions\ErrorServiceException;
 use App\Services\IServices\IService;
+
+use App\BaseRepository\Crud\TLoad;
+use App\BaseRepository\THttpRequest;
+
+use App\Exceptions\ErrorServiceException;
 use Illuminate\Support\Facades\Log;
 
 class LoadService extends ARepository implements IService
 {
-    use THttpRequest, TLoad, TAggregate;
-
-    public function __construct($model)
-    {
-        parent::__construct($model);
-
-        return $this;
-    }
+    use THttpRequest, TLoad;
 
     public function execute() {
         try {

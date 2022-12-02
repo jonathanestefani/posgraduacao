@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Methods;
 
 use App\BaseRepository\Exceptions\ErrorApiCallException;
 use App\Exceptions\ErrorServiceException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -11,25 +12,30 @@ use Illuminate\Support\Facades\Http;
 
 trait GET
 {
-    public function index($api_name, Request $request)
+    public function index(Request $request)
     {
         try {
-            $address_api = $this->getAddressApi($api_name);
+            $this->defineApiGateway($request);
+            
+            Log::info('index');
 
-            Log::info($address_api . $api_name);
+            Log::info($this->address_api.$this->resource);
+            Log::info($this->parameters);
 
-            $response = Http::get($address_api . $api_name, $request->all());
+            $response = Http::get($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {
-                Log::info($response);
-
-                throw new ErrorApiCallException('Não foi possível buscar os dados na api');
+                $response->throw();
             } else {
-                return new Response($response->body());    
+                return new Response($response->body());
             }
+        } catch (RequestException $th) {
+            return new Response($th->response, 404);
         } catch (ErrorApiCallException $th) {
+            Log::info($th);
             return new Response(["message" => $th->getMessage()], 404);
         } catch (ErrorServiceException $th) {
+            Log::info($th);
             return new Response(["message" => $th->getMessage()], 404);
         } catch (\Throwable $th) {
             Log::error($th);

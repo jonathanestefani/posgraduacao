@@ -11,16 +11,15 @@ use Illuminate\Support\Facades\Http;
 
 trait PUT
 {
-    public function update($api_name, $id, Request $request)
+    public function update()
     {
         try {
-            Log::info($api_name);
+            Log::info($this->address_api . $this->resource);
+            Log::info($this->parameters);
 
-            $address_api = $this->getAddressApi($api_name);
+            return;
 
-            Log::info($address_api . $api_name . '/' . $id);
-
-            $response = Http::put($address_api . $api_name . '/' . $id, $request->all());
+            $response = Http::put($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {
                 Log::info($response);

@@ -16,6 +16,7 @@ class JobInfo extends Migration
         Schema::create('job_info', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('job_id');
+            $table->enum('type', ['desc','text','number']);
             $table->string('name', 255);
             $table->text('text')->nullable();
             $table->double('value')->nullable();

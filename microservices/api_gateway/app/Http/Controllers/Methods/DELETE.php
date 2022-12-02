@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\Http;
 
 trait DELETE
 {
-    public function destroy($api_name, $id, Request $request)
+    public function delete()
     {
         try {
-            $address_api = $this->getAddressApi($api_name);
+            Log::info($this->address_api . $this->resource);
+            Log::info($this->parameters);
 
-            $response = Http::delete($address_api . $api_name . '/' . $id, $request->all());
+            return;
+
+            $response = Http::delete($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível executar a operação na api');

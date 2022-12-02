@@ -44,6 +44,7 @@ class PersonController extends Controller
             ]);
 
             $data = (new LoadService(Person::class))->setRequest($params)->execute();
+
             return new Response($data);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);

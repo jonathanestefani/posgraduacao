@@ -2,6 +2,8 @@
 
 namespace App\Services\ScheduleWeek\Filters;
 
+use App\BaseRepository\Filters\FilterNumber;
+use App\BaseRepository\Filters\FilterString;
 use App\BaseRepository\Filters\ListFilter;
 
 trait TDefaultFilters

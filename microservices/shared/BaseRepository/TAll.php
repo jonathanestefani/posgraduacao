@@ -8,8 +8,8 @@ trait TAll
 {
     public function All()
     {
-        if (method_exists($this, 'defineAggregate')) {
-            $this->defineAggregate();
+        if (method_exists($this, 'executeAggregate')) {
+            $this->executeAggregate();
         }
 
         $this->beforeExecute(ETypeCall::ALL);

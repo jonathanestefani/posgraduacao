@@ -11,7 +11,16 @@
 |
 */
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
+    if (env('APP_ROUTE_DEBUG') == true) {
+        $request = Request::capture();
+
+        Log::info(print_r($request->server->all()));
+    }
+
     $router->get('/cities', [ 'uses' => 'CitiesController@index'] );
     $router->get('/cities/{id}', [ 'uses' => 'CitiesController@show'] );
     $router->post('/cities', [ 'uses' => 'CitiesController@store'] );

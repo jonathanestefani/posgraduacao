@@ -9,12 +9,12 @@ abstract class AbsFilter
     protected $builder;
     protected Array $filters;
 
-    public function __construct(Builder $builder)
+    public function __construct(Builder &$builder)
     {
         $this->builder = $builder;
     }
 
-    abstract public function execute(String $key, $value): Builder;
+    abstract public function execute(String $key, $value);
 
     public function setFilters(Array $filters) {
         $this->filters = $filters;

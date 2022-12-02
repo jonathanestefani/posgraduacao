@@ -8,8 +8,12 @@ trait TAggregate
 {
     protected $with = [];
 
-    public function defineAggregate()
+    public function executeAggregate()
     {
+        if (method_exists($this, 'defineAggregate')) {
+            $this->defineAggregate();
+        }
+
         if (count($this->with) > 0) {
             foreach ($this->with as $tableRelationModel => $scope) {
                 if ($tableRelationModel == "api") continue;
@@ -24,21 +28,21 @@ trait TAggregate
     }
 
     public function loadRelationsByApi() {
+        if (count($this->with) == 0) return;
+
         foreach($this->data as $row) {
-            if (count($this->with) > 0) {
-                foreach ($this->with as $tableRelationModel => $scope) {
-                    if ($tableRelationModel != "api") continue;
+            foreach ($this->with as $tableRelationModel => $scope) {
+                if ($tableRelationModel != "api") continue;
 
-                    $value = $row[ $scope->getKeyLocal() ];
+                $value = $row[ $scope->getKeyLocal() ];
 
-                    try {
-                        $result = $scope->setValue($value)->loadRelation();
+                try {
+                    $result = $scope->setValue($value)->loadRelation();
 
-                        $row[ $scope->getAlias() ] = $result;
-                    } catch (\Throwable $th) {
-                        //throw $th;
-                        $row[ $scope->getApi() ] = null;
-                    }
+                    $row[ $scope->getAlias() ] = $result;
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $row[ $scope->getApi() ] = null;
                 }
             }
         }

@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Http;
 
 trait LOAD
 {
-    public function show($api_name, $id, Request $request)
+    public function show()
     {
         try {
-            $address_api = $this->getAddressApi($api_name);
+            Log::info($this->address_api . $this->resource);
+            Log::info($this->parameters);
 
-            Log::info('asdasdas');
-            Log::info($address_api . $api_name . '/' . $id);
+            return;
 
-            $response = Http::get($address_api . $api_name . '/' . $id, $request->all());
+            $response = Http::get($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');

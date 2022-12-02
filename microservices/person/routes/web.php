@@ -11,14 +11,19 @@
 |
 */
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
+    if (env('APP_ROUTE_DEBUG') == true) {
+        $request = Request::capture();
+
+        Log::info(print_r($request->server->all()));
+    }
+
     $router->get('/persons', [ 'uses' => 'PersonController@index'] );
     $router->get('/persons/{id}', [ 'uses' => 'PersonController@show'] );
     $router->post('/persons', [ 'uses' => 'PersonController@store'] );
     $router->put('/persons/{id}', [ 'uses' => 'PersonController@update'] );
     $router->delete('/persons/{id}', [ 'uses' => 'PersonController@destroy'] );
-
-    $router->get('/', function () use ($router) {
-        return $router->app->version();
-    });
 });
