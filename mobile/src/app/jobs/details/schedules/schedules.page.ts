@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { IJob } from 'src/app/Interfaces/job/interface/IJob';
 import { Alertas } from 'src/app/providers/alertas';
 import { AttendancesService } from 'src/app/services/attendances/attendances.service';
+import { JobsService } from 'src/app/services/jobs/jobs.service';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
 import { UserData } from 'src/app/services/UserData';
 
@@ -14,10 +16,12 @@ import { UserData } from 'src/app/services/UserData';
 export class SchedulesPage implements OnInit {
 
   filters: any = {
-    date: "2022-10-05",
+    date: '2022-10-05',
     job_id: 0
   };
-  job: any = {};
+
+  job: IJob = JobsService.job;
+
   listSchedules = [];
   scheduleSelected: any = {};
 
@@ -26,7 +30,7 @@ export class SchedulesPage implements OnInit {
               private schedulesService: SchedulesService,
               private attendancesService: AttendancesService,
               private alertas: Alertas) {
-    
+
     this.job = JSON.parse(localStorage.getItem('job_details'));
 
     console.log(this.job);
@@ -48,12 +52,7 @@ export class SchedulesPage implements OnInit {
     try {
       this.listSchedules = [];
 
-      this.filters.job_id = this.job.id;
-
-      const response = await this.schedulesService.getSchedules({
-        filters: this.filters,
-        all: true
-      });   
+      const response = await this.schedulesService.getDaysWeekSchedulesById(this.job.id);
 
       console.log(response);
 
@@ -63,7 +62,7 @@ export class SchedulesPage implements OnInit {
     } catch (error) {
       await this.alertas.loadStop();
 
-      this.alertas.toastShow("Houve um problema ao tentar buscar os serviços disponíveis!", "E");
+      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
 
       console.log(error);
     }
@@ -74,11 +73,11 @@ export class SchedulesPage implements OnInit {
 
     try {
       const response = await this.attendancesService.requestAttendance({
-          "person_id": UserData.getUser().id,
-          "job_id": this.job.id,
-          "schedule_id": this.scheduleSelected.id,
-          "status": 1
-      });   
+          person_id: UserData.getUser().id,
+          job_id: this.job.id,
+          schedule_id: this.scheduleSelected.id,
+          status: 1
+      });
 
       console.log(response);
 
@@ -88,7 +87,7 @@ export class SchedulesPage implements OnInit {
     } catch (error) {
       await this.alertas.loadStop();
 
-      this.alertas.toastShow("Houve um problema ao tentar buscar os serviços disponíveis!", "E");
+      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
 
       console.log(error);
     }

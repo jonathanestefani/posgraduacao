@@ -10,7 +10,7 @@ export class LoginService {
 
   constructor(private http: ApiService) { }
 
-  public login(params: {}) {
+  public login(params: any = {}) {
     return this.http.post(this.resource, params);
   }
 }

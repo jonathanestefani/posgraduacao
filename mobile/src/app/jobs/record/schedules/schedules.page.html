@@ -3,16 +3,18 @@
     [options]="slideOpts"
     #slide
     effect="fade"
-    (ionSlideDidChange)="onSlideChange()"
+    (ionSlideDidChange)="onSlideChange($event)"
   >
     <ion-slide>
       <app-days-of-week
+        [jobId]="jobId"
         (listDaysOfTheWeekSelected)="setListDaysOfTheWeek($event)"
       ></app-days-of-week>
     </ion-slide>
     <ion-slide>
       <app-hours-of-the-week
         [listDaysOfTheWeekSelected]="listDaysOfTheWeekSelected"
+        (setListHoursByDaysOfTheWeek)="listHoursByDaysOfTheWeek"
       ></app-hours-of-the-week>
     </ion-slide>
   </ion-slides>

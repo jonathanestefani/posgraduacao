@@ -1,30 +1,55 @@
 import { Injectable } from '@angular/core';
+import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
+import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
 import { ApiService } from '../api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SchedulesService {
-
-  static listDaysOfTheWeek = [
-    {id: 1, name: 'Segunda'},
-    {id: 2, name: 'Terça'},
-    {id: 3, name: 'Quarta'},
-    {id: 4, name: 'Quinta'},
-    {id: 5, name: 'Sexta'},
-    {id: 6, name: 'Sábado'},
-    {id: 7, name: 'Domingo'},
+  static listDaysOfTheWeek: Array<IListDaysOfTheWeek> = [
+    { id: 'monday', name: 'Segunda' },
+    { id: 'tuesday', name: 'Terça' },
+    { id: 'wednesday', name: 'Quarta' },
+    { id: 'thursday', name: 'Quinta' },
+    { id: 'friday', name: 'Sexta' },
+    { id: 'saturday', name: 'Sábado' },
+    { id: 'sunday', name: 'Domingo' },
   ];
 
   resource = 'schedules';
+  subresourceTime = 'time';
+  subresourceWeek = 'week';
 
-  constructor(private http: ApiService) { }
+  listScheduleWeek: Array<IScheduleWeek>;
 
-  public getSchedules(params = {}) {
-    return this.http.get(this.resource, params);
+  constructor(private http: ApiService) {}
+
+  public getWeekSchedules(params: any = {}) {
+    return this.http.get(this.resource + '/' + this.subresourceWeek, params);
   }
 
-  public requestSchedule(params = {}) {
-    return this.http.post(this.resource, params);
+  public requestWeekSchedule(params: any = {}) {
+    return this.http.post(this.resource + '/' + this.subresourceWeek, params);
+  }
+
+  public getTimeSchedules(params: any = {}) {
+    return this.http.get(this.resource + '/' + this.subresourceTime, params);
+  }
+
+  public requestTimeSchedule(params: any = {}) {
+    return this.http.post(this.resource + '/' + this.subresourceTime, params);
+  }
+
+  public getDaysWeekSchedulesById(jobId: number): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      this.listScheduleWeek = await this.getWeekSchedules({
+        filter: {
+          job_id: jobId,
+        },
+      });
+
+      resolve(this.listScheduleWeek);
+    });
   }
 }

@@ -43,7 +43,8 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
-        "@typescript-eslint/ban-tslint-comment": "warn"
+        "@typescript-eslint/ban-tslint-comment": "warn",
+        "camelcase": "off"
       }
     }
   ]

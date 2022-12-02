@@ -4,8 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Alertas } from 'src/app/providers/alertas';
 import { JobsService } from 'src/app/services/jobs/jobs.service';
 import { UserData } from 'src/app/services/UserData';
-import { IJob } from './interface/IJob';
-import { IJobInfo } from './interface/IJobInfo';
+import { IJob } from '../../../Interfaces/job/interface/IJob';
 
 @Component({
   selector: 'app-about',
@@ -13,22 +12,20 @@ import { IJobInfo } from './interface/IJobInfo';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-  form: IJob = {
-    id: 0,
-    name: '',
-    status: 1,
-    person_id: 0,
-    job_info: [
-      { name: 'Descrição', text: '', value: 0 },
-      { name: 'Valor', text: '', value: 0 },
-    ]
-  };
+  job: IJob = JobsService.job;
 
   constructor(private navControl: NavController,
               private activeRoute: ActivatedRoute,
               public router: Router,
               private jobService: JobsService,
-              private alertas: Alertas) {}
+              private alertas: Alertas) {
+
+    this.job.job_info = [
+      { type: 'desc', name: 'Descrição', text: '', value: 0 },
+      { type: 'number', name: 'Valor', text: '', value: 0 },
+    ];
+
+  }
 
   ngOnInit() {
     console.log(this.activeRoute.snapshot.params.id);
@@ -41,7 +38,7 @@ export class AboutPage implements OnInit {
       const data = await this.jobService.getJobById( this.activeRoute.snapshot.params.id );
 
       if (data) {
-        this.form = data;
+        this.job = data;
       }
     }
   }
@@ -52,13 +49,13 @@ export class AboutPage implements OnInit {
     try {
       const userData = UserData.getUser();
 
-      if (this.form.id === 0) {
-        delete this.form.id;
+      if (this.job.id === 0) {
+        delete this.job.id;
       }
 
-      this.form.person_id = userData.id;
+      this.job.person_id = userData.id;
 
-      const response = await this.jobService.save(this.form);
+      const response = await this.jobService.save(this.job);
 
       await this.alertas.loadStop();
 

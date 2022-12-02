@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonTabs, NavController } from '@ionic/angular';
-import { Alertas } from 'src/app/providers/alertas';
-import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { IonTabs } from '@ionic/angular';
+import { IJob } from 'src/app/Interfaces/job/interface/IJob';
+import { JobsService } from 'src/app/services/jobs/jobs.service';
 import { AboutPage } from './about/about.page';
 import { SchedulesPage } from './schedules/schedules.page';
 
@@ -14,13 +14,12 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class DetailsPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
-  job = {};
+  job: IJob = JobsService.job;
 
   tabAbout: any;
   tabSchedule: any;
 
-  constructor(private navControl: NavController,
-              public router: Router) {
+  constructor(public router: Router) {
 
     this.job = JSON.parse(localStorage.getItem('job_details'));
 

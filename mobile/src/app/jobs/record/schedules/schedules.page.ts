@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonSlides, NavController } from '@ionic/angular';
+import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
+import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
 import { Alertas } from 'src/app/providers/alertas';
 import { AttendancesService } from 'src/app/services/attendances/attendances.service';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { IScheduleTime } from '../../../Interfaces/schedule/IScheduleTime';
 
 @Component({
   selector: 'app-schedules',
@@ -13,9 +16,10 @@ import { SchedulesService } from 'src/app/services/schedules/schedules.service';
 export class SchedulesPage implements OnInit {
   @ViewChild('slide') slide: IonSlides;
 
-  job_id: number = 0;
+  jobId = 0;
 
-  listDaysOfTheWeekSelected = [];
+  listDaysOfTheWeekSelected: Array<IListDaysOfTheWeek> = [];
+  listHoursByDaysOfTheWeek: Array<IScheduleTime> = [];
 
   isBeginning = true;
   isEnd = false;
@@ -30,17 +34,20 @@ export class SchedulesPage implements OnInit {
               private activeRoute: ActivatedRoute,
               private schedulesService: SchedulesService,
               private attendancesService: AttendancesService,
-              private alertas: Alertas) {
-   }
+              private alertas: Alertas) {}
 
   ngOnInit() {
-    this.job_id = this.activeRoute.snapshot.params.id;
+    this.jobId = this.activeRoute.snapshot.params.id;
 
-    this.getSchedulesById();
+    this.getWeekSchedulesById();
   }
 
   setListDaysOfTheWeek(event) {
     this.listDaysOfTheWeekSelected = event;
+  }
+
+  setListHoursByDaysOfTheWeek(event) {
+    this.listHoursByDaysOfTheWeek = event;
   }
 
   async onSlideChange($event) {
@@ -48,16 +55,18 @@ export class SchedulesPage implements OnInit {
     this.isEnd = await this.slide.isEnd();
   }
 
-  getSchedulesById() {
-    this.schedulesService.getSchedules({
-      job_id: this.job_id
-    });
+  async getWeekSchedulesById() {
+    this.listDaysOfTheWeekSelected = await this.schedulesService.getDaysWeekSchedulesById(this.jobId);
   }
 
   async save() {
     await this.alertas.loadShow();
 
     try {
+      console.log('listDaysOfTheWeekSelected', this.listDaysOfTheWeekSelected);
+
+      console.log('listHoursByDaysOfTheWeek', this.listHoursByDaysOfTheWeek);
+
       /*
       const response = await this.attendancesService.getJobs({
         this.form

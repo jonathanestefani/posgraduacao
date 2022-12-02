@@ -10,11 +10,11 @@ export class AttendancesService {
 
   constructor(private http: ApiService) { }
 
-  public getAttendances(params = {}) {
+  public getAttendances(params: any = {}) {
     return this.http.get(this.resource, params);
   }
 
-  public requestAttendance(params = {}) {
+  public requestAttendance(params: any = {}) {
     return this.http.post(this.resource, params);
   }
 }

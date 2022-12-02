@@ -8,7 +8,7 @@
     </ion-card-header>
     <ion-card-content>
       
-        <ion-item *ngFor="let item of job.info">
+        <ion-item *ngFor="let item of job.job_info">
           {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
         </ion-item>
       

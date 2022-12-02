@@ -29,13 +29,12 @@ export class RecordPage implements OnInit {
 
   ionViewDidEnter() {
     // this.tabRef.select('about');
-  }
-
-  ngOnInit() {
     this.job_id = this.activeRoute.snapshot.children[0].params.id;
 
     console.log('ngOnInit', this.activeRoute.snapshot.children[0].params.id);
   }
+
+  ngOnInit() {}
 
   accessTab(tab) {
     console.log(tab, this.job_id);

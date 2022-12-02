@@ -1,3 +1,4 @@
+import { IPerson } from '../../person/IPerson';
 import { IJobInfo } from './IJobInfo';
 
 export interface IJob {
@@ -5,6 +6,7 @@ export interface IJob {
   name: string;
   status: number;
   person_id: number;
+  person?: IPerson;
   job_info: Array<IJobInfo>;
   created_at?: Date;
   updated_at?: Date;

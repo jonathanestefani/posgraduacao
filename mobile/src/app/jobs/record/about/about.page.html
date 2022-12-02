@@ -5,13 +5,16 @@
   <ion-card-content>
     <ion-list>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="form.name" placeholder="Nome"></ion-input>
+        <ion-input type="text" [(ngModel)]="job.name" placeholder="Nome"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-textarea [(ngModel)]="form.job_info[0].text" [placeholder]="form.job_info[0].name"></ion-textarea>
-      </ion-item>
-      <ion-item>
-        <ion-input type="number" [(ngModel)]="form.job_info[1].value" [placeholder]="form.job_info[1].name"></ion-input>
+
+      <ion-item *ngFor="let item of job.job_info">
+        <ion-label *ngIf="item.type !== 'text'">
+          {{ item.name }}
+        </ion-label>
+        <ion-textarea *ngIf="item.type === 'text'" [(ngModel)]="item.text" [placeholder]="item.name"></ion-textarea>
+        <ion-input *ngIf="item.type === 'desc'" type="text" [(ngModel)]="item.value"></ion-input>
+        <ion-input *ngIf="item.type === 'number'" type="number" inputmode="numeric" [(ngModel)]="item.value"></ion-input>
       </ion-item>
     </ion-list>
     <ion-button
