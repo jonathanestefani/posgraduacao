@@ -56,6 +56,8 @@ class LoadApi
         try {
             $address_api = UtilsService::getAddressApi($this->api_name);
 
+            Log::info($address_api . $this->api_name . '/' . $this->value);
+
             $response = Http::get($address_api . $this->api_name . '/' . $this->value, $this->params);
 
             if ($response->failed()) {

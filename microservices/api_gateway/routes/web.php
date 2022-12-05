@@ -27,7 +27,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $request = Request::capture();
 
         if (env('APP_ROUTE_DEBUG') == true) {
-            Log::info(print_r($request->server->all()));
+            Log::info(print_r($request->server->all(), true));
         }
 
         (new ApiController())->callMethodGateway($request, $router);

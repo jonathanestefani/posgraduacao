@@ -61,8 +61,6 @@ class ApiController extends Controller
 
     private function defineApiName() {
         $this->api_name = trim(explode('/', $this->resource)[ self::url['api_name'] ]);
-
-        return true;
     }
 
     private function defineAddressApi() {
@@ -103,21 +101,21 @@ class ApiController extends Controller
             }
 
             $this->defineApiGateway($request);
-            
-            $method = $parameters['REQUEST_METHOD'];
 
-            switch ($method) {
+            $route_apigateway = str_replace('/api', '', $this->resource);
+
+            switch ($this->method) {
                 case 'GET':
-                    $router->addRoute("GET", str_replace('/api', '', $this->resource), ['uses' => 'ApiController@index']);
+                    $router->addRoute("GET", $route_apigateway, ['uses' => 'ApiController@index']);
                     break;
                 case 'POST':
-                    $router->addRoute("POST", $this->resource, ['uses' => 'ApiController@store']);
+                    $router->addRoute("POST", $route_apigateway, ['uses' => 'ApiController@store']);
                     break;
                 case 'PUT':
-                    $router->addRoute("PUT", $this->resource, ['uses' => 'ApiController@store']);
+                    $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@store']);
                     break;
                 case 'DELETE':
-                    $router->addRoute("DELETE", $this->resource, ['uses' => 'ApiController@store']);
+                    $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@store']);
                     break;
             }
         } catch(ErrorServiceException $th) {
@@ -127,24 +125,5 @@ class ApiController extends Controller
 
             return new Response(["message" => 'Houve um problema interno no sistema ao redirecionar para o recurso especialista!'], 500);
         }
-
-        /*
-        $router->get('/{api_name}', ['uses' => 'ApiController@index']);
-
-        $router->get('/{api_name}/{id}', [
-            'uses' => 'ApiController@show'
-        ]);
-    
-        $router->get('/{api_name}/{name}/{id}', [
-            'uses' => 'ApiController@show'
-        ]);
-    
-        $router->post('/{api_name}', [
-            'uses' => 'ApiController@store'
-        ]);
-    
-        $router->put('/{api_name}/{id}', ['uses' => 'ApiController@update']);
-        $router->delete('/{api_name}/{id}', ['uses' => 'ApiController@destroy']);
-        */
     }
 }

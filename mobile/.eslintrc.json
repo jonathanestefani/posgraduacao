@@ -44,7 +44,8 @@
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@typescript-eslint/ban-tslint-comment": "warn",
-        "camelcase": "off"
+        "camelcase": "off",
+        "no-underscore-dangle": "off"
       }
     }
   ]

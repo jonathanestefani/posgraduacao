@@ -51,6 +51,8 @@ class Route extends Command
 
         $content .= "\t]\n];";
 
+        Log::info($file_api_name);
+
         @unlink($file_api_name);
         file_put_contents($file_api_name, $content);
     }
