@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IUser } from '../Interfaces/User/IUser';
 
 @Injectable({
     providedIn: 'root'
@@ -11,11 +12,11 @@ export class UserData {
         localStorage.setItem('user', UserData.user);
     }
 
-    public static getUser(): any {
+    public static getUser(): IUser {
         if (!UserData.user.id) {
             UserData.user = localStorage.getItem('user');
         }
 
-        return JSON.parse(UserData.user);
+        return JSON.parse(UserData.user) as IUser;
     }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Alertas } from '../providers/alertas';
+import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { AttendancesService } from '../services/attendances/attendances.service';
-import { UserData } from '../services/UserData';
+import { UserData } from '../providers/userData';
 
 @Component({
   selector: 'app-schedule',
@@ -15,21 +15,21 @@ export class SchedulePage implements OnInit {
   isLoading: false;
   filters = {
     person_id: ''
-  }
+  };
 
   constructor(private navControl: NavController,
               private attendancesService: AttendancesService,
-              private alertas: Alertas) { }
+              private alerts: Alerts) { }
 
   ngOnInit() {
-    this.filters.person_id = UserData.getUser().id;
+    this.filters.person_id = String(UserData.getUser().id);
 
     this.getListAllJobs();
   }
 
   async getListAllJobs() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
       const response = await this.attendancesService.getAttendances({
@@ -40,11 +40,11 @@ export class SchedulePage implements OnInit {
 
       this.listAttendances = response.data;
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 
       console.log(error);
     }

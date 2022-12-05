@@ -12,7 +12,7 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class RecordPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
-  job_id: number = 0;
+  jobId: number = 0;
 
   tabAbout: any;
   tabSchedule: any;
@@ -29,7 +29,7 @@ export class RecordPage implements OnInit {
 
   ionViewDidEnter() {
     // this.tabRef.select('about');
-    this.job_id = this.activeRoute.snapshot.children[0].params.id;
+    this.jobId = this.activeRoute.snapshot.children[0].params.id;
 
     console.log('ngOnInit', this.activeRoute.snapshot.children[0].params.id);
   }
@@ -37,10 +37,10 @@ export class RecordPage implements OnInit {
   ngOnInit() {}
 
   accessTab(tab) {
-    console.log(tab, this.job_id);
+    console.log(tab, this.jobId);
 
-    if (this.job_id > 0) {
-      this.navControl.navigateForward('/jobs/record/' + tab + '/' + this.job_id);
+    if (this.jobId > 0) {
+      this.navControl.navigateForward('/jobs/record/' + tab + '/' + this.jobId);
     } else {
       this.navControl.navigateForward('/jobs/record/' + tab);
     }

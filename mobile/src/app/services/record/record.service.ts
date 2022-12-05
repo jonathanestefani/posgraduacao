@@ -11,7 +11,7 @@ export class RecordService {
     { id: 3, name: 'Empresa', hide: false },
   ];
 
-  resource = 'record';
+  private resource = 'record';
 
   constructor(private http: ApiService) {}
 

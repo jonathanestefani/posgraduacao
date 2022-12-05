@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSlides, NavController } from '@ionic/angular';
-import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
+import { IonSlides } from '@ionic/angular';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
-import { Alertas } from 'src/app/providers/alertas';
-import { AttendancesService } from 'src/app/services/attendances/attendances.service';
+import { Alerts, ETypeAlertToast } from 'src/app/providers/alerts';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 import { IScheduleTime } from '../../../Interfaces/schedule/IScheduleTime';
 
 @Component({
@@ -16,9 +15,9 @@ import { IScheduleTime } from '../../../Interfaces/schedule/IScheduleTime';
 export class SchedulesPage implements OnInit {
   @ViewChild('slide') slide: IonSlides;
 
-  jobId = 0;
+  scheduleWeekId = 0;
 
-  listDaysOfTheWeekSelected: Array<IListDaysOfTheWeek> = [];
+  listDaysOfTheWeekSelected: Array<IScheduleWeek> = [];
   listHoursByDaysOfTheWeek: Array<IScheduleTime> = [];
 
   isBeginning = true;
@@ -29,25 +28,28 @@ export class SchedulesPage implements OnInit {
     speed: 400
   };
 
-  constructor(private navControl: NavController,
-              public router: Router,
+  constructor(public router: Router,
               private activeRoute: ActivatedRoute,
               private schedulesService: SchedulesService,
-              private attendancesService: AttendancesService,
-              private alertas: Alertas) {}
+              private scheduleStore: SchedulesStore,
+              private alerts: Alerts) {}
 
   ngOnInit() {
-    this.jobId = this.activeRoute.snapshot.params.id;
-
-    this.getWeekSchedulesById();
+    this.loadScheduleById();
   }
 
-  setListDaysOfTheWeek(event) {
-    this.listDaysOfTheWeekSelected = event;
+  loadScheduleById() {
+    if (Number(this.activeRoute.snapshot.params.id) > 0) {
+      this.getWeekSchedulesByJobId(this.activeRoute.snapshot.params.id);
+    } else {
+      this.scheduleStore.newModel();
+    }
   }
 
-  setListHoursByDaysOfTheWeek(event) {
-    this.listHoursByDaysOfTheWeek = event;
+  async getWeekSchedulesByJobId(jobId: number) {
+    this.scheduleStore.set(await this.schedulesService.getDaysWeekSchedulesByJobId(jobId));
+
+    this.scheduleStore.setJobId(jobId);
   }
 
   async onSlideChange($event) {
@@ -55,17 +57,11 @@ export class SchedulesPage implements OnInit {
     this.isEnd = await this.slide.isEnd();
   }
 
-  async getWeekSchedulesById() {
-    this.listDaysOfTheWeekSelected = await this.schedulesService.getDaysWeekSchedulesById(this.jobId);
-  }
-
   async save() {
-    await this.alertas.loadShow();
+    // await this.alerts.loading();
 
     try {
-      console.log('listDaysOfTheWeekSelected', this.listDaysOfTheWeekSelected);
-
-      console.log('listHoursByDaysOfTheWeek', this.listHoursByDaysOfTheWeek);
+      console.log('listDaysOfTheWeekSelected', this.scheduleStore.get());
 
       /*
       const response = await this.attendancesService.getJobs({
@@ -77,11 +73,11 @@ export class SchedulesPage implements OnInit {
 
       // this.listJobs = response.data;
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 
       console.log(error);
     }

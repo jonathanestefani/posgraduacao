@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IJob } from 'src/app/Interfaces/job/interface/IJob';
-import { JobsService } from 'src/app/services/jobs/jobs.service';
+import { JobStore } from 'src/app/services/jobs/job.store';
 
 @Component({
   selector: 'app-about',
@@ -11,17 +11,19 @@ import { JobsService } from 'src/app/services/jobs/jobs.service';
 })
 export class AboutPage implements OnInit {
 
-  job: IJob = JobsService.job;
+  job: IJob;
 
   constructor(private navControl: NavController,
-              public router: Router) {
+              public router: Router,
+              private jobStore: JobStore) {
 
-    this.job = JSON.parse(localStorage.getItem('job_details'));
+    // this.job = JSON.parse(localStorage.getItem('job_details'));
 
     console.log(this.job);
    }
 
   ngOnInit() {
+    this.job = this.jobStore.get();
   }
 
 }

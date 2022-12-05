@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Alertas } from '../providers/alertas';
+import { IJob } from '../Interfaces/job/interface/IJob';
+import { Alerts, ETypeAlert } from '../providers/alerts';
+import { JobStore } from '../services/jobs/job.store';
 import { JobsService } from '../services/jobs/jobs.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { JobsService } from '../services/jobs/jobs.service';
 })
 export class JobsPage implements OnInit {
 
-  listJobs: [];
+  listJobs: Array<IJob> = [];
   isLoading: false;
   filters = {
     search: ''
@@ -18,7 +20,8 @@ export class JobsPage implements OnInit {
 
   constructor(private navControl: NavController,
               private jobsService: JobsService,
-              private alertas: Alertas) { }
+              private jobStore: JobStore,
+              private alerts: Alerts) { }
 
   ngOnInit() {
     this.getListAllJobs();
@@ -26,7 +29,7 @@ export class JobsPage implements OnInit {
 
   async getListAllJobs() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
       const response = await this.jobsService.getJobs({
@@ -37,11 +40,11 @@ export class JobsPage implements OnInit {
 
       this.listJobs = response.data;
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+      this.alerts.alert('Atenção', 'Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlert.ok);
 
       console.log(error);
     }
@@ -50,7 +53,9 @@ export class JobsPage implements OnInit {
   itemSelected(job) {
     console.log(job);
 
-    localStorage.setItem('job_details', JSON.stringify(job));
+    this.jobStore.set(job);
+
+    // localStorage.setItem('job_details', JSON.stringify(job));
 
     this.navControl.navigateForward('/jobs/details');
   }

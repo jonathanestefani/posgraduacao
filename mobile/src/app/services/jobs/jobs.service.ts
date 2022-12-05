@@ -14,7 +14,7 @@ export class JobsService {
     job_info: []
   };
 
-  resource = 'jobs';
+  private resource = 'jobs';
 
   constructor(private http: ApiService) { }
 

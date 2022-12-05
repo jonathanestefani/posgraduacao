@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IJob } from 'src/app/Interfaces/job/interface/IJob';
-import { Alertas } from 'src/app/providers/alertas';
+import { Alerts, ETypeAlertToast } from 'src/app/providers/alerts';
 import { AttendancesService } from 'src/app/services/attendances/attendances.service';
 import { JobsService } from 'src/app/services/jobs/jobs.service';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
-import { UserData } from 'src/app/services/UserData';
+import { UserData } from 'src/app/providers/userData';
+import { JobStore } from 'src/app/services/jobs/job.store';
+import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
 
 @Component({
   selector: 'app-schedules',
@@ -22,23 +24,23 @@ export class SchedulesPage implements OnInit {
 
   job: IJob = JobsService.job;
 
-  listSchedules = [];
+  listSchedules: Array<IScheduleWeek> = [];
   scheduleSelected: any = {};
 
   constructor(private navControl: NavController,
               public router: Router,
               private schedulesService: SchedulesService,
+              private jobStore: JobStore,
               private attendancesService: AttendancesService,
-              private alertas: Alertas) {
+              private alerts: Alerts) {
 
-    this.job = JSON.parse(localStorage.getItem('job_details'));
-
-    console.log(this.job);
+    // this.job = JSON.parse(localStorage.getItem('job_details'));
 
     this.getListAllSchedules();
    }
 
   ngOnInit() {
+    this.job = this.jobStore.get();
   }
 
   setSchedule(item) {
@@ -47,33 +49,34 @@ export class SchedulesPage implements OnInit {
 
   async getListAllSchedules() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
       this.listSchedules = [];
 
-      const response = await this.schedulesService.getDaysWeekSchedulesById(this.job.id);
+      const response = await this.schedulesService.getDaysWeekSchedulesByJobId(this.job.id);
 
       console.log(response);
 
       this.listSchedules = response;
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 
       console.log(error);
     }
   }
 
   async requestSchedule() {
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
       const response = await this.attendancesService.requestAttendance({
-          person_id: UserData.getUser().id,
+          id: 0,
+          person_id: (UserData.getUser()).id,
           job_id: this.job.id,
           schedule_id: this.scheduleSelected.id,
           status: 1
@@ -81,13 +84,13 @@ export class SchedulesPage implements OnInit {
 
       console.log(response);
 
-      this.alertas.toastShow('Solicitação enviada com sucesso!');
+      this.alerts.alertToast('Solicitação enviada com sucesso!');
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Houve um problema ao tentar buscar os serviços disponíveis!', 'E');
+      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 
       console.log(error);
     }

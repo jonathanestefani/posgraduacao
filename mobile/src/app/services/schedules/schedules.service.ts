@@ -17,11 +17,10 @@ export class SchedulesService {
     { id: 'sunday', name: 'Domingo' },
   ];
 
-  resource = 'schedules';
-  subresourceTime = 'time';
-  subresourceWeek = 'week';
-
-  listScheduleWeek: Array<IScheduleWeek>;
+  private resource = 'schedules';
+  private subresourceTime = 'time';
+  private subresourceWeek = 'week';
+  private listScheduleWeek: Array<IScheduleWeek>;
 
   constructor(private http: ApiService) {}
 
@@ -41,12 +40,13 @@ export class SchedulesService {
     return this.http.post(this.resource + '/' + this.subresourceTime, params);
   }
 
-  public getDaysWeekSchedulesById(jobId: number): Promise<any> {
+  public getDaysWeekSchedulesByJobId(jobId: number): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.listScheduleWeek = await this.getWeekSchedules({
         filter: {
           job_id: jobId,
         },
+        with: ['times']
       });
 
       resolve(this.listScheduleWeek);

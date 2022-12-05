@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Alertas } from '../providers/alertas';
+import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { RecordService } from '../services/record/record.service';
-import { UserData } from '../services/UserData';
+import { UserData } from '../providers/userData';
+import { IUser } from '../Interfaces/User/IUser';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,12 @@ import { UserData } from '../services/UserData';
 })
 export class ProfilePage implements OnInit {
 
-  form = {
+  form: IUsclearer = {
     id: 0,
     user_type_id: 0,
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
     status: 0
   };
 
@@ -26,7 +27,7 @@ export class ProfilePage implements OnInit {
   constructor(private navControl: NavController,
               public router: Router,
               private recordService: RecordService,
-              private alertas: Alertas) {}
+              private alerts: Alerts) {}
 
   ngOnInit() {
     this.form = UserData.getUser();
@@ -36,23 +37,23 @@ export class ProfilePage implements OnInit {
 
   async save() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
-      const response = await this.recordService.record(this.form);   
+      const response = await this.recordService.record(this.form);
 
       console.log(response);
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow("Cadastro efetuado com sucesso!");
+      this.alerts.alertToast('Cadastro efetuado com sucesso!', ETypeAlertToast.danger);
 
       this.navControl.navigateForward('login');
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
       const resp = String(error).replace(/[,]/, '<br />');
-      this.alertas.toastShow(resp, "E");
+      this.alerts.alertToast(resp, ETypeAlertToast.danger);
 
       console.log(error);
     }

@@ -6,7 +6,7 @@ import { ApiService } from '../api.service';
 })
 export class AttendancesService {
 
-  resource = 'attendances';
+  private resource = 'attendances';
 
   constructor(private http: ApiService) { }
 

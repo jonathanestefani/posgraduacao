@@ -1,20 +1,18 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
-import { ApiService } from './services/api.service';
-import { Utils } from './services/utils';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Alertas } from './providers/alertas';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
-import { UserData } from './services/UserData';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
+
+import { ApiService } from './services/api.service';
+import { Utils } from './providers/utils';
+import { Alerts } from './providers/alerts';
+import { UserData } from './providers/userData';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +32,7 @@ import { MaterialModule } from './material-module';
       multi: true,
     },
     Utils,
-    Alertas,
+    Alerts,
     ApiService,
     UserData
   ],

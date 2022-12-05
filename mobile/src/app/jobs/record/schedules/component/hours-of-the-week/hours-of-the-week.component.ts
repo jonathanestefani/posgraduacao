@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
-import { IScheduleTime } from 'src/app/Interfaces/schedule/IScheduleTime';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
+import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
   selector: 'app-hours-of-the-week',
@@ -9,30 +10,40 @@ import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
   styleUrls: ['./hours-of-the-week.component.scss'],
 })
 export class HoursOfTheWeekComponent implements OnInit {
-  @Input() public listDaysOfTheWeekSelected: Array<IListDaysOfTheWeek> = [];
-  @Output() public setListHoursByDaysOfTheWeek = new EventEmitter();
+  listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesService.listDaysOfTheWeek;
 
-  listHoursByStandardDaysOfTheWeek: Array<IScheduleTime> = [
-    { id: 0, time: '08:00' },
-    { id: 0, time: '12:00' },
-    { id: 0, time: '13:30' },
-    { id: 0, time: '18:00' }
-  ];
+  listSelected: Array<IScheduleWeek> = [];
 
-  listHoursByDaysOfTheWeek: Array<IScheduleTime> = this.listHoursByStandardDaysOfTheWeek;
-
-  constructor() {}
+  constructor(private scheduleStore: SchedulesStore) {}
 
   ngOnInit() {
-    this.setItem();
+    this.listSelected = this.scheduleStore.get();
   }
 
-  setItem() {
-    this.setListHoursByDaysOfTheWeek.emit(this.listHoursByDaysOfTheWeek);
+  setItem(keyWeek: number, keyTime: number, $event) {
+    this.listSelected[keyWeek].times[keyTime] = $event.details.value;
+    // this.setListHoursByDaysOfTheWeek.emit(this.listHoursByDaysOfTheWeek);
   }
 
-  removeItem(id) {
-    this.listHoursByDaysOfTheWeek = this.listHoursByDaysOfTheWeek.filter(elem => elem.id !== id);
+  removeItem(keyWeek: number, keyTime: number) {
+    delete this.listSelected[keyWeek].times[keyTime];
+
+    this.persist();
+    // this.listHoursByDaysOfTheWeek = this.listHoursByDaysOfTheWeek.filter(elem => elem.id !== id);
+  }
+
+  persist() {
+    this.scheduleStore.set(this.listSelected);
+  }
+
+  getDayWeek(day_week: string) {
+    const day = this.listDaysOfTheWeek.filter(elem => elem.id ===  day_week);
+
+    if (day == null) {
+      return 'Dia da semana não encontrado!';
+    }
+
+    return day[0].name;
   }
 
 }

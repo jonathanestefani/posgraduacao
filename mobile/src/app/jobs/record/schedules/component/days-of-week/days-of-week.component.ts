@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
+import { IScheduleTime } from 'src/app/Interfaces/schedule/IScheduleTime';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
+import { Alerts, ETypeAlert } from 'src/app/providers/alerts';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
   selector: 'app-days-of-week',
@@ -9,18 +12,28 @@ import { SchedulesService } from 'src/app/services/schedules/schedules.service';
   styleUrls: ['./days-of-week.component.scss'],
 })
 export class DaysOfWeekComponent implements OnInit {
-  @Input() public jobId: number;
-  @Output() public listDaysOfTheWeekSelected = new EventEmitter();
+  jobId: number;
 
   listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesService.listDaysOfTheWeek;
   listSelected: Array<IScheduleWeek> = [];
+  listHoursByStandardDaysOfTheWeek: Array<IScheduleTime> = [
+    { id: 0, time: '08:00' },
+    { id: 0, time: '12:00' },
+    { id: 0, time: '13:30' },
+    { id: 0, time: '18:00' }
+  ];
 
-  constructor() { }
+  constructor(private scheduleStore: SchedulesStore,
+              private alerts: Alerts) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.listSelected = this.scheduleStore.get();
+
+    this.jobId = this.scheduleStore.getJobId();
+  }
 
   checkTheDayInTheSchedule(day_week: string) {
-    return this.listDaysOfTheWeek.filter(elem => elem.id ===  day_week).length > 0;
+    return this.listSelected.filter(elem => elem.day_week ===  day_week).length > 0;
   }
 
   setItem($event) {
@@ -31,16 +44,37 @@ export class DaysOfWeekComponent implements OnInit {
 
       const form: IScheduleWeek = {
         id: 0,
-        job_id: this.jobId > 0 ? this.jobId : 0,
+        job_id: this.scheduleStore.getJobId(),
         day_week: data.id,
-        times: [],
+        times: this.getNewAppointmentScheduleTemplate()
       };
 
       this.listSelected.push( form );
     } else {
-      this.listSelected = this.listSelected.filter(elem => elem.id !== id);
+      this.alerts.alert('Atenção', 'Deseja mesmo remover?', ETypeAlert.confirm).then(() => {
+        this.listSelected = this.listSelected.filter(elem => elem.day_week !== id);
+      });
     }
 
-    this.listDaysOfTheWeekSelected.emit(this.listSelected);
+    this.persist();
+  }
+
+  persist() {
+    this.scheduleStore.set(this.listSelected);
+  }
+
+  getNewAppointmentScheduleTemplate(): Array<IScheduleTime> {
+    const arrTimes: Array<IScheduleTime> = [];
+
+    for (const time of this.listHoursByStandardDaysOfTheWeek) {
+      arrTimes.push({
+        id: 0,
+        job_id: this.jobId,
+        schedule_week_id: 0,
+        time: time.time
+      });
+    }
+
+    return arrTimes;
   }
 }

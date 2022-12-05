@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { JobsPageRoutingModule } from './jobs-routing.module';
 
 import { JobsPage } from './jobs.page';
+import { JobStore } from '../services/jobs/job.store';
 
 @NgModule({
   imports: [
@@ -17,5 +18,6 @@ import { JobsPage } from './jobs.page';
   ],
   declarations: [JobsPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [JobStore]
 })
 export class JobsPageModule {}

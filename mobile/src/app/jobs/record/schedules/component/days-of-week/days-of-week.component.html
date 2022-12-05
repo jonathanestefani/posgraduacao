@@ -7,7 +7,7 @@
   <ion-radio-group value="scheduleSelected">
     <ion-item *ngFor="let item of listDaysOfTheWeek">
       <ion-label>{{ item.name }}</ion-label>
-      <ion-checkbox [checked]="checkTheDayInTheSchedule(item.id)" value="{{ item.id }}" (ionChange)="setItem($event)"></ion-checkbox>
+      <ion-checkbox [checked]="checkTheDayInTheSchedule(item.id)" [value]="item.id" (ionChange)="setItem($event)"></ion-checkbox>
     </ion-item>
   </ion-radio-group>
 </ion-list>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Alertas } from '../providers/alertas';
+import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { LoginService } from '../services/login/login.service';
 import { RecordService } from '../services/record/record.service';
-import { UserData } from '../services/UserData';
+import { UserData } from '../providers/userData';
 
 @Component({
   selector: 'app-login',
@@ -25,16 +25,16 @@ export class LoginPage implements OnInit {
 
   constructor(private navControl: NavController,
               private loginService: LoginService,
-              private alertas: Alertas) { }
+              private alerts: Alerts) { }
 
   ngOnInit() {}
 
   async login() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
-      const response = await this.loginService.login(this.form);   
+      const response = await this.loginService.login(this.form);
 
       console.log(response);
 
@@ -42,13 +42,13 @@ export class LoginPage implements OnInit {
 
       UserData.setUser(response.user);
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
       this.navControl.navigateForward('jobs');
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow("E-mail ou senha inválido, favor verificar!", "E");
+      this.alerts.alertToast('E-mail ou senha inválido, favor verificar!', ETypeAlertToast.danger);
 
       console.log(error);
     }

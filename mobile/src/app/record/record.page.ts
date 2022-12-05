@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Alertas } from '../providers/alertas';
-import { LoginService } from '../services/login/login.service';
+import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { RecordService } from '../services/record/record.service';
-import { UserData } from '../services/UserData';
 
 @Component({
   selector: 'app-record',
@@ -21,36 +19,36 @@ export class RecordPage implements OnInit {
     status: 1
   };
 
-  listUserType = RecordService.types.filter(elem => elem.hide == false);
+  listUserType = RecordService.types.filter(elem => elem.hide === false);
 
   isLoading: false;
 
   constructor(private navControl: NavController,
               public router: Router,
               private recordService: RecordService,
-              private alertas: Alertas) { }
+              private alerts: Alerts) { }
 
   ngOnInit() {}
 
   async save() {
 
-    await this.alertas.loadShow();
+    await this.alerts.loading();
 
     try {
       const response = await this.recordService.record(this.form);
 
       console.log(response);
 
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
-      this.alertas.toastShow('Cadastro efetuado com sucesso!');
+      this.alerts.alertToast('Cadastro efetuado com sucesso!');
 
       this.navControl.navigateForward('login');
     } catch (error) {
-      await this.alertas.loadStop();
+      await this.alerts.loading();
 
       const resp = String(error).replace(/[,]/, '<br />');
-      this.alertas.toastShow(resp, 'E');
+      this.alerts.alertToast(resp, ETypeAlertToast.danger);
 
       console.log(error);
     }

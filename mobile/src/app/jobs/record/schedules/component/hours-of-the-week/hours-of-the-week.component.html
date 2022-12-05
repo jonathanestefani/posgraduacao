@@ -1,21 +1,21 @@
 <ion-content>
-  <ion-list *ngFor="let item of listDaysOfTheWeekSelected">
+  <ion-list *ngFor="let item of listSelected | keyvalue">
     <ion-item>
       <ion-label>
-        {{ item.name }}
+        {{ getDayWeek(item.value.day_week) }}
       </ion-label>
       <ion-icon name="add"></ion-icon>
     </ion-item>
     <ion-card>
-      <ion-label *ngFor="let item of listHoursByDaysOfTheWeek">
+      <ion-label *ngFor="let itemTime of item.value.times | keyvalue">
         <ion-item>
-          <ion-icon (click)="removeItem(item.id)" name="trash"></ion-icon>
-          <ion-input type="time" placeholder="Horário incial" class="text-center" (ionChange)="setItem()" [value]="item.time"></ion-input>
+          <ion-icon (click)="removeItem(item.key, itemTime.key)" name="trash"></ion-icon>
+          <ion-input type="time" placeholder="Horário incial" class="text-center" (ionChange)="setItem(item.key, itemTime.key, $event)" [value]="itemTime.value.time"></ion-input>
         </ion-item>
       </ion-label>
     </ion-card>
   </ion-list>
-  <ion-card>
+  <ion-card *ngIf="listSelected.length === 0">
     <ion-card-header>
       <label>Nenhum dia da semana selecionado!</label>
     </ion-card-header>

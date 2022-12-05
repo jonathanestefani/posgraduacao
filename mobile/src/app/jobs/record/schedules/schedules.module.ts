@@ -8,6 +8,7 @@ import { SchedulesPageRoutingModule } from './schedules-routing.module';
 import { DaysOfWeekComponent } from './component/days-of-week/days-of-week.component';
 import { SchedulesPage } from './schedules.page';
 import { HoursOfTheWeekComponent } from './component/hours-of-the-week/hours-of-the-week.component';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { HoursOfTheWeekComponent } from './component/hours-of-the-week/hours-of-
     IonicModule,
     SchedulesPageRoutingModule
   ],
-  declarations: [SchedulesPage, DaysOfWeekComponent, HoursOfTheWeekComponent]
+  declarations: [SchedulesPage, DaysOfWeekComponent, HoursOfTheWeekComponent],
+  providers: [ SchedulesStore ]
 })
 export class SchedulesPageModule {}
