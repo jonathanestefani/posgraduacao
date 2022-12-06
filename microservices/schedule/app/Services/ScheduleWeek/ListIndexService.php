@@ -2,33 +2,26 @@
 
 namespace App\Services\ScheduleWeek;
 
-use App\BaseRepository\Abs\ARepository;
-use App\Services\IServices\IService;
+use App\BaseRepository\Api\LoadApi;
+use App\BaseRepository\Filters\ListFilter;
+use App\BaseRepository\Services\ListIndexService as ServicesListIndexService;
 
-use App\BaseRepository\TFilters;
-use App\BaseRepository\THttpRequest;
-use App\BaseRepository\TAggregate;
-use App\BaseRepository\TIndex;
-
-use App\Services\ScheduleWeek\Filters\TDefaultFilters;
-use App\Services\ScheduleWeek\Aggregates\TDefaultAggregates;
-
-use App\Exceptions\ErrorServiceException;
-
-use Illuminate\Support\Facades\Log;
-
-class ListIndexService extends ARepository implements IService
+class ListIndexService extends ServicesListIndexService
 {
-    use THttpRequest, TFilters, TAggregate, TIndex, TDefaultFilters, TDefaultAggregates;
-
-    public function execute()
+    private function defineAggregate()
     {
-        try {
-            return $this->Index();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        $this->with = [
+            'times',
+            'api' => new LoadApi('jobs', 'job_id', 'job'),
+        ];
+    }
 
-            throw new ErrorServiceException($th->getMessage());
-        }
+    private function defineFilters()
+    {
+        $this->filters = [
+            "job_id" => new ListFilter(FilterNumber::class, "job_id"),
+            "job" => new ListFilter(FilterJob::class, "date"),
+            "date" => new ListFilter(FilterDate::class, "date")
+        ];
     }
 }

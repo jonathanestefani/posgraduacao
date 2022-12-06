@@ -54,9 +54,7 @@ class LoadApi
 
     public function loadRelation() {
         try {
-            $address_api = UtilsService::getAddressApi($this->api_name);
-
-            Log::info($address_api . $this->api_name . '/' . $this->value);
+            $address_api = UtilsService::getAddressApi($this->api_name) . '/api/';
 
             $response = Http::get($address_api . $this->api_name . '/' . $this->value, $this->params);
 
@@ -66,13 +64,17 @@ class LoadApi
                 return json_decode($response->body());    
             }
         } catch (ErrorApiCallException $th) {
-            return new Response(["message" => $th->getMessage()], 404);
+            Log::error($th);
+
+            throw $th;
         } catch (ErrorBaseRepositoryException $th) {
-            return new Response(["message" => $th->getMessage()], 404);
+            Log::error($th);
+
+            throw $th;
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return new Response(["message" => "Ocorreu um erro ao carregar os dados!"], 500);
+            throw $th;
         }
     }
 

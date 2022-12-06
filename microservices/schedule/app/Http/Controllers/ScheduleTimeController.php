@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\LoadService;
+use App\BaseRepository\Services\StoreService;
 use App\Models\ScheduleTime;
-use App\Services\ScheduleTime\DestroyService;
+use App\Exceptions\ErrorServiceException;
 use App\Services\ScheduleTime\ListAllService;
 use App\Services\ScheduleTime\ListIndexService;
-use App\Services\ScheduleTime\LoadService;
-use App\Services\ScheduleTime\StoreService;
-use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -73,6 +73,8 @@ class ScheduleTimeController extends Controller
     {
         try {
             Log::info($request);
+
+            $this->request['time'] = strtotime($this->request['time']);
 
             $data = (new StoreService(ScheduleTime::class))->setRequest($request)->execute();
 

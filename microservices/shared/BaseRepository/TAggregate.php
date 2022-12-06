@@ -8,6 +8,11 @@ trait TAggregate
 {
     protected $with = [];
 
+    public function setWith(Array $with)
+    {
+        $this->with = $with;
+    }
+
     public function executeAggregate()
     {
         if (method_exists($this, 'defineAggregate')) {
@@ -42,7 +47,7 @@ trait TAggregate
                     $row[ $scope->getAlias() ] = $result;
                 } catch (\Throwable $th) {
                     //throw $th;
-                    $row[ $scope->getApi() ] = null;
+                    $row[ $scope->getAlias() ] = null;
                 }
             }
         }

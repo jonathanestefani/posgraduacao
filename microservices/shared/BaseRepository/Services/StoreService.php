@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\ScheduleWeek;
+namespace App\BaseRepository\Services;
 
 use App\BaseRepository\Abs\ARepository;
-use App\Services\IServices\IService;
+use App\BaseRepository\Services\IServices\IService;
 
 use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
+use App\BaseRepository\Enum\ETypeCall;
 use App\BaseRepository\THttpRequest;
 
-use Illuminate\Http\Request;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Support\Facades\Log;
 
@@ -20,8 +20,6 @@ class StoreService extends ARepository implements IService
     public function execute()
     {
         try {
-            // $this->validScheduleDateTime();
-
             switch ($this->operation) {
                 case EOperation::CREATE:
                     return $this->create();
@@ -37,20 +35,6 @@ class StoreService extends ARepository implements IService
         }
 
         throw new ErrorServiceException("Não foi possível definir o tipo de operação!");
-    }
-
-    // in progress
-    private function validScheduleDateTime() {
-        if (!isset($this->request['job_id'])) {
-            return true;
-        }
-
-        $form = new Request([
-            "job" => "",
-            "day_week" => "",
-        ]);
-
-        $data = (new ListAllService(Schedule::class))->setRequest($form)->execute();
     }
 
 }

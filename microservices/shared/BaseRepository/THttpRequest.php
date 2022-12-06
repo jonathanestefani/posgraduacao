@@ -2,6 +2,7 @@
 
 namespace App\BaseRepository;
 
+use App\BaseRepository\Enum\EOperation;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,27 @@ trait THttpRequest
         if (isset($this->request["id"]) && $this->request["id"] != '0') {
             $this->openModelInstance($this->request["id"]);
         } else {
-            $this->operation = "create";
+            unset($this->request['id']);
+
+            $this->operation = EOperation::CREATE;
+        }
+
+        return $this;
+    }
+
+    public function importRequest(Array $request)
+    {
+        $this->request = $request;
+
+        $this->loadHttpFilters();
+        $this->loadHttpAggregate();
+
+        if (isset($this->request["id"]) && $this->request["id"] != '0') {
+            $this->openModelInstance($this->request["id"]);
+        } else {
+            unset($this->request['id']);
+
+            $this->operation = EOperation::CREATE;
         }
 
         return $this;
@@ -50,6 +71,6 @@ trait THttpRequest
             throw new ErrorServiceException("Não foi possível encontrar os dados na base de dados!");
         }
 
-        $this->operation = "update";
+        $this->operation = EOperation::UPDATE;
     }
 }

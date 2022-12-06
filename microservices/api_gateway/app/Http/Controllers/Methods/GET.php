@@ -6,8 +6,8 @@ use App\BaseRepository\Exceptions\ErrorApiCallException;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 trait GET
@@ -16,11 +16,6 @@ trait GET
     {
         try {
             $this->defineApiGateway($request);
-            
-            Log::info('index');
-
-            Log::info($this->address_api.$this->resource);
-            Log::info($this->parameters);
 
             $response = Http::get($this->address_api . $this->resource, $this->parameters);
 

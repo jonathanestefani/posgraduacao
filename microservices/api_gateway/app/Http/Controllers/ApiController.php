@@ -81,6 +81,8 @@ class ApiController extends Controller
                 $this->parameters = $request->query->all(); // explode('&', $parameters['QUERY_STRING']);
                 break;
             case 'POST':
+                Log::info($request->request->all());
+
                 $this->parameters = $request->request->all();
                 break;
             case 'PUT':
@@ -109,10 +111,12 @@ class ApiController extends Controller
                     $router->addRoute("GET", $route_apigateway, ['uses' => 'ApiController@index']);
                     break;
                 case 'POST':
+                    Log::info($route_apigateway);
+
                     $router->addRoute("POST", $route_apigateway, ['uses' => 'ApiController@store']);
                     break;
                 case 'PUT':
-                    $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@store']);
+                    $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@update']);
                     break;
                 case 'DELETE':
                     $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@store']);

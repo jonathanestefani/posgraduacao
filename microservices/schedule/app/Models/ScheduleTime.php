@@ -14,7 +14,7 @@ class ScheduleTime extends Model
     protected $fillable = [
         'id',
         'job_id',
-        'Schedule_week_id',
+        'schedule_week_id',
         'time',
         'created_at',
         'updated_at',

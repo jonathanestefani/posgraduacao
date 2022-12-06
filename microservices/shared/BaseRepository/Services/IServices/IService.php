@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\IServices;
+namespace App\BaseRepository\Services\IServices;
 
 interface IService 
 {

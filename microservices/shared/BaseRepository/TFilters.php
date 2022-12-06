@@ -12,6 +12,13 @@ trait TFilters
     /* Internal use */
     protected Array $filtersRequest = [];
 
+    public function setFilters(Array $filters)
+    {
+        $this->filters = $filters;
+
+        return $this;
+    }
+
     private function executeFilters(): Builder
     {
         if (method_exists($this, 'defineFilters')) {

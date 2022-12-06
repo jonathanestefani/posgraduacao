@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\LoadService;
 use App\Models\ScheduleWeek;
-use App\Services\ScheduleWeek\DestroyService;
+use App\Exceptions\ErrorServiceException;
 use App\Services\ScheduleWeek\ListAllService;
 use App\Services\ScheduleWeek\ListIndexService;
-use App\Services\ScheduleWeek\LoadService;
-use App\Services\ScheduleWeek\StoreService;
-use App\Exceptions\ErrorServiceException;
+use App\Services\ScheduleWeek\PrepareWeekService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -56,9 +56,7 @@ class ScheduleWeekController extends Controller
     public function update($id, Request $request)
     {
         try {
-            Log::info($request);
-
-            $data = (new StoreService(ScheduleWeek::class))->setRequest($request)->execute();
+            $data = (new PrepareWeekService())->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
@@ -72,9 +70,7 @@ class ScheduleWeekController extends Controller
     public function store(Request $request)
     {
         try {
-            Log::info($request);
-
-            $data = (new StoreService(ScheduleWeek::class))->setRequest($request)->execute();
+            $data = (new PrepareWeekService())->setRequest($request)->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {

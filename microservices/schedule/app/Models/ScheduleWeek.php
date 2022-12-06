@@ -25,4 +25,9 @@ class ScheduleWeek extends Model
         'updated_at' => 'date:d/m/Y',
         'deleted_at' => 'date:d/m/Y',
     ];
+
+    public function times()
+    {
+        return $this->belongsTo(ScheduleTime::class, 'schedule_week_id');
+    }
 }
