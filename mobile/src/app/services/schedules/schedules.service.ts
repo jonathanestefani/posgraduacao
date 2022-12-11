@@ -46,7 +46,8 @@ export class SchedulesService {
         filter: {
           job_id: jobId,
         },
-        with: ['times']
+        with: ['times'],
+        all: true
       });
 
       resolve(this.listScheduleWeek);

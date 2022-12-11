@@ -63,15 +63,9 @@ export class SchedulesPage implements OnInit {
     try {
       console.log('listDaysOfTheWeekSelected', this.scheduleStore.get());
 
-      /*
-      const response = await this.attendancesService.getJobs({
-        this.form
-      });
-      */
+      const response = await this.schedulesService.requestWeekSchedule(this.scheduleStore.get());
 
-      // console.log(response);
-
-      // this.listJobs = response.data;
+      console.log(response);
 
       await this.alerts.loading();
     } catch (error) {

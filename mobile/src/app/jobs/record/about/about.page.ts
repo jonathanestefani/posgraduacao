@@ -13,7 +13,7 @@ import { JobStore } from 'src/app/services/jobs/job.store';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-  job: IJob;
+  job: IJob = JobsService.job;
 
   constructor(private navControl: NavController,
               private activeRoute: ActivatedRoute,

@@ -13,7 +13,7 @@ import { IUser } from '../Interfaces/User/IUser';
 })
 export class ProfilePage implements OnInit {
 
-  form: IUsclearer = {
+  form: IUser = {
     id: 0,
     user_type_id: 0,
     name: '',

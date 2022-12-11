@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IJob } from 'src/app/Interfaces/job/interface/IJob';
 import { JobStore } from 'src/app/services/jobs/job.store';
+import { JobsService } from 'src/app/services/jobs/jobs.service';
 
 @Component({
   selector: 'app-about',
@@ -11,7 +12,7 @@ import { JobStore } from 'src/app/services/jobs/job.store';
 })
 export class AboutPage implements OnInit {
 
-  job: IJob;
+  job: IJob = JobsService.job;
 
   constructor(private navControl: NavController,
               public router: Router,
