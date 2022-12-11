@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
     user_type_id: 2
   };
 
-  listUserType = RecordService.types.filter(elem => elem.hide == false);
+  listUserType = RecordService.types.filter(elem => elem.hide === false);
 
   isLoading: false;
 

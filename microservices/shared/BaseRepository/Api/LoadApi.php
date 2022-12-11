@@ -16,12 +16,14 @@ class LoadApi
     private $value = "";
     private $alias = "";
     private $params = [];
+    private $sub_resource = "";
 
-    public function __construct($api_name, $key_local, $alias = "")
+    public function __construct($api_name, $key_local, $alias = "", $sub_resource = "")
     {
         $this->api_name = $api_name;
         $this->key_local = $key_local;
         $this->alias = !empty($alias) ? $alias : $api_name;
+        $this->setSubResource($sub_resource);
     }
 
     public function setValue($value) {
@@ -40,6 +42,10 @@ class LoadApi
         return $this;
     }
 
+    public function setSubResource($sub_resource = "") {
+        $this->sub_resource = $sub_resource;
+    }
+
     public function getApi() {
         return $this->api_name;
     }
@@ -56,7 +62,7 @@ class LoadApi
         try {
             $address_api = UtilsService::getAddressApi($this->api_name) . '/api/';
 
-            $response = Http::get($address_api . $this->api_name . '/' . $this->value, $this->params);
+            $response = Http::get($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value, $this->params);
 
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');

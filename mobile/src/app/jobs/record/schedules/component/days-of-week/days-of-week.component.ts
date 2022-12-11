@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
 import { IScheduleTime } from 'src/app/Interfaces/schedule/IScheduleTime';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
-import { Alerts, ETypeAlert } from 'src/app/providers/alerts';
-import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { Alerts } from 'src/app/providers/alerts';
 import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
@@ -14,7 +13,7 @@ import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 export class DaysOfWeekComponent implements OnInit {
   jobId: number;
 
-  listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesService.listDaysOfTheWeek;
+  listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesStore.listDaysOfTheWeek;
   listSelected: Array<IScheduleWeek> = [];
   listHoursByStandardDaysOfTheWeek: Array<IScheduleTime> = [
     { id: 0, time: '08:00' },
@@ -24,55 +23,75 @@ export class DaysOfWeekComponent implements OnInit {
   ];
 
   constructor(private scheduleStore: SchedulesStore,
-              private alerts: Alerts) { }
+              private alerts: Alerts) {}
 
   ngOnInit() {
-    this.listSelected = this.scheduleStore.get();
+    this.scheduleStore.refresh().subscribe((obj) => {
+      this.listSelected = this.scheduleStore.get();
+      this.jobId = this.scheduleStore.getJobId();
 
-    this.jobId = this.scheduleStore.getJobId();
+      console.log('listSelected');
+      console.log(this.listSelected);
+
+      console.log('obj', obj);
+    });
   }
 
-  checkTheDayInTheSchedule(day_week: string) {
-    return this.listSelected.filter(elem => elem.day_week ===  day_week).length > 0;
+  checkTheDayInTheSchedule(dayWeek: string) {
+    return this.listSelected.filter(elem => elem.day_week === dayWeek).length > 0;
   }
 
   setItem($event) {
+    console.log('setItem', $event);
+
     const id = $event.detail.value;
 
     if ($event.detail.checked) {
-      const data = this.listDaysOfTheWeek.filter(elem => elem.id ===  id)[0];
+      const item = this.getItemByDay(id);
 
-      const form: IScheduleWeek = {
-        id: 0,
-        job_id: this.scheduleStore.getJobId(),
-        day_week: data.id,
-        times: this.getNewAppointmentScheduleTemplate()
-      };
+      if (item.length <= 0) {
+        const data = this.listDaysOfTheWeek.filter(elem => elem.id ===  id)[0];
 
-      this.listSelected.push( form );
+        const form: IScheduleWeek = {
+          id: 0,
+          job_id: this.scheduleStore.getJobId(),
+          day_week: data.id,
+          times: this.getNewAppointmentScheduleTemplate()
+        };
+
+        this.listSelected.push( form );
+
+        this.persist();
+      }
     } else {
-      this.alerts.alert('Atenção', 'Deseja mesmo remover?', ETypeAlert.confirm).then(() => {
-        this.listSelected = this.listSelected.filter(elem => elem.day_week !== id);
-      });
-    }
+      const item = this.listSelected.filter(elem => elem.day_week === id);
 
-    this.persist();
+      if (item.length > 0) {
+        this.listSelected = this.listSelected.filter(elem => elem.day_week !== id);
+
+        this.persist();
+      }
+    }
+  }
+
+  getItemByDay(dayWeek: string) {
+    return this.listSelected.filter(elem => elem.day_week === dayWeek);
   }
 
   persist() {
+    // this.scheduleStore.newModel();
+
     this.scheduleStore.set(this.listSelected);
   }
 
   getNewAppointmentScheduleTemplate(): Array<IScheduleTime> {
     const arrTimes: Array<IScheduleTime> = [];
 
-    for (const time of this.listHoursByStandardDaysOfTheWeek) {
-      arrTimes.push({
-        id: 0,
-        job_id: this.jobId,
-        schedule_week_id: 0,
-        time: time.time
-      });
+    for (const hours of this.listHoursByStandardDaysOfTheWeek) {
+      const timeModel = this.scheduleStore.getNewAppointmentScheduleTemplate();
+      timeModel.time = hours.time;
+
+      arrTimes.push(timeModel);
     }
 
     return arrTimes;

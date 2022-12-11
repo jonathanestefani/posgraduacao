@@ -12,7 +12,7 @@ class Controller extends BaseController
     protected function respondWithToken($token)
     {
         $auth = auth()->user();
-        $user = User::find($auth->id);
+        $user = User::with('userType')->find($auth->id);
 
         return response()->json([
             'token' => $token,

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
 import { Alerts, ETypeAlertToast } from 'src/app/providers/alerts';
 import { SchedulesService } from 'src/app/services/schedules/schedules.service';
@@ -32,27 +32,34 @@ export class SchedulesPage implements OnInit {
               private activeRoute: ActivatedRoute,
               private schedulesService: SchedulesService,
               private scheduleStore: SchedulesStore,
+              private navControl: NavController,
               private alerts: Alerts) {}
 
   ngOnInit() {
+    this.scheduleStore.newModel();
+
     this.loadScheduleById();
   }
 
   loadScheduleById() {
     if (Number(this.activeRoute.snapshot.params.id) > 0) {
       this.getWeekSchedulesByJobId(this.activeRoute.snapshot.params.id);
-    } else {
-      this.scheduleStore.newModel();
     }
   }
 
   async getWeekSchedulesByJobId(jobId: number) {
-    this.scheduleStore.set(await this.schedulesService.getDaysWeekSchedulesByJobId(jobId));
+    await this.alerts.loading();
+
+    const result = await this.schedulesService.getDaysWeekSchedulesByJobId(jobId);
+
+    this.scheduleStore.set(result);
 
     this.scheduleStore.setJobId(jobId);
+
+    await this.alerts.stopLoading();
   }
 
-  async onSlideChange($event) {
+  async onSlideChange() {
     this.isBeginning = await this.slide.isBeginning();
     this.isEnd = await this.slide.isEnd();
   }
@@ -67,9 +74,13 @@ export class SchedulesPage implements OnInit {
 
       console.log(response);
 
-      await this.alerts.loading();
+      this.navControl.navigateForward('jobs');
+
+      this.alerts.alertToast('Atendimento cadastrado!');
+
+      await this.alerts.stopLoading();
     } catch (error) {
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 

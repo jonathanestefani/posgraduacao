@@ -2,32 +2,11 @@
 
 namespace App\Services\Attendance;
 
-use App\BaseRepository\Abs\ARepository;
-use App\BaseRepository\Crud\TLoad;
-use App\BaseRepository\TAggregate;
-use App\BaseRepository\THttpRequest;
-use App\Exceptions\ErrorServiceException;
-use App\Services\IServices\IService;
-use Illuminate\Support\Facades\Log;
+use App\BaseRepository\Services\LoadService as ServicesLoadService;
+use App\Services\Attendance\Aggregates\TDefaultAggregates;
+use App\Services\Attendance\Filters\TDefaultFilters;
 
-class LoadService extends ARepository implements IService
+class LoadService extends ServicesLoadService
 {
-    use THttpRequest, TLoad, TAggregate;
-
-    public function __construct($model)
-    {
-        parent::__construct($model);
-
-        return $this;
-    }
-
-    public function execute() {
-        try {
-            return $this->data;
-        } catch (\Throwable $th) {
-            Log::error($th);
-        
-            throw new ErrorServiceException($th->getMessage());
-        }
-    }
+    use TDefaultAggregates, TDefaultFilters;
 }

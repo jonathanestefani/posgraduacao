@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
 import { ApiService } from '../api.service';
 
@@ -7,16 +6,6 @@ import { ApiService } from '../api.service';
   providedIn: 'root',
 })
 export class SchedulesService {
-  static listDaysOfTheWeek: Array<IListDaysOfTheWeek> = [
-    { id: 'monday', name: 'Segunda' },
-    { id: 'tuesday', name: 'Terça' },
-    { id: 'wednesday', name: 'Quarta' },
-    { id: 'thursday', name: 'Quinta' },
-    { id: 'friday', name: 'Sexta' },
-    { id: 'saturday', name: 'Sábado' },
-    { id: 'sunday', name: 'Domingo' },
-  ];
-
   private resource = 'schedules';
   private subresourceTime = 'time';
   private subresourceWeek = 'week';
@@ -46,7 +35,6 @@ export class SchedulesService {
         filter: {
           job_id: jobId,
         },
-        with: ['times'],
         all: true
       });
 

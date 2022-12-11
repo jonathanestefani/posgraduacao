@@ -9,7 +9,7 @@
       <ion-content class="ion-padding">
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
-            <ion-item lines="none" color="bar-balanced" [routerDirection]="'root'" [routerLink]="page.url">
+            <ion-item *ngIf="!page.restriction_type_user || (page.restriction_type_user && restrictionCheck(page.restriction_type_user))" lines="none" color="bar-balanced" [routerDirection]="'root'" [routerLink]="page.url">
               <ion-icon style="color:#003e59 !important;font-size:32px !important;" slot="start" 
                 [name]="page.icon"></ion-icon>
               <ion-label style="color:#003e59 !important;font-size:17px !important;font-weight:500 !important;">

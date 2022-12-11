@@ -13,6 +13,9 @@ import { ApiService } from './services/api.service';
 import { Utils } from './providers/utils';
 import { Alerts } from './providers/alerts';
 import { UserData } from './providers/userData';
+import { JobStore } from './services/jobs/job.store';
+import { SchedulesStore } from './services/schedules/schedules.store';
+import { AttendancesStore } from './services/attendances/attendances.store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +37,10 @@ import { UserData } from './providers/userData';
     Utils,
     Alerts,
     ApiService,
-    UserData
+    UserData,
+    JobStore,
+    SchedulesStore,
+    AttendancesStore
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent],

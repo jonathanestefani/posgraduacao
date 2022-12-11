@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\StoreService;
+
 use App\Models\Attendance;
-use App\Services\Attendance\DestroyService;
+
+use App\Exceptions\ErrorServiceException;
+
 use App\Services\Attendance\ListAllService;
 use App\Services\Attendance\ListIndexService;
 use App\Services\Attendance\LoadService;
-use App\Services\Attendance\StoreService;
-use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -19,8 +22,6 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         try {
-            Log::info($request);
-
             $data = [];
 
             if ($request->all == true) {

@@ -40,9 +40,9 @@ export class JobsPage implements OnInit {
 
       this.listJobs = response.data;
 
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
     } catch (error) {
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.alerts.alert('Atenção', 'Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlert.ok);
 
@@ -50,14 +50,12 @@ export class JobsPage implements OnInit {
     }
   }
 
-  itemSelected(job) {
+  async itemSelected(job) {
     console.log(job);
 
-    this.jobStore.set(job);
+    await this.jobStore.set(job);
 
-    // localStorage.setItem('job_details', JSON.stringify(job));
-
-    this.navControl.navigateForward('/jobs/details');
+    await this.navControl.navigateForward('/jobs/details');
   }
 
 }

@@ -33,6 +33,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
+    public function userType() {
+        return $this->belongsTo(UserType::class, 'user_type_id');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

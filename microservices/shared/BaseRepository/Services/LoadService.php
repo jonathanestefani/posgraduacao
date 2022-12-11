@@ -5,6 +5,8 @@ namespace App\BaseRepository\Services;
 use App\BaseRepository\Abs\ARepository;
 
 use App\BaseRepository\Crud\TLoad;
+use App\BaseRepository\TFilters;
+use App\BaseRepository\TAggregate;
 use App\BaseRepository\Services\IServices\IService;
 use App\BaseRepository\THttpRequest;
 
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class LoadService extends ARepository implements IService
 {
-    use THttpRequest, TLoad;
+    use THttpRequest, TFilters, TAggregate, TLoad;
 
     public function execute() {
         try {

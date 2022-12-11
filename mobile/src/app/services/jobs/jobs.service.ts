@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
-import { IJob } from 'src/app/Interfaces/job/interface/IJob';
 import { ApiService } from '../api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobsService {
-  static job: IJob = {
-    id: 0,
-    name: '',
-    status: 1,
-    person_id: 0,
-    job_info: []
-  };
-
   private resource = 'jobs';
 
   constructor(private http: ApiService) { }

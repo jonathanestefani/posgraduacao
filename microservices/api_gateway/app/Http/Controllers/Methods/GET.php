@@ -17,6 +17,8 @@ trait GET
         try {
             $this->defineApiGateway($request);
 
+            Log::info($this->address_api . $this->resource);
+
             $response = Http::get($this->address_api . $this->resource, $this->parameters);
 
             if ($response->failed()) {

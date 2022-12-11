@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\ScheduleWeek\Filters;
+namespace App\Services\ScheduleTime\Filters;
 
 use App\BaseRepository\Filters\FilterNumber;
 use App\BaseRepository\Filters\ListFilter;
 
 trait TDefaultFilters
 {
-    private function defineFilters()
+    protected function defineFilters()
     {
         $this->filters = [
             "job_id" => new ListFilter(FilterNumber::class, "job_id"),

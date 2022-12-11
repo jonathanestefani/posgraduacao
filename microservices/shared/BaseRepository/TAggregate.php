@@ -3,6 +3,7 @@
 namespace App\BaseRepository;
 
 use Closure;
+use App\BaseRepository\Api\LoadApi;
 
 trait TAggregate
 {
@@ -21,7 +22,7 @@ trait TAggregate
 
         if (count($this->with) > 0) {
             foreach ($this->with as $tableRelationModel => $scope) {
-                if ($tableRelationModel == "api") continue;
+                if ($scope instanceof LoadApi) continue;
 
                 if (gettype($scope) == "object") {
                     $this->instance->with([$tableRelationModel => $scope])->whereHas($tableRelationModel, $scope);
@@ -37,7 +38,7 @@ trait TAggregate
 
         foreach($this->data as $row) {
             foreach ($this->with as $tableRelationModel => $scope) {
-                if ($tableRelationModel != "api") continue;
+                if (!$scope instanceof LoadApi) continue;
 
                 $value = $row[ $scope->getKeyLocal() ];
 

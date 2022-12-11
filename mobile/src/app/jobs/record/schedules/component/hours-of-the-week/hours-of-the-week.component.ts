@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
-import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { Alerts, ETypeAlertToast } from 'src/app/providers/alerts';
 import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
@@ -10,34 +10,62 @@ import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
   styleUrls: ['./hours-of-the-week.component.scss'],
 })
 export class HoursOfTheWeekComponent implements OnInit {
-  listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesService.listDaysOfTheWeek;
+  jobId: number;
+
+  listDaysOfTheWeek: Array<IListDaysOfTheWeek> = SchedulesStore.listDaysOfTheWeek;
 
   listSelected: Array<IScheduleWeek> = [];
 
-  constructor(private scheduleStore: SchedulesStore) {}
+  constructor(private scheduleStore: SchedulesStore,
+              private alert: Alerts) {
+    this.scheduleStore.refresh().subscribe((obj) => {
+      this.listSelected = this.scheduleStore.get();
+      this.jobId = this.scheduleStore.getJobId();
+
+      console.log('listSelected');
+      console.log(this.listSelected);
+
+      console.log('obj', obj);
+    });
+  }
 
   ngOnInit() {
-    this.listSelected = this.scheduleStore.get();
+    console.log(this.listSelected);
   }
 
   setItem(keyWeek: number, keyTime: number, $event) {
-    this.listSelected[keyWeek].times[keyTime] = $event.details.value;
-    // this.setListHoursByDaysOfTheWeek.emit(this.listHoursByDaysOfTheWeek);
+    console.log(keyWeek);
+    console.log(keyTime);
+    console.log($event.detail.value);
+
+    this.listSelected[keyWeek].times[keyTime].time = $event.detail.value;
   }
 
   removeItem(keyWeek: number, keyTime: number) {
-    delete this.listSelected[keyWeek].times[keyTime];
+    if (this.listSelected[keyWeek].times.length === 1)
+    {
+      this.alert.alertToast('É necessário ter no mínimo um horário vinculado ao dia da semana!', ETypeAlertToast.danger);
+      return;
+    }
+
+    this.listSelected[keyWeek].times.splice(keyTime, 1);
 
     this.persist();
-    // this.listHoursByDaysOfTheWeek = this.listHoursByDaysOfTheWeek.filter(elem => elem.id !== id);
+  }
+
+  addItem(scheduleWeekId: number, keyTime) {
+    const timeModel = this.scheduleStore.getNewAppointmentScheduleTemplate();
+    timeModel.schedule_week_id = scheduleWeekId;
+
+    this.listSelected[keyTime].times.push(timeModel);
   }
 
   persist() {
     this.scheduleStore.set(this.listSelected);
   }
 
-  getDayWeek(day_week: string) {
-    const day = this.listDaysOfTheWeek.filter(elem => elem.id ===  day_week);
+  getDayWeek(dayWeek: string) {
+    const day = this.listDaysOfTheWeek.filter(elem => elem.id ===  dayWeek);
 
     if (day == null) {
       return 'Dia da semana não encontrado!';

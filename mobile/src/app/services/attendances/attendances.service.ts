@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IAttendance } from 'src/app/Interfaces/attendance/IAttendance';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -14,7 +15,11 @@ export class AttendancesService {
     return this.http.get(this.resource, params);
   }
 
-  public requestAttendance(params: any = {}) {
+  public requestAttendance(params: IAttendance = {}) {
+    return this.http.post(this.resource, params);
+  }
+
+  public requestCancelAttendance(params: IAttendance = {}) {
     return this.http.post(this.resource, params);
   }
 }

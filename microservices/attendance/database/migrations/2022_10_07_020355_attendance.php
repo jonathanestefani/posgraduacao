@@ -17,7 +17,9 @@ class Attendance extends Migration
             $table->id();
             $table->bigInteger('person_id');
             $table->bigInteger('job_id');
-            $table->bigInteger('schedule_id');
+            $table->bigInteger('schedule_week_id');
+            $table->bigInteger('schedule_time_id');
+            $table->text('obs')->nullable();
             $table->integer('status');
 
             $table->timestamps();

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserType extends Model
 {
+    protected $table = 'user_type';
+
     use SoftDeletes;
 
     protected $fillable = [

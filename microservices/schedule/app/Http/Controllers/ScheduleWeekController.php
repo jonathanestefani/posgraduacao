@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\BaseRepository\Services\DestroyService;
-use App\BaseRepository\Services\LoadService;
 use App\Models\ScheduleWeek;
 use App\Exceptions\ErrorServiceException;
 use App\Services\ScheduleWeek\ListAllService;
 use App\Services\ScheduleWeek\ListIndexService;
+use App\Services\ScheduleWeek\LoadService;
 use App\Services\ScheduleWeek\PrepareWeekService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

@@ -9,16 +9,13 @@ use App\BaseRepository\THttpRequest;
 use App\BaseRepository\TAggregate;
 use App\BaseRepository\TIndex;
 
-use App\Services\ScheduleWeek\Filters\TDefaultFilters;
-use App\Services\ScheduleWeek\Aggregates\TDefaultAggregates;
-
 use App\Exceptions\ErrorServiceException;
 
 use Illuminate\Support\Facades\Log;
 
 class ListIndexService extends ARepository implements IService
 {
-    use THttpRequest, TFilters, TAggregate, TIndex, TDefaultFilters, TDefaultAggregates;
+    use THttpRequest, TFilters, TAggregate, TIndex;
 
     public function execute()
     {

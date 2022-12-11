@@ -28,6 +28,6 @@ class ScheduleWeek extends Model
 
     public function times()
     {
-        return $this->belongsTo(ScheduleTime::class, 'schedule_week_id');
+        return $this->hasMany(ScheduleTime::class, 'schedule_week_id', 'id');
     }
 }

@@ -2,7 +2,7 @@ export interface IUserType {
   id: number;
   name: string;
   status: number;
-  userType?: IUserType;
+  type?: string;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;

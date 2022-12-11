@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonTabs } from '@ionic/angular';
+import { IonTabs, NavController } from '@ionic/angular';
 import { IJob } from 'src/app/Interfaces/job/interface/IJob';
+import { Alerts, ETypeAlertToast } from 'src/app/providers/alerts';
 import { JobStore } from 'src/app/services/jobs/job.store';
-import { JobsService } from 'src/app/services/jobs/jobs.service';
+import { SchedulesService } from 'src/app/services/schedules/schedules.service';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 import { AboutPage } from './about/about.page';
 import { SchedulesPage } from './schedules/schedules.page';
 
@@ -15,26 +17,55 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class DetailsPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
-  job: IJob;
+  job: IJob = JobStore.job;
 
   tabAbout: any;
   tabSchedule: any;
 
   constructor(public router: Router,
-              private jobStore: JobStore) {
-
-    // this.job = JSON.parse(localStorage.getItem('job_details'));
-    this.job = this.jobStore.get();
-
+              private jobStore: JobStore,
+              private schedulesService: SchedulesService,
+              public scheduleStore: SchedulesStore,
+              private navControl: NavController,
+              private alerts: Alerts) {
     this.tabAbout = AboutPage;
     this.tabSchedule = SchedulesPage;
+  }
 
+  async getListAllSchedules() {
+    try {
+      await this.alerts.loading();
+
+      const response = await this.schedulesService.getDaysWeekSchedulesByJobId(this.job.id);
+
+      console.log('response', response);
+
+      this.scheduleStore.newModel();
+
+      this.scheduleStore.set(response);
+
+      await this.alerts.stopLoading();
+    } catch (error) {
+      await this.alerts.stopLoading();
+
+      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
+
+      console.log(error);
+    }
   }
 
   ionViewDidEnter() {
+    console.log(this.jobStore.get());
+
     this.tabRef.select('about');
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.job = this.jobStore.get();
+
+    await this.getListAllSchedules();
+
+    console.log(this.jobStore.get());
+  }
 
 }

@@ -6,9 +6,10 @@ use App\BaseRepository\Api\LoadApi;
 
 trait TDefaultAggregates
 {
-    private function defineAggregate()
+    protected function defineAggregate()
     {
         $this->with = [
+            'times',
             'api' => new LoadApi('jobs', 'job_id', 'job'),
         ];
     }

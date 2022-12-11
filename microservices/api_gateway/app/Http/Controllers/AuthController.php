@@ -31,8 +31,6 @@ class AuthController extends Controller
 
         $credentials = $request->only(['email', 'password', 'user_type_id']);
 
-        Log::info($credentials);
-
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
@@ -48,12 +46,14 @@ class AuthController extends Controller
     protected function token($token): array
     {
         $auth = auth()->user();
-        $user = User::find($auth->id);
+        $user = User::with('userType')->find($auth->id);
 
         if ($user) {
             $user->last_login = new DateTime('now');
             $user->save();
         }
+        
+        Log::info($user->toArray());
 
         return [
             'token' => $token,

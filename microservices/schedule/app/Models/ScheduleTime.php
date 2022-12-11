@@ -25,6 +25,6 @@ class ScheduleTime extends Model
         'created_at' => 'date:d/m/Y',
         'updated_at' => 'date:d/m/Y',
         'deleted_at' => 'date:d/m/Y',
-        'time' => 'date:h:i:s'
+        'time' => 'date:H:i:s'
     ];
 }

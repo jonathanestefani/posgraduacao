@@ -2,9 +2,9 @@
   <ion-list *ngFor="let item of listSelected | keyvalue">
     <ion-item>
       <ion-label>
-        {{ getDayWeek(item.value.day_week) }}
+        {{ scheduleStore.getDayWeek(item.value.day_week) }}
       </ion-label>
-      <ion-icon name="add"></ion-icon>
+      <ion-icon (click)="addItem(item.value.id, item.key)" name="add"></ion-icon>
     </ion-item>
     <ion-card>
       <ion-label *ngFor="let itemTime of item.value.times | keyvalue">

@@ -3,6 +3,7 @@
 namespace App\BaseRepository;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 trait TFilters
 {
@@ -28,15 +29,14 @@ trait TFilters
         if (count($this->filtersRequest) > 0) 
         {
             foreach($this->filtersRequest as $key => $value) {
-                $listFilterClass = $this->filters[$key];
+                try {
+                    $listFilterClass = $this->filters[$key];
 
-                $listFilterClass->setFilters($this->filtersRequest)->setValue($value)->execute($this->instance);
-
-                /*
-                $ListFilterInstance = $listFilterClass->getclass();
-
-                (new $ListFilterInstance($this->instance))->setFilters($this->filtersRequest)->execute( $listFilterClass->getKey(), $value);
-                */
+                    $listFilterClass->setFilters($this->filtersRequest)->setValue($value)->execute($this->instance);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    Log::info("Houve um problema ao tentar encontrar o filtro $$key!");
+                }
             }
         }
 

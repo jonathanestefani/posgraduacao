@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { EUserType } from './Interfaces/User/enum/EUserType';
+import { UserData } from './providers/userData';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,8 @@ export class AppComponent {
       title: 'Cadastrar Serviço',
       url: '/jobs/record/about',
       icon: 'home',
-      style: 'business-outline'
+      style: 'business-outline',
+      restriction_type_user: [EUserType.admin, EUserType.company]
     },
     {
       title: 'Minha agenda',
@@ -33,5 +36,16 @@ export class AppComponent {
       style: 'business-outline'
     },
   ];
-  constructor() { }
+
+  constructor() {}
+
+  restrictionCheck(restriction: any = []) {
+    try {
+        const userType = UserData.getUser().user_type.type;
+
+        return restriction.includes(userType);
+    } catch (error) {
+        console.log(error);
+    }
+  }
 }

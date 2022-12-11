@@ -15,10 +15,18 @@ class Attendance extends Model
         'id',
         'person_id',
         'job_id',
-        'schedule_id',
+        'schedule_week_id',
+        'schedule_time_id',
         'status',
+        'obs',
         'created_at',
         'updated_at',
         'deleted_at'
+    ];
+
+    protected $casts = [
+        'created_at' => 'date:d/m/Y',
+        'updated_at' => 'date:d/m/Y',
+        'deleted_at' => 'date:d/m/Y',
     ];
 }

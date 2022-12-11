@@ -3,6 +3,12 @@ import { NavController } from '@ionic/angular';
 import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { AttendancesService } from '../services/attendances/attendances.service';
 import { UserData } from '../providers/userData';
+import { IAttendance } from '../Interfaces/attendance/IAttendance';
+import { EAttendancesStatus } from './enum/EAttendancesStatus';
+import { JobStore } from '../services/jobs/job.store';
+import { SchedulesStore } from '../services/schedules/schedules.store';
+import { IScheduleWeek } from '../Interfaces/schedule/IScheduleWeek';
+import { AttendancesStore } from '../services/attendances/attendances.store';
 
 @Component({
   selector: 'app-schedule',
@@ -10,24 +16,31 @@ import { UserData } from '../providers/userData';
   styleUrls: ['./schedule.page.scss'],
 })
 export class SchedulePage implements OnInit {
-
-  listAttendances: [];
+  listAttendances: Array<IAttendance> = [];
   isLoading: false;
   filters = {
-    person_id: ''
+    person_id: '',
+    search: ''
   };
 
   constructor(private navControl: NavController,
               private attendancesService: AttendancesService,
+              private attendancesStore: AttendancesStore,
+              private jobStore: JobStore,
+              private scheduleStore: SchedulesStore,
               private alerts: Alerts) { }
 
-  ngOnInit() {
+  public get getEAttendancesStatus(): typeof EAttendancesStatus {
+    return EAttendancesStatus;
+  }
+
+  public ngOnInit() {
     this.filters.person_id = String(UserData.getUser().id);
 
     this.getListAllJobs();
   }
 
-  async getListAllJobs() {
+  public async getListAllJobs() {
 
     await this.alerts.loading();
 
@@ -50,12 +63,28 @@ export class SchedulePage implements OnInit {
     }
   }
 
-  itemSelected(job) {
-    console.log(job);
+  public async itemSelected(attendance) {
+    console.log(attendance);
 
-    localStorage.setItem('job_details', JSON.stringify(job));
+    this.attendancesStore.newModel();
 
-    this.navControl.navigateForward('/jobs/details');
+    this.attendancesStore.set(attendance);
+
+    await this.jobStore.set(attendance.job);
+
+    this.scheduleStore.newModel();
+
+    const schedules: IScheduleWeek = attendance.week;
+
+    schedules.times = [attendance.times];
+
+    console.log(schedules);
+
+    this.scheduleStore.newModel();
+
+    this.scheduleStore.set([schedules]);
+
+    this.navControl.navigateForward('/schedule/details');
   }
 
 }

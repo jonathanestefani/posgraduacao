@@ -13,7 +13,7 @@ import { JobStore } from 'src/app/services/jobs/job.store';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-  job: IJob = JobsService.job;
+  job: IJob = JobStore.job;
 
   constructor(private navControl: NavController,
               private activeRoute: ActivatedRoute,
@@ -50,8 +50,6 @@ export class AboutPage implements OnInit {
   }
 
   async save() {
-    await this.alerts.loading();
-
     try {
       const userData = UserData.getUser();
 
@@ -69,7 +67,7 @@ export class AboutPage implements OnInit {
 
       this.navControl.navigateForward('/jobs/record/about/' + response.id);
     } catch (error) {
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 

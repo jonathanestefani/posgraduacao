@@ -8,7 +8,7 @@ import {
 export enum ETypeAlertToast {
   danger = 'danger',
   success = 'success',
-};
+}
 
 export enum ETypeAlert {
   confirm = 'confirm',
@@ -47,16 +47,20 @@ export class Alerts {
   }
 
   async loading(vmsg: string = 'Aguarde...') {
-    console.log(this.load);
-
     if (this.load !== null) {
-      await this.load.dismiss();
-      this.load = null;
+      await this.stopLoading();
     } else {
       this.load = await this.loadCtrl.create({
         message: vmsg,
       });
       await this.load.present();
+    }
+  }
+
+  async stopLoading() {
+    if (this.load !== null) {
+      await this.load.dismiss();
+      this.load = null;
     }
   }
 
