@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Minha agenda</ion-title>
+    <ion-title>Solicitações de Consultas</ion-title>
   </ion-toolbar>
   <ion-toolbar color="warning">
     <ion-searchbar [(ngModel)]="filters.search" animated="true" (keyup.enter)="getListAllJobs()" placeholder="Buscar"></ion-searchbar>
@@ -28,8 +28,6 @@
           </ion-label>
           <ion-label *ngIf="item.status === getEAttendancesStatus.approved">
             Aprovado <ion-icon name="checkmark-outline"></ion-icon>
-
-            <span>Favor comparecer no dia e horário corretamente</span>
           </ion-label>
           <ion-label *ngIf="item.status === getEAttendancesStatus.denied">
             <ion-icon name="information-outline"></ion-icon>

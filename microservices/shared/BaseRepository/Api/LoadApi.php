@@ -86,9 +86,12 @@ class LoadApi
 
     public function loadData() {
         try {
-            $address_api = UtilsService::getAddressApi($this->api_name);
+            $address_api = UtilsService::getAddressApi($this->api_name) . '/api/';
 
-            $response = Http::get($address_api . $this->api_name, $this->params);
+            Log::info($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value);
+            Log::info($this->params);
+
+            $response = Http::get($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value, $this->params);
 
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');

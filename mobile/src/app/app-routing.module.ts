@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./schedule/schedule.module').then( m => m.SchedulePageModule)
   },
   {
+    path: 'requests',
+    loadChildren: () => import('./requests/requests.module').then( m => m.RequestsPageModule)
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'

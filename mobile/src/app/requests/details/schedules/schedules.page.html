@@ -1,0 +1,39 @@
+<ion-content>
+  <ion-card>
+
+    <ion-radio-group>
+      <ion-list *ngFor="let dayWeek of listSchedules | keyvalue">
+        <ion-item>
+          <ion-label>
+            {{ scheduleStore.getDayWeek(dayWeek.value.day_week) }}
+          </ion-label>
+        </ion-item>
+        <ion-card>
+          <ion-card-content>
+            <ion-item *ngFor="let itemTime of dayWeek.value.times | keyvalue" (click)="setScheduleTime(dayWeek.value, itemTime.value)">
+              <ion-label>
+                {{ itemTime.value.time }}
+              </ion-label>
+              <ion-radio [value]="dayWeek.value.day_week + itemTime.value.time"></ion-radio>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+    </ion-radio-group>
+
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-text-center">
+    <ion-label>
+      <ion-button ion-button color="danger" (click)="cancelRequest()">
+        Negar
+      </ion-button>
+    </ion-label>
+    <ion-label >
+      <ion-button ion-button color="success" (click)="approveRequest()">
+        Aprovar
+      </ion-button>
+    </ion-label>
+  </ion-toolbar>
+</ion-footer>

@@ -35,6 +35,13 @@ export class AppComponent {
       icon: 'home',
       style: 'business-outline'
     },
+    {
+      title: 'Solicitações',
+      url: '/requests',
+      icon: 'home',
+      style: 'business-outline',
+      restriction_type_user: [EUserType.admin, EUserType.company]
+    },
   ];
 
   constructor() {}

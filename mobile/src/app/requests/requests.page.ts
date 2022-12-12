@@ -11,15 +11,15 @@ import { IScheduleWeek } from '../Interfaces/schedule/IScheduleWeek';
 import { AttendancesStore } from '../services/attendances/attendances.store';
 
 @Component({
-  selector: 'app-schedule',
-  templateUrl: './schedule.page.html',
-  styleUrls: ['./schedule.page.scss'],
+  selector: 'app-requests',
+  templateUrl: './requests.page.html',
+  styleUrls: ['./requests.page.scss'],
 })
-export class SchedulePage implements OnInit {
+export class RequestsPage implements OnInit {
   listAttendances: Array<IAttendance> = [];
   isLoading: false;
   filters = {
-    person_id: '',
+    requests_by_person_id: '',
     search: ''
   };
 
@@ -27,7 +27,7 @@ export class SchedulePage implements OnInit {
               private attendancesService: AttendancesService,
               private attendancesStore: AttendancesStore,
               private jobStore: JobStore,
-              private scheduleStore: SchedulesStore,
+              private requestsStore: SchedulesStore,
               private alerts: Alerts) { }
 
   public get getEAttendancesStatus(): typeof EAttendancesStatus {
@@ -35,7 +35,7 @@ export class SchedulePage implements OnInit {
   }
 
   public ngOnInit() {
-    this.filters.person_id = String(UserData.getUser().id);
+    this.filters.requests_by_person_id = String(UserData.getUser().id);
 
     this.getListAllJobs();
   }
@@ -57,7 +57,7 @@ export class SchedulePage implements OnInit {
     } catch (error) {
       await this.alerts.loading();
 
-      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
+      this.alerts.alertToast('Houve um problema ao tentar buscar as solicitações!', ETypeAlertToast.danger);
 
       console.log(error);
     }
@@ -72,7 +72,7 @@ export class SchedulePage implements OnInit {
 
     await this.jobStore.set(attendance.job);
 
-    this.scheduleStore.newModel();
+    this.requestsStore.newModel();
 
     const schedules: IScheduleWeek = attendance.week;
 
@@ -80,11 +80,11 @@ export class SchedulePage implements OnInit {
 
     console.log(schedules);
 
-    this.scheduleStore.newModel();
+    this.requestsStore.newModel();
 
-    this.scheduleStore.set([schedules]);
+    this.requestsStore.set([schedules]);
 
-    this.navControl.navigateForward('/schedule/details');
+    this.navControl.navigateForward('/requests/details');
   }
 
   getClassByStatus(status) {
@@ -101,4 +101,5 @@ export class SchedulePage implements OnInit {
 
     return '';
   }
+
 }

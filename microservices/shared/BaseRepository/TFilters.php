@@ -35,7 +35,9 @@ trait TFilters
                     $listFilterClass->setFilters($this->filtersRequest)->setValue($value)->execute($this->instance);
                 } catch (\Throwable $th) {
                     //throw $th;
-                    Log::info("Houve um problema ao tentar encontrar o filtro $$key!");
+                    Log::info($th);
+
+                    Log::info("Houve um problema ao tentar encontrar ou executar o filtro $$key!");
                 }
             }
         }
