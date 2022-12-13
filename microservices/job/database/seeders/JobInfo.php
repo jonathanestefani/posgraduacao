@@ -22,7 +22,8 @@ class JobInfo extends Seeder
                     "job_id" => 1,
                     "name" => "Especialista",
                     "text" => "Pediatra",
-                    "value" => "",
+                    "value" => 0,
+                    "type" => "desc",
                     "created_at" => new DateTime("now")
                 ],
                 [
@@ -30,7 +31,8 @@ class JobInfo extends Seeder
                     "job_id" => 2,
                     "name" => "Especialista",
                     "text" => "Oftalmologista",
-                    "value" => "",
+                    "value" => 0,
+                    "type" => "desc",
                     "created_at" => new DateTime("now")
                 ],
                 [
@@ -38,7 +40,8 @@ class JobInfo extends Seeder
                     "job_id" => 3,
                     "name" => "Especialista",
                     "text" => "Cardiologista",
-                    "value" => "",
+                    "value" => 0,
+                    "type" => "desc",
                     "created_at" => new DateTime("now")
                 ],
             ],

@@ -15,28 +15,33 @@ class UsersTypes extends Seeder
      */
     public function run()
     {
-        DB::table('user_type')->insert([
+        DB::table('user_type')->upsert(
             [
-                "id"=> 1,
-                "name"=> "Admin",
-                "type"=> "admin",
-                "status" => 1,
-                "created_at" => new DateTime("now")
+                [
+                    "id" => 1,
+                    "name" => "Admin",
+                    "type" => "admin",
+                    "status" => 1,
+                    "created_at" => new DateTime("now")
+                ],
+                [
+                    "id" => 2,
+                    "name" => "Pessoa",
+                    "type" => "person",
+                    "status" => 1,
+                    "created_at" => new DateTime("now")
+                ],
+                [
+                    "id" => 3,
+                    "name" => "Empresa",
+                    "type" => "company",
+                    "status" => 1,
+                    "created_at" => new DateTime("now")
+                ],
             ],
             [
-                "id"=> 2,
-                "name"=> "Pessoa",
-                "type"=> "person",
-                "status" => 1,
-                "created_at" => new DateTime("now")
-            ],
-            [
-                "id"=> 3,
-                "name"=> "Empresa",
-                "type"=> "company",
-                "status" => 1,
-                "created_at" => new DateTime("now")
-            ],
-        ]);
+                'id'
+            ]
+        );
     }
 }

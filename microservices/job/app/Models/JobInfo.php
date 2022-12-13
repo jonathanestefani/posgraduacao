@@ -17,6 +17,7 @@ class JobInfo extends Model
         'name',
         'text',
         'value',
+        'type',
         'created_at',
         'updated_at',
         'deleted_at'

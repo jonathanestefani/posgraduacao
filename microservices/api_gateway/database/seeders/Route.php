@@ -15,7 +15,7 @@ class Route extends Seeder
      */
     public function run()
     {
-        DB::table('route')->insert([
+        DB::table('route')->upsert(
             [
                 [
                     "id" => 2,
@@ -101,7 +101,10 @@ class Route extends Seeder
                     "updated_at" => "2022-11-04T06:19:48.000Z",
                     "deleted_at" => null
                 ]
+            ],
+            [
+                "id"
             ]            
-        ]);
+        );
     }
 }

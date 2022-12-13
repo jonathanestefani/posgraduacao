@@ -15,13 +15,18 @@ class Countries extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->insert([
+        DB::table('countries')->upsert(
             [
-                "id" => 1,
-                "name" => "Brasil",
-                "abbrev" => "BR",
-                "created_at" => new DateTime("now")
+                [
+                    "id" => 1,
+                    "name" => "Brasil",
+                    "abbrev" => "BR",
+                    "created_at" => new DateTime("now")
+                ]
+            ],
+            [
+                'id'
             ]
-        ]);
+        );
     }
 }

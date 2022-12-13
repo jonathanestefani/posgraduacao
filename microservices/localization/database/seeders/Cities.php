@@ -15,6 +15,11 @@ class Cities extends Seeder
      */
     public function run()
     {
-        DB::unprepared(file_get_contents(getcwd() . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'seeders' . DIRECTORY_SEPARATOR . 'cities.sql'));
+        try {
+            DB::unprepared(file_get_contents(getcwd() . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'seeders' . DIRECTORY_SEPARATOR . 'cities.sql'));
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info('Cidades já cadastradas');
+        }
     }
 }
