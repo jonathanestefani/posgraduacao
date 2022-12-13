@@ -9,6 +9,7 @@ services:
       WEBROOT: "/var/www/html"
     ports:
       - "10000:80"
+      - "443:80"
     volumes:
       - ./microservices/shared/environment/.env.api_gateway:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
