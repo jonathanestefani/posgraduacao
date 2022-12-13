@@ -10,6 +10,7 @@ services:
     ports:
       - "10000:80"
     volumes:
+      - ./microservices/shared/environment/.env.api_gateway:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
@@ -30,6 +31,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/environment/.env.person:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
@@ -54,6 +56,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/environment/.env.localization:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
@@ -78,6 +81,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/environment/.env.job:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
@@ -102,6 +106,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/environment/.env.schedule:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
@@ -126,6 +131,7 @@ services:
     expose:
       - "80"
     volumes:
+      - ./microservices/shared/environment/.env.attendance:/var/www/html/.env
       - ./microservices/shared/setup.sh:/var/www/html/setup.sh
       - ./microservices/shared/config/api_gateway.php:/var/www/html/config/api_gateway.php
       - ./microservices/shared/BaseRepository:/var/www/html/app/BaseRepository
