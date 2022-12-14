@@ -42,11 +42,11 @@ export class LoginPage implements OnInit {
 
       UserData.setUser(response.user);
 
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.navControl.navigateForward('jobs');
     } catch (error) {
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.alerts.alertToast('E-mail ou senha inválido, favor verificar!', ETypeAlertToast.danger);
 

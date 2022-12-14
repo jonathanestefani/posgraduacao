@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { EUserType } from './Interfaces/User/enum/EUserType';
+import { IUser } from './Interfaces/User/IUser';
 import { UserData } from './providers/userData';
 
 @Component({
@@ -8,6 +9,8 @@ import { UserData } from './providers/userData';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  user: IUser = {};
 
   appPages = [
     {
@@ -27,6 +30,7 @@ export class AppComponent {
       url: '/jobs/record/about',
       icon: 'home',
       style: 'business-outline',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       restriction_type_user: [EUserType.admin, EUserType.company]
     },
     {
@@ -40,17 +44,22 @@ export class AppComponent {
       url: '/requests',
       icon: 'home',
       style: 'business-outline',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       restriction_type_user: [EUserType.admin, EUserType.company]
     },
   ];
 
-  constructor() {}
+  constructor() {
+    this.user = UserData.getUser();
+  }
 
   restrictionCheck(restriction: any = []) {
     try {
-        const userType = UserData.getUser().user_type.type;
+      if (this.user.id) {
+        const userType = this.user.user_type.type;
 
         return restriction.includes(userType);
+      }
     } catch (error) {
         console.log(error);
     }

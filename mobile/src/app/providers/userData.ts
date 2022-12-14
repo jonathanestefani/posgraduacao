@@ -5,18 +5,17 @@ import { IUser } from '../Interfaces/User/IUser';
     providedIn: 'root'
 })
 export class UserData {
-    static user: any = {};
+    static user: IUser = {};
 
     public static setUser(user) {
-        UserData.user = JSON.stringify(user);
-        localStorage.setItem('user', UserData.user);
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     public static getUser(): IUser {
-        if (!UserData.user.id) {
-            UserData.user = localStorage.getItem('user');
+        if (!UserData.user && !UserData.user.id) {
+            UserData.user = JSON.parse(localStorage.getItem('user'));
         }
 
-        return JSON.parse(UserData.user) as IUser;
+        return UserData.user as IUser;
     }
 }

@@ -1,12 +1,12 @@
 import { IUserType } from "./IUserType";
 
 export interface IUser {
-  id: number;
-  user_type_id: number;
-  name: string;
-  email: string;
+  id?: number;
+  user_type_id?: number;
+  name?: string;
+  email?: string;
   password?: string;
-  status: number;
+  status?: number;
   user_type?: IUserType;
   last_login?: Date;
   created_at?: Date;
