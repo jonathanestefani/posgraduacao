@@ -82,6 +82,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 $app->routeMiddleware([
    'auth' => App\Http\Middleware\Authenticate::class,
+   App\Http\Middleware\CorsMiddleware::class
 ]);
 
 /*
