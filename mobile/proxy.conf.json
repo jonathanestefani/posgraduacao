@@ -1,12 +1,12 @@
 {
     "/proxy/*": {
         "context": "/proxy/*",
-        "target": "http://localhost:10000",
+        "target": "http://apigestor.tech:443",
         "secure": false,
         "changeOrigin": true,
         "headers": { "Connection": "keep-alive"},
         "pathRewrite": {
-            "^/proxy": "http://localhost:10000/api"
+            "^/proxy": "http://apigestor.tech:443/api"
           }
     }
 }

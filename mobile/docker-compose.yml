@@ -1,0 +1,13 @@
+version: "3"
+services:
+  posbackend_mobile:
+    build: .
+    user: 0:0
+    volumes:
+      - ./:/ionic
+    networks:
+      - netork_pos_backend
+
+networks:
+  netork_pos_backend:
+    driver: bridge
