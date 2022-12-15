@@ -31,8 +31,9 @@ docker-compose up -d --build
 ```bash
 ./Setup
 ```
-
-## Ionic
+</details>
+<details>
+<summary>Configurando Ionic</summary>
 
     Dependências: node-v16, ionic 5.16, Android Sdk, Gradle 6.5, Imagem do Android Sdk 33.0.3.
 
@@ -47,7 +48,9 @@ npm install
 
 ionic cordova run android
 ```
-
+</details>
+<details>
+<summary>Acessando o Banco de Dados</summary>
 ## Banco de dados Postgres
 
 Foi adicionado no docker o software pgadmin4 para você ter acesso ao banco de dados do Postgres através do navegador pela url http://localhost:5050.
