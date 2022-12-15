@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\LoadService;
+use App\BaseRepository\Services\StoreService;
 use App\Models\JobInfo;
-use App\Services\JobInfo\DestroyService;
+use App\Exceptions\ErrorServiceException;
 use App\Services\JobInfo\ListAllService;
 use App\Services\JobInfo\ListIndexService;
-use App\Services\JobInfo\LoadService;
-use App\Services\JobInfo\StoreService;
-use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;

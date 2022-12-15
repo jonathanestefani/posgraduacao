@@ -11,7 +11,7 @@ class FilterStringLike extends AbsFilter
         if (gettype($value) === 'array') {
             $this->builder->whereIn($key, $value);
         } else {
-            $this->builder->where($key, "LIKE", "%{$value}%");
+            $this->builder->where($key, "ILIKE", "%{$value}%");
         }
     }
 }

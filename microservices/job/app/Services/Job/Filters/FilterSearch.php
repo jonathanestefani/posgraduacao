@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Job\filters;
+namespace App\Services\Job\Filters;
 
 use App\BaseRepository\Abs\AbsFilter;
 use App\BaseRepository\Api\LoadApi;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 
-class filterSearch extends AbsFilter {
+class FilterSearch extends AbsFilter {
 
     public function execute($key, $value): Builder {
         if (empty($value)) return $this->builder;
@@ -24,8 +24,6 @@ class filterSearch extends AbsFilter {
                         "all" => true
                     ])
                     ->loadData();
-
-            Log::info($persons);
 
             if (count($persons)) {
                 foreach ($persons as $person) {

@@ -2,18 +2,13 @@
 
 namespace App\Services\Job;
 
-use App\BaseRepository\Abs\ARepository;
-use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
-use App\BaseRepository\THttpRequest;
+use App\BaseRepository\Services\StoreService as ServicesStoreService;
 use App\Exceptions\ErrorServiceException;
-use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
 
-class StoreService extends ARepository implements IService
+class StoreService extends ServicesStoreService
 {
-    use THttpRequest, TCrud;
-
     public function execute()
     {
         unset($this->request['job_info']);

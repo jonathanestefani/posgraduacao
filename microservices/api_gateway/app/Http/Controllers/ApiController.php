@@ -115,7 +115,7 @@ class ApiController extends Controller
                     $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@update']);
                     break;
                 case 'DELETE':
-                    $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@store']);
+                    $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@delete']);
                     break;
             }
         } catch(ErrorServiceException $th) {

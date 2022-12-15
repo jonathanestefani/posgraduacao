@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\StoreService;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Services\Person\DestroyService;
 use App\Services\Person\ListAllService;
 use App\Services\Person\ListIndexService;
 use App\Services\Person\LoadService;
-use App\Services\Person\StoreService;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Support\Facades\Log;
 
@@ -86,6 +86,8 @@ class PersonController extends Controller
     {
         try {
             $request = new Request(['id' => $id]);
+
+            Log::info($request);
 
             (new DestroyService(Person::class))->setRequest($request)->execute();
 
