@@ -1,12 +1,12 @@
 {
     "/proxy/*": {
         "context": "/proxy/*",
-        "target": "http://apigestor.tech:443",
+        "target": "https://apigestor.tech",
         "secure": false,
         "changeOrigin": true,
         "headers": { "Connection": "keep-alive"},
         "pathRewrite": {
-            "^/proxy": "http://apigestor.tech:443/api"
+            "^/proxy": "https://apigestor.tech/api"
           }
     }
 }

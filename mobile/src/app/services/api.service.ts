@@ -1,74 +1,123 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+// import { HTTP } from '@ionic-native/http/ngx';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Utils } from '../providers/utils';
 import { Alerts } from '../providers/alerts';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-    public host: string = environment.host;
+  public host: string = environment.host;
+  private token = '';
 
-    public constructor(private http: HttpClient,
-                       private utils: Utils,
-                       private alert: Alerts) { }
+  public constructor(
+    private http: HTTP,
+    private utils: Utils,
+    private alert: Alerts
+  ) {
+    this.http.setServerTrustMode('nocheck');
+    this.http.setRequestTimeout(2000);
+  }
 
-    public get(resource: string, params: any): Promise<any> {
-        try {
-            return this.http.get(this.host + resource + (params ? '?' : '') + this.utils.buildQuery(params)).toPromise();
-        } catch (error) {
-            this.alert.stopLoading();
-        }
+  public get(resource: string, params: any): Promise<any> {
+    try {
+      return new Promise((resolve, reject) => {
+        this.http
+          .get(
+            this.host +
+              resource +
+              (params ? '?' : '') +
+              this.utils.buildQuery(params),
+            {},
+            this.getHeader()
+          )
+          .then((response) => {
+            resolve(JSON.parse(response.data));
+          })
+          .catch((httpError) => {
+            reject(httpError);
+          });
+      });
+    } catch (error) {
+      this.alert.stopLoading();
+    }
+  }
+
+  public post(resource: string, params: any): Promise<any> {
+    try {
+      return new Promise((resolve, reject) => {
+        this.http
+          .post(this.host + resource, params, this.getHeader())
+          .then((response) => {
+            resolve(JSON.parse(response.data));
+          })
+          .catch((httpError) => {
+            reject(httpError);
+          });
+      });
+    } catch (error) {
+      this.alert.stopLoading();
+    }
+  }
+
+  public put(resource: string, params: any): Promise<any> {
+    try {
+      return new Promise((resolve, reject) => {
+        this.http
+          .put(this.host + resource, params, this.getHeader())
+          .then((response) => {
+            resolve(JSON.parse(response.data));
+          })
+          .catch((httpError) => {
+            reject(httpError);
+          });
+      });
+    } catch (error) {
+      this.alert.stopLoading();
+    }
+  }
+
+  public delete(resource: string): Promise<any> {
+    try {
+      return new Promise((resolve, reject) => {
+        this.http
+          .delete(this.host + resource, {}, this.getHeader())
+          .then((response) => {
+            resolve(JSON.parse(response.data));
+          })
+          .catch((httpError) => {
+            reject(httpError);
+          });
+      });
+    } catch (error) {
+      this.alert.stopLoading();
+    }
+  }
+
+  public setToken(token) {
+    this.token = token;
+  }
+
+  private getToken() {
+    return this.token;
+  }
+
+  private getHeader(): any {
+    const token = this.getToken();
+
+    if (token && token !== '') {
+      //const headers = new Headers(
+      return {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`,
+      };
+      //);
     }
 
-    public post(resource: string, params: any): Promise<any> {
-        try {
-            return this.http.post(this.host + resource, params).toPromise();
-        } catch (error) {
-            this.alert.stopLoading();
-        }
-    }
-
-    public put(resource: string, params: any): Promise<any> {
-        try {
-            return this.http.put(this.host + resource, params).toPromise();
-        } catch (error) {
-            this.alert.stopLoading();
-        }
-    }
-
-    public delete(resource: string): Promise<any> {
-        try {
-            return this.http.delete(this.host + resource).toPromise();
-        } catch (error) {
-            this.alert.stopLoading();
-        }
-    }
-
-    public donwload(resource: string, params: any): Observable<any> {
-        try {
-            return this.http.get(this.host + resource + params);
-        } catch (error) {
-            this.alert.stopLoading();
-        }
-    }
-
-    private getToken() {
-        const auth = localStorage.getItem('token') || '';
-
-        return auth;
-    }
-
-    private getHeader(): any {
-        const token = this.getToken();
-
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.getToken()}`
-        });
-
-        return headers;
-    }
+    return {};
+  }
 }

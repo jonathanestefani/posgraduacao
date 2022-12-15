@@ -9,7 +9,7 @@
   "proxies": [
     {
       "path": "/proxy/*",
-      "proxyUrl": "http://192.168.3.13:10000/api/"
+      "proxyUrl": "https://apigestor.tech/api"
     }
   ]
 }

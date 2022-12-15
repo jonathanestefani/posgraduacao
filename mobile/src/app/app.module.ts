@@ -4,7 +4,8 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+// import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
@@ -23,17 +24,21 @@ import { AttendancesStore } from './services/attendances/attendances.store';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule,
+    //HttpClientModule,
+    // HTTP,
     MaterialModule,
     BrowserAnimationsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    HTTP,
+    /*
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
     },
+    */
     Utils,
     Alerts,
     ApiService,

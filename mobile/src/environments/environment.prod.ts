@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  host: "/proxy/"
+  host: 'https://apigestor.tech/api/'
 };
