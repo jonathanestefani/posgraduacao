@@ -9,6 +9,7 @@ use App\Models\ScheduleWeek;
 use App\Services\ScheduleWeek\ListAllService as WeekListAllService;
 use App\Services\ScheduleTime\ListAllService as TimeListAllService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PrepareWeekService implements IService
 {
@@ -28,7 +29,7 @@ class PrepareWeekService implements IService
             $week_record = (new StoreService(ScheduleWeek::class))->importRequest($tmp_week)->execute();
 
             if ($week_record) {
-                $this->removeDeletedSchedules($tmp_week, $tmp_times);
+                $this->removeDeletedSchedules($week_record, $tmp_times);
 
                 $week_record['times'] = [];
                 $week_record['times'] = $this->storeTimes($tmp_times, $week_record);
@@ -50,14 +51,21 @@ class PrepareWeekService implements IService
         $listAllWeek = (new WeekListAllService(ScheduleWeek::class))->importRequest($request)->execute();
 
         foreach ($listAllWeek as $scheduleWeek) {
-            if (array_search($scheduleWeek->id, array_column($this->request, 'id')) === false) {
-                $scheduleWeek->delete();
+            try {
+                if (array_search($scheduleWeek->id, array_column($this->request, 'id')) === false) {
+                    $scheduleWeek->delete();
+    
+                    $listTimes = $this->getTimesByJob($scheduleWeek->id);
+    
+                    foreach ($listTimes as $scheduleTime) {
+                        $scheduleTime->delete();
+                    }    
+                }
+            } catch (\Throwable $th) {
+                Log::info("===removeDeletedWeek===");
 
-                $listTimes = $this->getTimesByJob($scheduleWeek->id);
-
-                foreach ($listTimes as $scheduleTime) {
-                    $scheduleTime->delete();
-                }    
+                Log::info($th);
+                //throw $th;
             }
         }
     }
@@ -80,9 +88,17 @@ class PrepareWeekService implements IService
         $listAllTimes = $this->getTimesByJob($tmp_week["job_id"], $tmp_week["id"]);
 
         foreach ($listAllTimes as $scheduleTime) {
-            if (array_search($scheduleTime->id, array_column($tmp_times, 'id')) === false) {
-                $scheduleTime->delete();
+            try {
+                if (array_search($scheduleTime->id, array_column($tmp_times, 'id')) === false) {
+                    $scheduleTime->delete();
+                }
+            } catch (\Throwable $th) {
+                Log::info("===removeDeletedSchedules===");
+
+                Log::info($th);
+                //throw $th;
             }
+            
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\StoreService as ServicesStoreService;
 use App\Models\Job;
 use App\Models\JobInfo;
 use App\Services\Job\ListAllService;
@@ -94,7 +95,7 @@ class JobController extends Controller
 
                 $form = new Request($form);
 
-                $jobs[] = (new StoreService(JobInfo::class))->setRequest($form)->execute();
+                $jobs[] = (new ServicesStoreService(JobInfo::class))->setRequest($form)->execute();
             }
 
             $data['jobs'] = $jobs;

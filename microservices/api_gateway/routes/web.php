@@ -35,23 +35,4 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         echo 'Houve um problema interno no api gateway, favor verificar com o suporte técnico!';
         exit;
     }
-
-    /*
-    $router->get('/{api_name}', ['uses' => 'ApiController@index']);
-
-    $router->get('/{api_name}/{id}', [
-        'uses' => 'ApiController@show'
-    ]);
-
-    $router->get('/{api_name}/{name}/{id}', [
-        'uses' => 'ApiController@show'
-    ]);
-
-    $router->post('/{api_name}', [
-        'uses' => 'ApiController@store'
-    ]);
-
-    $router->put('/{api_name}/{id}', ['uses' => 'ApiController@update']);
-    $router->delete('/{api_name}/{id}', ['uses' => 'ApiController@destroy']);
-    */
 });
