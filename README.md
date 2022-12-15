@@ -14,9 +14,9 @@ Com este aplicativo no celular, basta a pessoa se cadastrar, e já pode buscar u
 <details>
 <summary>Configurando o Projeto</summary>
 
-Para facilitar a instalação do projeto, toda a estrutura construído em docker, trouxe uma flexibilidade ao gerenciar os micro serviços.
+    Para facilitar a instalação do projeto, toda a estrutura construído em docker, trouxe uma flexibilidade ao gerenciar os micro serviços.
 
-O projeto foi destinado para ambientes Linux, pois com o grande crescimento do S.O, é muito fácil trabalhar com projetos principalmente usando o docker.
+    O projeto foi destinado para ambientes Linux, pois com o grande crescimento do S.O, é muito fácil trabalhar com projetos principalmente usando o docker.
 
 ### Passo 1 
 
@@ -52,9 +52,9 @@ ionic cordova run android
 <details>
 <summary>Acessando o Banco de Dados</summary>
 
-Foi adicionado no docker o software pgadmin4 para você ter acesso ao banco de dados do Postgres através do navegador pela url http://localhost:5050.
+    Foi adicionado no docker o software pgadmin4 para você ter acesso ao banco de dados do Postgres através do navegador pela url http://localhost:5050.
 
-Usuário: jonathan.estefani@gmail.com
-Senha: admin
+    Usuário: jonathan.estefani@gmail.com
+    Senha: admin
 
 </details>
