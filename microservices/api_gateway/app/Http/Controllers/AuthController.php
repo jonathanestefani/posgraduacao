@@ -38,12 +38,12 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function refresh(): ?array
+    public function refresh()
     {
         return $this->token(auth()->refresh());
     }
 
-    protected function token($token): array
+    protected function token($token)
     {
         $auth = auth()->user();
         $user = User::with('userType')->find($auth->id);
@@ -52,14 +52,12 @@ class AuthController extends Controller
             $user->last_login = new DateTime('now');
             $user->save();
         }
-        
-        Log::info($user->toArray());
 
-        return [
+        return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'token_validity' => auth()->guard()->factory()->getTTL(),
+            'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => $user,
-        ];
+        ], 200);
     }
 }

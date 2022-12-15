@@ -28,7 +28,9 @@ class PrepareWeekService implements IService
         foreach($items as $tmp_week) {
             $tmp_times = $tmp_week['times'];
 
-            unset($tmp_week['times']);            
+            unset($tmp_week['times']);
+            unset($tmp_week['created_at']);
+            unset($tmp_week['updated_at']);
 
             $week_record = (new StoreService(ScheduleWeek::class))->importRequest($tmp_week)->execute();
 
@@ -113,6 +115,9 @@ class PrepareWeekService implements IService
             $tmp_time['time'] = strtotime($tmp_time['time']);
             $tmp_time['schedule_week_id'] = $week_record->id;
             $tmp_time['job_id'] = $week_record->job_id;
+
+            unset($tmp_time['created_at']);
+            unset($tmp_time['updated_at']);
 
             $time = (new StoreService(ScheduleTime::class))->importRequest($tmp_time)->execute();
 
