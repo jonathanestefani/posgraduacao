@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\BaseRepository\Services\DestroyService;
-use App\BaseRepository\Services\StoreService;
 use App\Models\Job;
 use App\Models\JobInfo;
 use App\Services\Job\ListAllService;
 use App\Services\Job\ListIndexService;
 use App\Services\Job\LoadService;
 use App\Exceptions\ErrorServiceException;
+use App\Services\Job\StoreService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -83,12 +83,12 @@ class JobController extends Controller
     public function store(Request $request)
     {
         try {
+            $job_info = $request->job_info;
+
             $data = (new StoreService(Job::class))->setRequest($request)->execute();
 
-            Log::info($data);
-
             $jobs = [];
-            foreach ($request->job_info as $key => $value) {
+            foreach ($job_info as $value) {
                 $form = $value;
                 $form['job_id'] = $data->id;
 
