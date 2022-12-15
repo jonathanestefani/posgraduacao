@@ -11,6 +11,8 @@ Existe muitas soluções no mercado, porém as vezes difícil de encontrar algo 
 Com este aplicativo no celular, basta a pessoa se cadastrar, e já pode buscar um profissional de uma determinada área específica, e cidade se assim desejar. Pesquisar horários disponíveis e por fim agendar. 
 
 ## Instação
+<details>
+<summary>Configurando o Projeto</summary>
 
 Para facilitar a instalação do projeto, toda a estrutura construído em docker, trouxe uma flexibilidade ao gerenciar os micro serviços.
 
@@ -20,15 +22,15 @@ O projeto foi destinado para ambientes Linux, pois com o grande crescimento do S
 
     Com o docker e docker-compose instalado em seu computador, basta seguir as seguintes instruções:
 
-    ```
-        docker-compose up -d --build 
-    ```
+```
+docker-compose up -d --build 
+```
 
     Após subir todo o ambiente, execute esse shell script no linux:
 
-    ```
-        ./Setup
-    ```
+```bash
+./Setup
+```
 
 ## Ionic
 
@@ -40,11 +42,11 @@ O projeto foi destinado para ambientes Linux, pois com o grande crescimento do S
 
     *Obs: Deixe seu celular conectado no usb do computador, algumas versões do Android ao executar os comandos abaixo, irá solicitar permissão para instalar aplicativos.
 
-    ``` 
-        npm install
+``` 
+npm install
 
-        ionic cordova run android
-    ```
+ionic cordova run android
+```
 
 ## Banco de dados Postgres
 
@@ -53,3 +55,4 @@ Foi adicionado no docker o software pgadmin4 para você ter acesso ao banco de d
 Usuário: jonathan.estefani@gmail.com
 Senha: admin
 
+</details>
