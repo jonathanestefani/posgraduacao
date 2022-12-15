@@ -51,7 +51,6 @@ ionic cordova run android
 </details>
 <details>
 <summary>Acessando o Banco de Dados</summary>
-## Banco de dados Postgres
 
 Foi adicionado no docker o software pgadmin4 para você ter acesso ao banco de dados do Postgres através do navegador pela url http://localhost:5050.
 
