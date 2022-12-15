@@ -55,6 +55,7 @@ export class AboutPage implements OnInit {
 
       if (this.job.id === 0) {
         delete this.job.id;
+        delete this.job.person;
       }
 
       this.job.person_id = userData.id;

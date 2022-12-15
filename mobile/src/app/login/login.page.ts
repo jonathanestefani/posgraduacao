@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { LoginService } from '../services/login/login.service';
 import { RecordService } from '../services/record/record.service';
@@ -15,21 +15,26 @@ export class LoginPage implements OnInit {
 
   form = {
     email: 'jonathan.estefani@gmail.com',
-    password: 'admin',
+    password: 'empresa',
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    user_type_id: 2
+    user_type_id: 3
   };
 
   listUserType = RecordService.types.filter(elem => elem.hide === false);
 
-  isLoading: false;
+  isLoading = false;
 
   constructor(private navControl: NavController,
               private loginService: LoginService,
               private http: ApiService,
+              private menu: MenuController,
               private alerts: Alerts) { }
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.menu.enable(false);
+  }
 
   async login() {
 
@@ -43,6 +48,8 @@ export class LoginPage implements OnInit {
       this.http.setToken(response.token);
 
       await this.alerts.stopLoading();
+
+      this.menu.enable(true);
 
       this.navControl.navigateForward('jobs');
     } catch (error) {

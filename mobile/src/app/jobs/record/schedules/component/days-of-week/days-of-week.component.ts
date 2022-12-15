@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { IListDaysOfTheWeek } from 'src/app/Interfaces/schedule/IListDaysOfTheWeek';
 import { IScheduleTime } from 'src/app/Interfaces/schedule/IScheduleTime';
 import { IScheduleWeek } from 'src/app/Interfaces/schedule/IScheduleWeek';
-import { Alerts } from 'src/app/providers/alerts';
 import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
@@ -22,19 +21,15 @@ export class DaysOfWeekComponent implements OnInit {
     { id: 0, time: '18:00' }
   ];
 
-  constructor(private scheduleStore: SchedulesStore,
-              private alerts: Alerts) {}
+  constructor(private scheduleStore: SchedulesStore) {}
 
   ngOnInit() {
     this.scheduleStore.refresh().subscribe((obj) => {
       this.listSelected = this.scheduleStore.get();
       this.jobId = this.scheduleStore.getJobId();
-
-      console.log('listSelected');
-      console.log(this.listSelected);
-
-      console.log('obj', obj);
     });
+
+    this.listSelected = this.scheduleStore.get();
   }
 
   checkTheDayInTheSchedule(dayWeek: string) {
@@ -42,8 +37,6 @@ export class DaysOfWeekComponent implements OnInit {
   }
 
   setItem($event) {
-    console.log('setItem', $event);
-
     const id = $event.detail.value;
 
     if ($event.detail.checked) {
@@ -79,8 +72,6 @@ export class DaysOfWeekComponent implements OnInit {
   }
 
   persist() {
-    // this.scheduleStore.newModel();
-
     this.scheduleStore.set(this.listSelected);
   }
 

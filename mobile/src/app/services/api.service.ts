@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { HTTP } from '@ionic-native/http/ngx';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.prod';
 import { Observable } from 'rxjs';
 import { Utils } from '../providers/utils';
 import { Alerts } from '../providers/alerts';
@@ -21,6 +21,7 @@ export class ApiService {
   ) {
     this.http.setServerTrustMode('nocheck');
     this.http.setRequestTimeout(2000);
+    this.http.setDataSerializer('json');
   }
 
   public get(resource: string, params: any): Promise<any> {
@@ -36,7 +37,12 @@ export class ApiService {
             this.getHeader()
           )
           .then((response) => {
-            resolve(JSON.parse(response.data));
+            try {
+              resolve(JSON.parse(response.data));
+            } catch (error) {
+              resolve(response.data);
+            }
+
           })
           .catch((httpError) => {
             reject(httpError);
@@ -53,7 +59,12 @@ export class ApiService {
         this.http
           .post(this.host + resource, params, this.getHeader())
           .then((response) => {
-            resolve(JSON.parse(response.data));
+            try {
+              resolve(JSON.parse(response.data));
+            } catch (error) {
+              resolve(response.data);
+            }
+
           })
           .catch((httpError) => {
             reject(httpError);
@@ -70,7 +81,12 @@ export class ApiService {
         this.http
           .put(this.host + resource, params, this.getHeader())
           .then((response) => {
-            resolve(JSON.parse(response.data));
+            try {
+              resolve(JSON.parse(response.data));
+            } catch (error) {
+              resolve(response.data);
+            }
+
           })
           .catch((httpError) => {
             reject(httpError);
@@ -87,7 +103,12 @@ export class ApiService {
         this.http
           .delete(this.host + resource, {}, this.getHeader())
           .then((response) => {
-            resolve(JSON.parse(response.data));
+            try {
+              resolve(JSON.parse(response.data));
+            } catch (error) {
+              resolve(response.data);
+            }
+
           })
           .catch((httpError) => {
             reject(httpError);

@@ -9,6 +9,8 @@ export class UserData {
 
     public static setUser(user) {
         localStorage.setItem('user', JSON.stringify(user));
+
+        UserData.user = user;
     }
 
     public static getUser(): IUser {

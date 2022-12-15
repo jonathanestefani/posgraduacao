@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { IJob } from '../Interfaces/job/interface/IJob';
 import { Alerts, ETypeAlert } from '../providers/alerts';
+import { UserData } from '../providers/userData';
 import { JobStore } from '../services/jobs/job.store';
 import { JobsService } from '../services/jobs/jobs.service';
 
@@ -50,12 +51,22 @@ export class JobsPage implements OnInit {
     }
   }
 
+  isEdit(job: IJob) {
+    const user = UserData.getUser();
+
+    return user.id === job.person_id;
+  }
+
   async itemSelected(job) {
     console.log(job);
 
     await this.jobStore.set(job);
 
-    await this.navControl.navigateForward('/jobs/details');
+    if (this.isEdit(job)) {
+      await this.navControl.navigateForward('/jobs/record/about/' + job.id);
+    } else {
+      await this.navControl.navigateForward('/jobs/details');
+    }
   }
 
 }

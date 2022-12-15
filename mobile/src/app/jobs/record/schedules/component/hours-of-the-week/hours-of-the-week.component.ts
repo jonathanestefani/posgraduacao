@@ -21,23 +21,12 @@ export class HoursOfTheWeekComponent implements OnInit {
     this.scheduleStore.refresh().subscribe((obj) => {
       this.listSelected = this.scheduleStore.get();
       this.jobId = this.scheduleStore.getJobId();
-
-      console.log('listSelected');
-      console.log(this.listSelected);
-
-      console.log('obj', obj);
     });
   }
 
-  ngOnInit() {
-    console.log(this.listSelected);
-  }
+  ngOnInit(): void {}
 
   setItem(keyWeek: number, keyTime: number, $event) {
-    console.log(keyWeek);
-    console.log(keyTime);
-    console.log($event.detail.value);
-
     this.listSelected[keyWeek].times[keyTime].time = $event.detail.value;
   }
 

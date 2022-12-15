@@ -65,24 +65,25 @@ export class SchedulesPage implements OnInit {
   }
 
   async save() {
-    // await this.alerts.loading();
-
     try {
-      console.log('listDaysOfTheWeekSelected', this.scheduleStore.get());
+      const jobId = this.scheduleStore.getJobId();
 
-      const response = await this.schedulesService.requestWeekSchedule(this.scheduleStore.get());
+      let postData = {
+        job_id: jobId,
+        items: this.scheduleStore.get()
+      };
 
-      console.log(response);
+      const response = await this.schedulesService.requestWeekSchedule({ ...postData });
 
       this.navControl.navigateForward('jobs');
 
-      this.alerts.alertToast('Atendimento cadastrado!');
+      this.alerts.alertToast('Atendimento salvo com sucesso!');
 
       await this.alerts.stopLoading();
     } catch (error) {
       await this.alerts.stopLoading();
 
-      this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
+      this.alerts.alertToast('Houve um problema interno ao tentar salvar!', ETypeAlertToast.danger);
 
       console.log(error);
     }

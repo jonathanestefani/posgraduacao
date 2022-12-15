@@ -28,6 +28,10 @@ export class SchedulesStore extends AbstractStore {
   }
 
   public set(scheduleWeek: Array<IScheduleWeek>) {
+    super.set(scheduleWeek);
+  }
+
+  public add(scheduleWeek: Array<IScheduleWeek>) {
     super.set([ ... this.store, ...scheduleWeek ]);
   }
 

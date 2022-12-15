@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  host: 'https://apigestor.tech/api/'
+  host: 'http://localhost:10000/api/'
 };

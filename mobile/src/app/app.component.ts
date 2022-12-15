@@ -49,11 +49,11 @@ export class AppComponent {
     },
   ];
 
-  constructor() {
-    this.user = UserData.getUser();
-  }
+  constructor() {}
 
   restrictionCheck(restriction: any = []) {
+    this.user = UserData.getUser();
+
     try {
       if (this.user.id) {
         const userType = this.user.user_type.type;

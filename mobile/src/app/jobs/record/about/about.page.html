@@ -1,7 +1,4 @@
 <ion-card>
-  <ion-card-header>
-    <label>Informações do serviço</label>
-  </ion-card-header>
   <ion-card-content>
     <ion-list>
       <ion-item>
@@ -13,7 +10,7 @@
           {{ item.name }}
         </ion-label>
         <ion-textarea *ngIf="item.type === 'text'" [(ngModel)]="item.text" [placeholder]="item.name"></ion-textarea>
-        <ion-input *ngIf="item.type === 'desc'" type="text" [(ngModel)]="item.value"></ion-input>
+        <ion-input *ngIf="item.type === 'desc'" type="text" [(ngModel)]="item.text"></ion-input>
         <ion-input *ngIf="item.type === 'number'" type="number" inputmode="numeric" [(ngModel)]="item.value"></ion-input>
       </ion-item>
     </ion-list>
