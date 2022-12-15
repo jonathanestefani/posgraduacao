@@ -15,7 +15,7 @@ export class JobsPage implements OnInit {
   listJobs: Array<IJob> = [];
   isLoading: false;
   filters = {
-    search: ''
+    name: ''
   };
 
   constructor(private navControl: NavController,
