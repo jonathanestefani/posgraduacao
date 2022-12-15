@@ -14,14 +14,18 @@ use Illuminate\Support\Facades\Log;
 class PrepareWeekService implements IService
 {
     protected Array $request = [];
+    private $job_id = 0;
 
     public function execute()
     {
         $week = [];
 
+        $this->job_id = $this->request['job_id'];
+        $items = $this->request['items'];
+
         $this->removeDeletedWeek();
 
-        foreach($this->request as $tmp_week) {
+        foreach($items as $tmp_week) {
             $tmp_times = $tmp_week['times'];
 
             unset($tmp_week['times']);            
@@ -44,7 +48,7 @@ class PrepareWeekService implements IService
     private function removeDeletedWeek() {
         $request = [
             "filters" => [
-                "job_id" => $this->request[0]["job_id"]
+                "job_id" => $this->job_id
             ]
         ];
 
@@ -85,7 +89,7 @@ class PrepareWeekService implements IService
     }
 
     private function removeDeletedSchedules($tmp_week, $tmp_times) {
-        $listAllTimes = $this->getTimesByJob($tmp_week["job_id"], $tmp_week["id"]);
+        $listAllTimes = $this->getTimesByJob($this->job_id, $tmp_week["id"]);
 
         foreach ($listAllTimes as $scheduleTime) {
             try {
