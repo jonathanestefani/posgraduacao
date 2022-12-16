@@ -2,19 +2,14 @@
 
 namespace App\Services\User;
 
-use App\BaseRepository\Abs\ARepository;
-use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
-use App\BaseRepository\THttpRequest;
+use App\BaseRepository\Services\StoreService as ServicesStoreService;
 use App\Exceptions\ErrorServiceException;
 use App\Models\User;
-use App\Services\IServices\IService;
 use Illuminate\Support\Facades\Log;
 
-class StoreService extends ARepository implements IService
+class StoreService extends ServicesStoreService
 {
-    use THttpRequest, TCrud;
-
     public function execute()
     {
         try {
@@ -22,15 +17,11 @@ class StoreService extends ARepository implements IService
                 $this->request['password'] = password_hash($this->request['password'], null);
             }
 
-            switch ($this->operation) {
-                case EOperation::CREATE:
-                    $this->validUser();
-                    return $this->create();
-                    break;
-                case EOperation::UPDATE:
-                    return $this->update();
-                    break;
+            if ($this->operation == EOperation::CREATE) {
+                $this->validUser();
             }
+
+            return parent::execute();
         } catch (\Throwable $th) {
             Log::error($th);
 
@@ -40,8 +31,15 @@ class StoreService extends ARepository implements IService
         throw new ErrorServiceException("Não foi possível definir o tipo de operação!");
     }
 
-    private function validUser() {
-        $user = User::where('email', $this->request['email'])->get();
+    private function validUser()
+    {
+        $user = User::where('email', $this->request['email']);
+        
+        if ($this->operation == EOperation::UPDATE) {
+            $user->where('id', '!=', $this->data->id);
+        }
+
+        $user = $user->get();
 
         if (count($user) > 0) {
             throw new ErrorServiceException('Usuário já cadastrado com esse e-mail!');

@@ -100,7 +100,19 @@ class Route extends Seeder
                     "created_at" => "2022-11-04T06:19:48.000Z",
                     "updated_at" => "2022-11-04T06:19:48.000Z",
                     "deleted_at" => null
-                ]
+                ],
+                [
+                    "id" => 8,
+                    "name" => "users",
+                    "protocol" => "http",
+                    "route" => "posbackend_apigateway",
+                    "port" => 80,
+                    "endpoint" => "",
+                    "status" => 1,
+                    "created_at" => "2022-11-04T06:19:48.000Z",
+                    "updated_at" => "2022-11-04T06:19:48.000Z",
+                    "deleted_at" => null
+                ],
             ],
             [
                 "id"

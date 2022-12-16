@@ -4,6 +4,8 @@ namespace App\BaseRepository;
 
 use Closure;
 use App\BaseRepository\Api\LoadApi;
+use App\BaseRepository\Exceptions\ErrorApiCallException;
+use Illuminate\Support\Facades\Log;
 
 trait TAggregate
 {
@@ -40,12 +42,15 @@ trait TAggregate
             foreach ($this->with as $tableRelationModel => $scope) {
                 if (!$scope instanceof LoadApi) continue;
 
-                $value = $row[ $scope->getKeyLocal() ];
-
                 try {
+                    $value = $row[ $scope->getKeyLocal() ];
+
                     $result = $scope->setValue($value)->loadRelation();
 
                     $row[ $scope->getAlias() ] = $result;
+                } catch (ErrorApiCallException $th) {
+                    Log::info($th);
+                    $row[ $scope->getAlias() ] = null;
                 } catch (\Throwable $th) {
                     //throw $th;
                     $row[ $scope->getAlias() ] = null;

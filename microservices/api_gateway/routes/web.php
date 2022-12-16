@@ -17,10 +17,12 @@ use Laravel\Lumen\Http\Request;
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/register
+    $router->get('users', 'UserController@index');
+    $router->get('users/{id}', 'UserController@show');
+
     $router->post('record', 'UserController@store');
     $router->put('record/{id}', 'UserController@update');
 
-    // Matches "/api/login
     $router->post('login', 'AuthController@login');
 
     try {

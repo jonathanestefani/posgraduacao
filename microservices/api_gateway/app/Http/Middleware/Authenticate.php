@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Support\Facades\Log;
 
 class Authenticate
 {
@@ -36,6 +37,12 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
+            $microservices_secret = config('api_gateway.microservices_secret');
+
+            if (isset($request->query->all()['microservices_secret']) && $request->query->all()['microservices_secret'] == $microservices_secret) {
+                return $next($request);
+            }
+
             return response('Não autorizado!', 401);
         }
 

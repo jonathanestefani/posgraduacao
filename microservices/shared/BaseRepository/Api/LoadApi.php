@@ -62,6 +62,8 @@ class LoadApi
         try {
             $address_api = UtilsService::getAddressApi($this->api_name) . '/api/';
 
+            $this->params['microservices_secret'] = config('api_gateway.microservices_secret');
+
             $response = Http::get($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value, $this->params);
 
             if ($response->failed()) {
@@ -88,8 +90,7 @@ class LoadApi
         try {
             $address_api = UtilsService::getAddressApi($this->api_name) . '/api/';
 
-            Log::info($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value);
-            Log::info($this->params);
+            $this->params['microservices_secret'] = config('api_gateway.microservices_secret');
 
             $response = Http::get($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value, $this->params);
 

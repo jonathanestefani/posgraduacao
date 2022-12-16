@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Services\DestroyService;
 use App\Models\User;
-use App\Services\User\DestroyService;
 use App\Services\User\ListAllService;
 use App\Services\User\ListIndexService;
 use App\Services\User\LoadService;

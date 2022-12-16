@@ -3,6 +3,8 @@
 namespace App\Services\Attendance\Aggregates;
 
 use App\BaseRepository\Api\LoadApi;
+use App\BaseRepository\Filters\ListFilter;
+use App\Services\Attendance\Filters\RequestsByJobId;
 
 trait TDefaultAggregates
 {
@@ -10,7 +12,7 @@ trait TDefaultAggregates
     {
         $this->with = [
             'job' => new LoadApi('jobs', 'job_id', 'job'),
-            'person' => new LoadApi('persons', 'person_id', 'person'),
+            'user' => new LoadApi('users', 'person_id', 'user'),
             'week' => new LoadApi('schedules', 'schedule_week_id', 'week', 'week'),
             'time' => new LoadApi('schedules', 'schedule_time_id', 'times', 'time'),
         ];

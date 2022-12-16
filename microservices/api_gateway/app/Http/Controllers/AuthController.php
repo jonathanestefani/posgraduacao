@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ErrorServiceException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\Auth\AuthService;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {

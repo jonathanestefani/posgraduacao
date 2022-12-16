@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserType;
-use App\Services\UserType\DestroyService;
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\LoadService;
+use App\BaseRepository\Services\StoreService;
 use App\Services\UserType\ListAllService;
 use App\Services\UserType\ListIndexService;
-use App\Services\UserType\LoadService;
-use App\Services\UserType\StoreService;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

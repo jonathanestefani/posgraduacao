@@ -48,6 +48,19 @@ class ApiController extends Controller
         $this->defineAddressApi();
     }
 
+    private function routesIgnored() {
+        $routes = ['users','record','login'];
+
+        if (in_array($this->api_name, $routes)) {
+            return true;
+        }
+
+        Log::info($routes);
+        Log::info($this->api_name);
+
+        return false;
+    }
+
     private function defineResource(&$parameters) {
         $uri = $parameters['REQUEST_URI'];
 
@@ -102,21 +115,24 @@ class ApiController extends Controller
 
             $this->defineApiGateway($request);
 
-            $route_apigateway = str_replace('/api', '', $this->resource);
+            if (!$this->routesIgnored()) {
+                Log::info('entrou aqui');
+                $route_apigateway = str_replace('/api', '', $this->resource);
 
-            switch ($this->method) {
-                case 'GET':
-                    $router->addRoute("GET", $route_apigateway, ['uses' => 'ApiController@index']);
-                    break;
-                case 'POST':
-                    $router->addRoute("POST", $route_apigateway, ['uses' => 'ApiController@store']);
-                    break;
-                case 'PUT':
-                    $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@update']);
-                    break;
-                case 'DELETE':
-                    $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@delete']);
-                    break;
+                switch ($this->method) {
+                    case 'GET':
+                        $router->addRoute("GET", $route_apigateway, ['uses' => 'ApiController@index']);
+                        break;
+                    case 'POST':
+                        $router->addRoute("POST", $route_apigateway, ['uses' => 'ApiController@store']);
+                        break;
+                    case 'PUT':
+                        $router->addRoute("PUT", $route_apigateway, ['uses' => 'ApiController@update']);
+                        break;
+                    case 'DELETE':
+                        $router->addRoute("DELETE", $route_apigateway, ['uses' => 'ApiController@delete']);
+                        break;
+                }
             }
         } catch(ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 401);
