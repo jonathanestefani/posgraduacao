@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-// import { HTTP } from '@ionic-native/http/ngx';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { environment } from '../../environments/environment.prod';
-import { Observable } from 'rxjs';
 import { Utils } from '../providers/utils';
 import { Alerts } from '../providers/alerts';
 
@@ -20,7 +17,7 @@ export class ApiService {
     private alert: Alerts
   ) {
     this.http.setServerTrustMode('nocheck');
-    this.http.setRequestTimeout(2000);
+    this.http.setRequestTimeout(120);
     this.http.setDataSerializer('json');
   }
 
@@ -133,7 +130,9 @@ export class ApiService {
     if (token && token !== '') {
       //const headers = new Headers(
       return {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Authorization: `Bearer ${this.getToken()}`,
       };
       //);

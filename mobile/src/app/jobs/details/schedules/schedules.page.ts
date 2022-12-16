@@ -45,7 +45,27 @@ export class SchedulesPage implements OnInit {
     this.scheduleTimeSelected = time;
   }
 
+  validTime(): boolean {
+    if (!this.scheduleTimeSelected.id) {
+      this.alerts.alertToast('Favor selecionar um horário!', ETypeAlertToast.danger);
+
+      return false;
+    }
+
+    if (!this.scheduleSelected.id) {
+      this.alerts.alertToast('Favor selecionar um dia da semana!', ETypeAlertToast.danger);
+
+      return false;
+    }
+
+    return true;
+  }
+
   async requestSchedule() {
+    if (!this.validTime()) {
+      return;
+    }
+
     try {
       await this.alerts.loading();
 

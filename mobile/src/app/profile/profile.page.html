@@ -1,29 +1,70 @@
 <ion-header>
-    <ion-toolbar color="warning">
-      <ion-buttons slot="start" [routerLink]="['','jobs']" color="light">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-        <ion-title style="text-align: center">Perfil</ion-title>
-    </ion-toolbar>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="text-align: center">Perfil do usuário</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-card>
-        <ion-item>
-             <ion-select value="{{ form.user_type_id }}" [(ngModel)]="form.user_type_id" placeholder="Selecione o tipo de usuário">
-                <ion-select-option *ngFor="let item of recordService.getTypes()" [value]="item.id">{{ item.name }}</ion-select-option>  
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-input type="text" id="name" placeholder="Nome" [(ngModel)]="form.name"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-input type="text" id="email" placeholder="E-mail" [(ngModel)]="form.email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-input type="password" id="password" placeholder="Informe sua senha..." [(ngModel)]="form.password"></ion-input>
-        </ion-item>
-        <ion-button *ngIf="!isLoading" color="danger" size="small" expand="full" fill="solid" (click)=save()>Salvar
-        </ion-button>
-    </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-select
+        [(ngModel)]="form.user_type_id"
+        placeholder="Selecione o tipo de usuário"
+      >
+        <ion-select-option [value]="item.id" *ngFor="let item of listUserType"
+          >{{ item.name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        type="text"
+        id="name"
+        placeholder="Nome"
+        [(ngModel)]="form.name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        type="text"
+        id="email"
+        placeholder="E-mail"
+        [(ngModel)]="form.email"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        type="password"
+        id="password"
+        placeholder="Informe sua senha..."
+        [(ngModel)]="form.password"
+      ></ion-input>
+    </ion-item>
+    <ion-button
+      *ngIf="!isLoading"
+      color="danger"
+      size="small"
+      expand="full"
+      fill="solid"
+      (click)="save()"
+    >
+      Salvar
+    </ion-button>
+  </ion-card>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      *ngIf="!isLoading"
+      color="medium"
+      size="small"
+      expand="full"
+      fill="solid"
+      [routerLink]="['','login']"
+      >Cancelar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

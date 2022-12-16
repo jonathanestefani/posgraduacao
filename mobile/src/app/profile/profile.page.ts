@@ -14,25 +14,24 @@ import { IUser } from '../Interfaces/User/IUser';
 export class ProfilePage implements OnInit {
 
   form: IUser = {
-    id: 0,
     user_type_id: 0,
     name: '',
     email: '',
     password: '',
-    status: 0
+    status: 1
   };
 
-  isLoading = false;
+  listUserType = RecordService.types.filter(elem => elem.hide === false);
+
+  isLoading: false;
 
   constructor(private navControl: NavController,
               public router: Router,
               private recordService: RecordService,
-              private alerts: Alerts) {}
+              private alerts: Alerts) { }
 
   ngOnInit() {
     this.form = UserData.getUser();
-
-    console.log(UserData.getUser());
   }
 
   async save() {
@@ -46,9 +45,9 @@ export class ProfilePage implements OnInit {
 
       await this.alerts.loading();
 
-      this.alerts.alertToast('Cadastro efetuado com sucesso!', ETypeAlertToast.danger);
+      this.alerts.alertToast('Atualização efetuada com sucesso!');
 
-      this.navControl.navigateForward('login');
+      this.navControl.navigateForward('profile');
     } catch (error) {
       await this.alerts.loading();
 

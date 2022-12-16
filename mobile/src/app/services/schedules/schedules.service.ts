@@ -32,7 +32,7 @@ export class SchedulesService {
   public getDaysWeekSchedulesByJobId(jobId: number): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.listScheduleWeek = await this.getWeekSchedules({
-        filter: {
+        filters: {
           job_id: jobId,
         },
         all: true

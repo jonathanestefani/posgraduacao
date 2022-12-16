@@ -31,17 +31,16 @@ export class RecordPage implements OnInit {
   ngOnInit() {}
 
   async save() {
-
-    await this.alerts.loading();
-
     try {
+      await this.alerts.loading();
+
       const response = await this.recordService.record(this.form);
 
       console.log(response);
 
-      await this.alerts.loading();
-
       this.alerts.alertToast('Cadastro efetuado com sucesso!');
+
+      await this.alerts.stopLoading();
 
       this.navControl.navigateForward('login');
     } catch (error) {

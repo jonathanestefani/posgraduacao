@@ -6,6 +6,7 @@ import { JobsService } from 'src/app/services/jobs/jobs.service';
 import { UserData } from 'src/app/providers/userData';
 import { IJob } from '../../../Interfaces/job/interface/IJob';
 import { JobStore } from 'src/app/services/jobs/job.store';
+import { SchedulesStore } from 'src/app/services/schedules/schedules.store';
 
 @Component({
   selector: 'app-about',
@@ -20,14 +21,8 @@ export class AboutPage implements OnInit {
               public router: Router,
               private jobService: JobsService,
               private jobStore: JobStore,
-              private alerts: Alerts) {
-
-    this.job.job_info = [
-      { type: 'desc', name: 'Descrição', text: '', value: 0 },
-      { type: 'number', name: 'Valor', text: '', value: 0 },
-    ];
-
-  }
+              private scheduleStore: SchedulesStore,
+              private alerts: Alerts) {}
 
   ngOnInit() {
     console.log(this.activeRoute.snapshot.params.id);
@@ -41,6 +36,10 @@ export class AboutPage implements OnInit {
 
       if (data) {
         this.job = data;
+      }
+
+      if (!data.job_info) {
+        this.job.job_info = JobStore.job.job_info;
       }
     } else {
       this.jobStore.newModel();
@@ -60,9 +59,16 @@ export class AboutPage implements OnInit {
 
       this.job.person_id = userData.id;
 
+      await this.alerts.loading();
+
       const response = await this.jobService.save(this.job);
 
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
+
+
+      this.jobStore.set(response);
+
+      this.scheduleStore.newModel();
 
       console.log('/jobs/record/about/' + response.id);
 

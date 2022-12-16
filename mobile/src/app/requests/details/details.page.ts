@@ -30,7 +30,7 @@ export class DetailsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log(this.jobStore.get());
+    console.log('DetailsPage', this.jobStore.get());
 
     this.tabRef.select('about');
   }

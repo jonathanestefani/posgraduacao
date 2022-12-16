@@ -66,7 +66,7 @@ export class SchedulesPage implements OnInit {
 
       console.log(response);
 
-      this.navControl.navigateForward('requests');
+      this.navControl.navigateForward('jobs');
 
       this.alerts.alertToast('Atendimento cancelado com sucesso!',
                               ETypeAlertToast.success,
@@ -94,7 +94,7 @@ export class SchedulesPage implements OnInit {
 
       console.log(response);
 
-      this.navControl.navigateForward('requests');
+      this.navControl.navigateForward('jobs');
 
       this.alerts.alertToast('Atendimento aprovado com sucesso!',
                               ETypeAlertToast.success,

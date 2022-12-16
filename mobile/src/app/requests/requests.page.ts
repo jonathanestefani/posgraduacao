@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { AttendancesService } from '../services/attendances/attendances.service';
@@ -34,11 +34,21 @@ export class RequestsPage implements OnInit {
     return EAttendancesStatus;
   }
 
-  public ngOnInit() {
+  public ngOnInit() {}
+
+  public ionViewWillEnter() {
     this.filters.requests_by_person_id = String(UserData.getUser().id);
 
     this.getListAllJobs();
   }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.ionViewWillEnter();
+    }, 1000);
+  }
+
 
   public async getListAllJobs() {
 
@@ -77,8 +87,6 @@ export class RequestsPage implements OnInit {
     const schedules: IScheduleWeek = attendance.week;
 
     schedules.times = [attendance.times];
-
-    console.log(schedules);
 
     this.requestsStore.newModel();
 

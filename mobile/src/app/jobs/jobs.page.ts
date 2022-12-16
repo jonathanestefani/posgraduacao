@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, NavController } from '@ionic/angular';
 import { IJob } from '../Interfaces/job/interface/IJob';
 import { Alerts, ETypeAlert } from '../providers/alerts';
 import { UserData } from '../providers/userData';
@@ -12,40 +12,76 @@ import { JobsService } from '../services/jobs/jobs.service';
   styleUrls: ['./jobs.page.scss'],
 })
 export class JobsPage implements OnInit {
-
   listJobs: Array<IJob> = [];
   isLoading: false;
   filters = {
-    name: ''
+    name: '',
   };
 
-  constructor(private navControl: NavController,
-              private jobsService: JobsService,
-              private jobStore: JobStore,
-              private alerts: Alerts) { }
+  limitePerPage = 25;
+  numberOfLines = 0;
+  proxPage = 1;
+  lastPage = 1;
+
+  constructor(
+    private navControl: NavController,
+    private jobsService: JobsService,
+    private jobStore: JobStore,
+    private alerts: Alerts
+  ) {}
 
   ngOnInit() {
+    this.proxPage = 1;
+
+    this.listJobs = [];
+
+    this.getListAllJobs();
+  }
+
+  getPagination() {
+    return {
+      page: this.proxPage,
+    };
+  }
+
+  onIonInfinite(ev) {
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+
     this.getListAllJobs();
   }
 
   async getListAllJobs() {
-
-    await this.alerts.loading();
+    if (this.proxPage > this.lastPage) {
+      return false;
+    }
 
     try {
+      await this.alerts.loading();
+
       const response = await this.jobsService.getJobs({
-        filters: { ...this.filters }
+        filters: { ...this.filters },
+        ...this.getPagination()
       });
 
       console.log(response);
 
-      this.listJobs = response.data;
+      this.listJobs = [ ...this.listJobs, ...response.data ];
+
+      this.numberOfLines = response.total;
+      this.proxPage += 1;
+      this.lastPage = response.last_page;
 
       await this.alerts.stopLoading();
     } catch (error) {
       await this.alerts.stopLoading();
 
-      this.alerts.alert('Atenção', 'Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlert.ok);
+      this.alerts.alert(
+        'Atenção',
+        'Houve um problema ao tentar buscar os serviços disponíveis!',
+        ETypeAlert.ok
+      );
 
       console.log(error);
     }
@@ -68,5 +104,4 @@ export class JobsPage implements OnInit {
       await this.navControl.navigateForward('/jobs/details');
     }
   }
-
 }

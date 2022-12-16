@@ -20,6 +20,8 @@ export class AboutPage implements OnInit {
 
   ngOnInit() {
     this.job = this.jobStore.get();
+
+    console.log('AboutPage', this.job);
   }
 
 }

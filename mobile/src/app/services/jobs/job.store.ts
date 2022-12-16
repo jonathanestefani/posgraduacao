@@ -13,7 +13,10 @@ export class JobStore extends AbstractStore {
     name: '',
     status: 1,
     person_id: 0,
-    job_info: [],
+    job_info: [
+      { type: 'desc', name: 'Descrição', text: '', value: 0 },
+      { type: 'number', name: 'Valor', text: '', value: 0 },
+    ],
     person: {} as IPerson
   };
 
@@ -42,7 +45,9 @@ export class JobStore extends AbstractStore {
   }
 
   public async set(job: IJob) {
-    super.set({ ... this.store, ...job });
+    this.setJobId(job.id);
+
+    super.set(job);
   }
 
   public refresh(): Subject<IJob> {
