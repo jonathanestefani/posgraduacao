@@ -21,13 +21,38 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button
-      ion-button
-      color="danger"
-      expand="full"
-      (click)="requestCancelSchedule()"
+    <ion-item
+      class="ion-text-right"
+      [class]="getClassByStatus(attendances.status)"
     >
-      Cancelar solicitação
-    </ion-button>
+      <ion-label *ngIf="attendances.status === getEAttendancesStatus.waiting">
+        <ion-button
+          ion-button
+          color="danger"
+          expand="full"
+          (click)="requestCancelSchedule()"
+        >
+          Cancelar solicitação
+        </ion-button>
+      </ion-label>
+      <ion-label *ngIf="attendances.status === getEAttendancesStatus.approved">
+        Aprovado <ion-icon name="checkmark-outline"></ion-icon>
+
+        <br />
+        <span>Favor comparecer no dia e horário corretamente</span>
+      </ion-label>
+      <ion-label *ngIf="attendances.status === getEAttendancesStatus.denied">
+        Negado <ion-icon name="information-outline"></ion-icon>
+
+        <br />
+        {{ attendances.obs }}
+      </ion-label>
+      <ion-label *ngIf="attendances.status === getEAttendancesStatus.cancel">
+        Cancelado <ion-icon name="information-outline"></ion-icon>
+
+        <br />
+        <span>{{ attendances.obs }}</span>
+      </ion-label>
+    </ion-item>
   </ion-toolbar>
 </ion-footer>

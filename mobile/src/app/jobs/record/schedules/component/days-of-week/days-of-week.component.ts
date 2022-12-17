@@ -25,7 +25,7 @@ export class DaysOfWeekComponent implements OnInit {
 
   ngOnInit() {
     this.scheduleStore.refresh().subscribe((obj) => {
-      this.listSelected = this.scheduleStore.get();
+      this.listSelected = obj;
       this.jobId = this.scheduleStore.getJobId();
     });
 

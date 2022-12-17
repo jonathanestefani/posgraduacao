@@ -28,7 +28,9 @@ export class SchedulePage implements OnInit {
               private attendancesStore: AttendancesStore,
               private jobStore: JobStore,
               private scheduleStore: SchedulesStore,
-              private alerts: Alerts) { }
+              private alerts: Alerts) {
+    this.listAttendances = [];
+  }
 
   public get getEAttendancesStatus(): typeof EAttendancesStatus {
     return EAttendancesStatus;
@@ -37,7 +39,20 @@ export class SchedulePage implements OnInit {
   public ngOnInit() {
     this.filters.person_id = String(UserData.getUser().id);
 
+    this.listAttendances = [];
+
     this.getListAllJobs();
+  }
+
+  getTotal(): number {
+    return this.listAttendances.length || 0;
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.ngOnInit();
+    }, 1000);
   }
 
   public async getListAllJobs() {
@@ -46,16 +61,17 @@ export class SchedulePage implements OnInit {
 
     try {
       const response = await this.attendancesService.getAttendances({
-        filters: { ...this.filters }
+        filters: { ...this.filters },
+        all: true
       });
 
       console.log(response);
 
-      this.listAttendances = response.data;
+      this.listAttendances = response || [];
 
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
     } catch (error) {
-      await this.alerts.loading();
+      await this.alerts.stopLoading();
 
       this.alerts.alertToast('Houve um problema ao tentar buscar os serviços disponíveis!', ETypeAlertToast.danger);
 

@@ -5,6 +5,7 @@ import { Alerts, ETypeAlert } from '../providers/alerts';
 import { UserData } from '../providers/userData';
 import { JobStore } from '../services/jobs/job.store';
 import { JobsService } from '../services/jobs/jobs.service';
+import { SchedulesStore } from '../services/schedules/schedules.store';
 
 @Component({
   selector: 'app-jobs',
@@ -26,6 +27,7 @@ export class JobsPage implements OnInit {
   constructor(
     private navControl: NavController,
     private jobsService: JobsService,
+    public scheduleStore: SchedulesStore,
     private jobStore: JobStore,
     private alerts: Alerts
   ) {}
@@ -36,6 +38,15 @@ export class JobsPage implements OnInit {
     this.listJobs = [];
 
     this.getListAllJobs();
+  }
+
+  onSearch($event) {
+    if ($event.keyCode === 13) {
+      this.listJobs = [];
+      this.proxPage = 1;
+
+      this.getListAllJobs();
+    }
   }
 
   getPagination() {
@@ -96,7 +107,11 @@ export class JobsPage implements OnInit {
   async itemSelected(job) {
     console.log(job);
 
+    this.jobStore.newModel();
+
     await this.jobStore.set(job);
+
+    this.scheduleStore.newModel();
 
     if (this.isEdit(job)) {
       await this.navControl.navigateForward('/jobs/record/about/' + job.id);

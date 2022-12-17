@@ -16,7 +16,7 @@ export class RecordService {
   constructor(private http: ApiService) {}
 
   public record(params: any = {}) {
-    if (params.id) {
+    if (params.id > 0) {
       return this.http.put(this.resource + '/' + params.id, params);
     } else {
       return this.http.post(this.resource, params);

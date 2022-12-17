@@ -32,6 +32,8 @@
     "cordova": "^11.0.0",
     "cordova-browser": "6.0.0",
     "cors": "^2.8.5",
+    "emulate": "1.0.2",
+    "emulator": "0.1.0",
     "ionic": "^5.4.16",
     "ionicons": "^6.0.3",
     "next-tick": "^1.1.0",

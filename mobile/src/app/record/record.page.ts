@@ -12,10 +12,10 @@ import { RecordService } from '../services/record/record.service';
 export class RecordPage implements OnInit {
 
   form = {
-    user_type_id: 0,
+    user_type_id: 2,
     name: '',
-    email: 'jonathan.estefani@gmail.com',
-    password: 'admin',
+    email: '',
+    password: '',
     status: 1
   };
 

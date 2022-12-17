@@ -13,6 +13,7 @@
       <ion-select
         [(ngModel)]="form.user_type_id"
         placeholder="Selecione o tipo de usuário"
+        disabled="true"
       >
         <ion-select-option [value]="item.id" *ngFor="let item of listUserType"
           >{{ item.name }}</ion-select-option

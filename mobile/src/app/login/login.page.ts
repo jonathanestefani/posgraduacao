@@ -14,10 +14,10 @@ import { ApiService } from '../services/api.service';
 export class LoginPage implements OnInit {
 
   form = {
-    email: 'jonathan.estefani@gmail.com',
-    password: 'empresa',
+    email: '',
+    password: '',
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    user_type_id: 3
+    user_type_id: 2
   };
 
   listUserType = RecordService.types.filter(elem => elem.hide === false);

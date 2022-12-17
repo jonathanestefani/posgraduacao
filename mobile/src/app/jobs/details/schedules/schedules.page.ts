@@ -34,10 +34,8 @@ export class SchedulesPage implements OnInit {
               private alerts: Alerts) {}
 
   ngOnInit() {
-    this.job = this.jobStore.get();
-    this.listSchedules = this.scheduleStore.get();
-
-    console.log('listSchedules', [...this.listSchedules]);
+      this.job = this.jobStore.get();
+      this.listSchedules = this.scheduleStore.get();
   }
 
   setScheduleTime(dayWeek, time) {

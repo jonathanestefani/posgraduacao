@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonTabs, NavController } from '@ionic/angular';
+import { IJob } from 'src/app/Interfaces/job/interface/IJob';
 import { JobStore } from 'src/app/services/jobs/job.store';
 import { AboutPage } from './about/about.page';
 import { SchedulesPage } from './schedules/schedules.page';
@@ -13,28 +14,29 @@ import { SchedulesPage } from './schedules/schedules.page';
 export class RecordPage implements OnInit {
   @ViewChild('myTabs') tabRef: IonTabs;
 
+  job: IJob;
   jobId: number = 0;
 
   tabAbout: any;
   tabSchedule: any;
 
-  constructor(private activeRoute: ActivatedRoute,
-              private navControl: NavController,
-              private jobStore: JobStore,
-              public router: Router) {
-
-    //= JSON.parse(localStorage.getItem('job_details'));
-
+  constructor(
+    private activeRoute: ActivatedRoute,
+    private navControl: NavController,
+    private jobStore: JobStore,
+    public router: Router
+  ) {
     this.tabAbout = AboutPage;
     this.tabSchedule = SchedulesPage;
 
-    this.jobStore.newModel();
+    if (this.activeRoute.snapshot.children[0].params.id == null) {
+      this.jobStore.newModel();
+    }
 
     this.jobStore.refresh().subscribe(() => {
-      // this.tabRef.select('about');
-      this.jobId = this.jobStore.getJobId();
+      this.job = this.jobStore.get();
 
-      console.log('refresh', this.jobStore.get());
+      this.jobId = this.job.id;
     });
   }
 

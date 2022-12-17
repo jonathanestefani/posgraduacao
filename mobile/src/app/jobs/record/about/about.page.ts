@@ -25,13 +25,11 @@ export class AboutPage implements OnInit {
               private alerts: Alerts) {}
 
   ngOnInit() {
-    console.log(this.activeRoute.snapshot.params.id);
-
     this.loadJobById();
   }
 
   async loadJobById() {
-    if (this.activeRoute.snapshot.params.id) {
+    if (this.activeRoute.snapshot.params.id > 0) {
       const data = await this.jobService.getJobById( this.activeRoute.snapshot.params.id );
 
       if (data) {

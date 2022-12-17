@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Alerts, ETypeAlertToast } from '../providers/alerts';
 import { AttendancesService } from '../services/attendances/attendances.service';
@@ -34,10 +34,10 @@ export class RequestsPage implements OnInit {
     return EAttendancesStatus;
   }
 
-  public ngOnInit() {}
-
-  public ionViewWillEnter() {
+  public ngOnInit() {
     this.filters.requests_by_person_id = String(UserData.getUser().id);
+
+    this.listAttendances = [];
 
     this.getListAllJobs();
   }
@@ -45,10 +45,9 @@ export class RequestsPage implements OnInit {
   doRefresh(event) {
     setTimeout(() => {
       event.target.complete();
-      this.ionViewWillEnter();
+      this.ngOnInit();
     }, 1000);
   }
-
 
   public async getListAllJobs() {
 
@@ -56,12 +55,13 @@ export class RequestsPage implements OnInit {
 
     try {
       const response = await this.attendancesService.getAttendances({
-        filters: { ...this.filters }
+        filters: { ...this.filters },
+        all: true
       });
 
       console.log(response);
 
-      this.listAttendances = response.data;
+      this.listAttendances = response || [];
 
       await this.alerts.loading();
     } catch (error) {

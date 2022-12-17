@@ -33,7 +33,6 @@ export class SchedulesPage implements OnInit {
   };
 
   constructor(public router: Router,
-              private activeRoute: ActivatedRoute,
               private schedulesService: SchedulesService,
               private jobStore: JobStore,
               private scheduleStore: SchedulesStore,
@@ -43,14 +42,12 @@ export class SchedulesPage implements OnInit {
   ngOnInit() {
     this.scheduleStore.newModel();
 
-    this.jobStore.refresh().subscribe(() => {
-      // this.tabRef.select('about');
-      this.job = this.jobStore.get();
+    // this.tabRef.select('about');
+    this.job = this.jobStore.get();
 
-      this.loadScheduleById();
+    this.loadScheduleById();
 
-      console.log('refresh', this.jobStore.get());
-    });
+    this.slideOpts.initialSlide = 0;
   }
 
   loadScheduleById() {
@@ -66,9 +63,9 @@ export class SchedulesPage implements OnInit {
 
     console.log(result);
 
-    this.scheduleStore.set(result);
-
     this.scheduleStore.setJobId(jobId);
+
+    this.scheduleStore.set(result);
 
     await this.alerts.stopLoading();
   }

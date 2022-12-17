@@ -9,8 +9,8 @@
     <ion-searchbar
       [(ngModel)]="filters.name"
       animated="true"
-      (keyup.enter)="getListAllJobs()"
-      placeholder="Buscar profissionais"
+      (keyup.enter)="onSearch($event)"
+      placeholder="Buscar profissional"
     ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -33,8 +33,11 @@
           </ion-avatar>
           <h2>{{ item.name }}</h2>
         </ion-item>
-        <ion-item *ngIf="item.user">
-          <h2>{{ item.user.name }}</h2>
+        <ion-item *ngIf="item.user" lines="none">
+          <h3>{{ item.user.name }}</h3>
+        </ion-item>
+        <ion-item *ngFor="let item of item.job_info">
+          {{ item.name }}: {{ item.value > 0 ? item.value : item.text}}
         </ion-item>
       </ion-list>
     </ion-card-content>

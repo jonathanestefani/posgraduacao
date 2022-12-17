@@ -39,6 +39,10 @@ export class SchedulesPage implements OnInit {
               private attendancesService: AttendancesService,
               private alerts: Alerts) {}
 
+  public get getEAttendancesStatus(): typeof EAttendancesStatus {
+    return EAttendancesStatus;
+  }
+
   ngOnInit() {
     this.attendances = this.attendancesStore.get();
 
@@ -80,6 +84,21 @@ export class SchedulesPage implements OnInit {
 
       console.log(error);
     }
+  }
+
+  getClassByStatus(status) {
+    switch (status) {
+      case EAttendancesStatus.approved:
+        return 'clsApproved';
+      case EAttendancesStatus.cancel:
+        return 'clsCancel';
+      case EAttendancesStatus.denied:
+        return 'clsDenied';
+      case EAttendancesStatus.waiting:
+        return 'clsWaiting';
+    }
+
+    return '';
   }
 
 }

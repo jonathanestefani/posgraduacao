@@ -32,15 +32,19 @@ export class DetailsPage implements OnInit {
     this.tabSchedule = SchedulesPage;
   }
 
+  async ngOnInit() {
+    this.job = this.jobStore.get();
+
+    await this.getListAllSchedules();
+
+    this.tabRef.select('about');
+  }
+
   async getListAllSchedules() {
     try {
       await this.alerts.loading();
 
       const response = await this.schedulesService.getDaysWeekSchedulesByJobId(this.job.id);
-
-      console.log('response', response);
-
-      this.scheduleStore.newModel();
 
       this.scheduleStore.set(response);
 
@@ -52,20 +56,6 @@ export class DetailsPage implements OnInit {
 
       console.log(error);
     }
-  }
-
-  ionViewDidEnter() {
-    console.log(this.jobStore.get());
-
-    this.tabRef.select('about');
-  }
-
-  async ngOnInit() {
-    this.job = this.jobStore.get();
-
-    await this.getListAllSchedules();
-
-    console.log(this.jobStore.get());
   }
 
 }

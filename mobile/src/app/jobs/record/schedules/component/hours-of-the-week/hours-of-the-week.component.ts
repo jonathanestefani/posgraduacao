@@ -19,7 +19,7 @@ export class HoursOfTheWeekComponent implements OnInit {
   constructor(private scheduleStore: SchedulesStore,
               private alert: Alerts) {
     this.scheduleStore.refresh().subscribe((obj) => {
-      this.listSelected = this.scheduleStore.get();
+      this.listSelected = obj;
       this.jobId = this.scheduleStore.getJobId();
     });
   }

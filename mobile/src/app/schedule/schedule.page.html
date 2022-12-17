@@ -5,42 +5,64 @@
     </ion-buttons>
     <ion-title>Minha agenda</ion-title>
   </ion-toolbar>
-  <ion-toolbar color="warning">
-    <ion-searchbar [(ngModel)]="filters.search" animated="true" (keyup.enter)="getListAllJobs()" placeholder="Buscar"></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
+  <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card no-padding>
     <ion-card-content no-padding>
-      <ion-list lines="full" *ngFor="let item of listAttendances" (click)="itemSelected(item)">
+      <ion-list
+        lines="full"
+        *ngFor="let item of listAttendances"
+        (click)="itemSelected(item)"
+      >
         <ion-item lines="none">
           <ion-avatar>
-            <img width="50px" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            <img
+              width="50px"
+              alt="Silhouette of a person's head"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            />
           </ion-avatar>
           <ion-label class="leftName">
             <h2>{{ item.job.name }}</h2>
           </ion-label>
         </ion-item>
-        <ion-item class="ion-text-right" [class]="getClassByStatus(item.status)">
+        <ion-item>
+          <ion-label class="leftName" *ngIf="item.user">
+            <h2>{{ item.user.name }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item
+          class="ion-text-right"
+          [class]="getClassByStatus(item.status)"
+        >
           <ion-label *ngIf="item.status === getEAttendancesStatus.waiting">
             Aguardando <ion-icon name="alert-circle-outline"></ion-icon>
           </ion-label>
           <ion-label *ngIf="item.status === getEAttendancesStatus.approved">
             Aprovado <ion-icon name="checkmark-outline"></ion-icon>
 
+            <br />
             <span>Favor comparecer no dia e horário corretamente</span>
           </ion-label>
           <ion-label *ngIf="item.status === getEAttendancesStatus.denied">
-            <ion-icon name="information-outline"></ion-icon>
+            Negado <ion-icon name="information-outline"></ion-icon>
+
+            <br />
             {{ item.obs }}
           </ion-label>
           <ion-label *ngIf="item.status === getEAttendancesStatus.cancel">
-            {{ item.obs }} <ion-icon name="information-outline"></ion-icon>
+            Cancelado <ion-icon name="information-outline"></ion-icon>
+
+            <br />
+            <span>{{ item.obs }}</span>
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-label class="ion-text-center" *ngIf="listAttendances.length === 0">
+      <ion-label class="ion-text-center" *ngIf="getTotal() === 0">
         Nenhum atendimento solicitado
       </ion-label>
     </ion-card-content>

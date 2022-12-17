@@ -60,7 +60,7 @@ export class SchedulesPage implements OnInit {
 
       const response = await this.attendancesService.requestCancelAttendance({
           id: this.attendances.id,
-          status: EAttendancesStatus.cancel,
+          status: EAttendancesStatus.denied,
           obs: this.job.name + ' cancelou sua solicitação!'
       });
 
