@@ -41,12 +41,16 @@ trait TAggregate
     {
         if (count($this->with) == 0) return;
 
-        if (is_array($this->data)) {
+        if ($this->data instanceof ARepository || $this->data instanceof Model) {
+            try {
+                $this->processWith($this->data);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        } else if (count($this->data) > 0) {
             foreach ($this->data as &$row) {
                 $this->processWith($row);
             }
-        } else if ($this->data instanceof ARepository || $this->data instanceof Model) {
-            $this->processWith($this->data);
         }
     }
 
