@@ -6,7 +6,7 @@ abstract class ARepository
 {
     protected $modelClass;
     protected $instance;
-    protected $data;
+    protected $data = null;
 
     public function __construct($model)
     {

@@ -15,6 +15,10 @@ trait TLoad {
 
             $this->data = $this->instance->find($id);
 
+            if (method_exists($this, 'loadRelationsByApi')) {
+                $this->loadRelationsByApi();
+            }
+
             if (empty($this->instance)) {
                 throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
             }

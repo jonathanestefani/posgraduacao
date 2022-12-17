@@ -10,7 +10,7 @@ trait TDefaultAggregates
     {
         $this->with = [
             'job_info',
-            'api' => new LoadApi('users', 'person_id')
+            'api' => new LoadApi('users', 'person_id', 'user')
         ];
     }
 }

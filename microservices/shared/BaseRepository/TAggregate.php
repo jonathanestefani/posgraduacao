@@ -2,16 +2,18 @@
 
 namespace App\BaseRepository;
 
+use App\BaseRepository\Abs\ARepository;
 use Closure;
 use App\BaseRepository\Api\LoadApi;
 use App\BaseRepository\Exceptions\ErrorApiCallException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 trait TAggregate
 {
     protected $with = [];
 
-    public function setWith(Array $with)
+    public function setWith(array $with)
     {
         $this->with = $with;
     }
@@ -35,26 +37,37 @@ trait TAggregate
         }
     }
 
-    public function loadRelationsByApi() {
+    public function loadRelationsByApi()
+    {
         if (count($this->with) == 0) return;
 
-        foreach($this->data as $row) {
-            foreach ($this->with as $tableRelationModel => $scope) {
-                if (!$scope instanceof LoadApi) continue;
+        if (is_array($this->data)) {
+            foreach ($this->data as $row) {
+                $this->processWith($row);
+            }
+        } else if ($this->data instanceof ARepository || $this->data instanceof Model) {
+            $this->processWith($this->data);
+        }
+    }
 
-                try {
-                    $value = $row[ $scope->getKeyLocal() ];
+    private function processWith (&$row) {
+        foreach ($this->with as $tableRelationModel => $scope) {
+            if (!$scope instanceof LoadApi) continue;
 
-                    $result = $scope->setValue($value)->loadRelation();
+            try {
+                $value = $row[$scope->getKeyLocal()];
 
-                    $row[ $scope->getAlias() ] = $result;
-                } catch (ErrorApiCallException $th) {
-                    Log::info($th);
-                    $row[ $scope->getAlias() ] = null;
-                } catch (\Throwable $th) {
-                    //throw $th;
-                    $row[ $scope->getAlias() ] = null;
-                }
+                $result = $scope->setValue($value)->loadRelation();
+
+                $row[$scope->getAlias()] = $result;
+            } catch (ErrorApiCallException $th) {
+                Log::info($th);
+                $row[$scope->getAlias()] = null;
+            } catch (\Throwable $th) {
+                //throw $th;
+                Log::info($th);
+
+                $row[$scope->getAlias()] = null;
             }
         }
     }

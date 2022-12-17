@@ -19,6 +19,10 @@ class LoadService extends ARepository implements IService
 
     public function execute() {
         try {
+            if (method_exists($this, 'loadRelationsByApi')) {
+                $this->loadRelationsByApi();
+            }
+
             return $this->data;
         } catch (\Throwable $th) {
             Log::error($th);

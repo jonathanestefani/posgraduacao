@@ -5,6 +5,7 @@ namespace App\BaseRepository;
 use App\BaseRepository\Enum\EOperation;
 use App\Exceptions\ErrorServiceException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 trait THttpRequest
 {
@@ -54,8 +55,12 @@ trait THttpRequest
     }
 
     private function loadHttpAggregate() {
-        if (method_exists($this, 'executeAggregate') && isset($this->request['with'])) {
-            $this->with = isset($this->request['with']) && count($this->request['with']) > 0 ? $this->request['with'] : [];
+        if (method_exists($this, 'executeAggregate') ) {
+            if (isset($this->request['with'])) {
+                $this->with = isset($this->request['with']) && count($this->request['with']) > 0 ? $this->request['with'] : [];
+            }
+
+            $this->executeAggregate();
         }
     }
 
