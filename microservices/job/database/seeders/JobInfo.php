@@ -15,7 +15,7 @@ class JobInfo extends Seeder
      */
     public function run()
     {
-        DB::table('job_info')->insert(
+        DB::table('job_info')->upsert(
             [
                 [
                     "id" => 1,
@@ -44,6 +44,9 @@ class JobInfo extends Seeder
                     "type" => "desc",
                     "created_at" => new DateTime("now")
                 ],
+            ],
+            [
+                'id'
             ]
         );
     }
