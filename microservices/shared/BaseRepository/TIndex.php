@@ -26,11 +26,17 @@ trait TIndex
             $this->executeOrder();
         }
 
-        $this->data = $this->executePagination();
+        $result = $this->executePagination()->toArray();
+
+        $this->data = $result['data'];
 
         if (method_exists($this, 'loadRelationsByApi')) {
             $this->loadRelationsByApi();
         }
+
+        unset($result['data']);
+        $result['data'] = $this->data;
+        $this->data = $result;
 
         $this->afterExecute(ETypeCall::INDEX);
 
@@ -49,9 +55,7 @@ trait TIndex
             return $this->getStructPagination();
         }
 
-        $result = $this->instance->paginate($perPage);
-
-        return $result;
+        return $this->instance->paginate($perPage);
     }
 
     public function setPagination()

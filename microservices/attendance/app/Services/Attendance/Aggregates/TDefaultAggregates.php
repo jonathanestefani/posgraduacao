@@ -3,8 +3,6 @@
 namespace App\Services\Attendance\Aggregates;
 
 use App\BaseRepository\Api\LoadApi;
-use App\BaseRepository\Filters\ListFilter;
-use App\Services\Attendance\Filters\RequestsByJobId;
 
 trait TDefaultAggregates
 {

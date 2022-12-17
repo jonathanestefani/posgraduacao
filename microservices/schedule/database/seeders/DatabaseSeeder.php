@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(Week::class);
+        $this->call(Time::class);
     }
 }

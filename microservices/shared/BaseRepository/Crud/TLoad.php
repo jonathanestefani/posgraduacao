@@ -3,6 +3,7 @@
 namespace App\BaseRepository\Crud;
 
 use App\BaseRepository\Enum\EOperation;
+use App\BaseRepository\Enum\ETypeCall;
 use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 
 trait TLoad {
@@ -10,9 +11,13 @@ trait TLoad {
     public function load($id)
     {
         try {
-            if (method_exists($this, 'defineAggregate')) {
-                $this->defineAggregate();
+            $this->operation = EOperation::LOAD;
+
+            if (method_exists($this, 'executeAggregate')) {
+                $this->executeAggregate();
             }
+
+            $this->beforeExecute(ETypeCall::SHOW);
 
             $this->data = $this->instance->find($id);
 
@@ -20,11 +25,13 @@ trait TLoad {
                 $this->loadRelationsByApi();
             }
 
-            $this->operation = EOperation::LOAD;
+            $this->afterExecute(ETypeCall::ALL);
 
             if (empty($this->instance)) {
                 throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");
             }
+
+            return $this->data;
         } catch (\Throwable $th) {
             throw $th;
         }

@@ -20,11 +20,9 @@ trait TAggregate
 
     public function executeAggregate()
     {
-        /*
         if (method_exists($this, 'defineAggregate')) {
             $this->defineAggregate();
         }
-        */
 
         if (count($this->with) > 0) {
             foreach ($this->with as $tableRelationModel => $scope) {
@@ -44,7 +42,7 @@ trait TAggregate
         if (count($this->with) == 0) return;
 
         if (is_array($this->data)) {
-            foreach ($this->data as $row) {
+            foreach ($this->data as &$row) {
                 $this->processWith($row);
             }
         } else if ($this->data instanceof ARepository || $this->data instanceof Model) {

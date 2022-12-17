@@ -3,11 +3,12 @@
 namespace App\BaseRepository\Services;
 
 use App\BaseRepository\Abs\ARepository;
+use App\BaseRepository\Crud\TCreate;
+use App\BaseRepository\Crud\TCrud;
+use App\BaseRepository\Crud\TUpdate;
 use App\BaseRepository\Services\IServices\IService;
 
-use App\BaseRepository\Crud\TCrud;
 use App\BaseRepository\Enum\EOperation;
-use App\BaseRepository\Enum\ETypeCall;
 use App\BaseRepository\THttpRequest;
 
 use App\Exceptions\ErrorServiceException;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class StoreService extends ARepository implements IService
 {
-    use THttpRequest, TCrud;
+    use THttpRequest, TCrud, TCreate, TUpdate;
 
     public function execute()
     {

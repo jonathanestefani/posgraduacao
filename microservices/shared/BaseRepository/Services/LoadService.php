@@ -19,9 +19,7 @@ class LoadService extends ARepository implements IService
 
     public function execute() {
         try {
-            $this->load($this->request["id"]);
-
-            return $this->data;
+            return $this->load($this->request["id"]);
         } catch (\Throwable $th) {
             Log::error($th);
         

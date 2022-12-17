@@ -66,13 +66,10 @@ class LoadApi
 
             $response = Http::get($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value, $this->params);
 
-            Log::info($address_api . $this->api_name . '/' . (!empty($this->sub_resource) ? $this->sub_resource . '/' : '') . $this->value);
-            Log::info($this->params);
-
             if ($response->failed()) {
                 throw new ErrorApiCallException('Não foi possível buscar os dados na api');
             } else {
-                return json_decode($response->body());    
+                return json_decode($response->body());
             }
         } catch (ErrorApiCallException $th) {
             Log::error($th);
