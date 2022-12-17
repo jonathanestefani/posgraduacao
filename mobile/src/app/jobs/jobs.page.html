@@ -33,6 +33,9 @@
           </ion-avatar>
           <h2>{{ item.name }}</h2>
         </ion-item>
+        <ion-item *ngIf="item.user">
+          <h2>{{ item.user.name }}</h2>
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
