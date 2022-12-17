@@ -15,17 +15,18 @@ class PrepareWeekService implements IService
 {
     protected Array $request = [];
     private $job_id = 0;
+    private $weeks = [];
 
     public function execute()
     {
         $week = [];
 
         $this->job_id = $this->request['job_id'];
-        $items = $this->request['items'];
+        $this->weeks = $this->request['items'];
 
         $this->removeDeletedWeek();
 
-        foreach($items as $tmp_week) {
+        foreach($this->weeks as $tmp_week) {
             $tmp_times = $tmp_week['times'];
 
             unset($tmp_week['times']);
@@ -54,25 +55,29 @@ class PrepareWeekService implements IService
             ]
         ];
 
-        $listAllWeek = (new WeekListAllService(ScheduleWeek::class))->importRequest($request)->execute();
+        try {
+            $listAllWeek = (new WeekListAllService(ScheduleWeek::class))->importRequest($request)->execute();
 
-        foreach ($listAllWeek as $scheduleWeek) {
-            try {
-                if (array_search($scheduleWeek->id, array_column($this->request, 'id')) === false) {
-                    $scheduleWeek->delete();
-    
-                    $listTimes = $this->getTimesByJob($scheduleWeek->id);
-    
-                    foreach ($listTimes as $scheduleTime) {
-                        $scheduleTime->delete();
-                    }    
+            foreach ($listAllWeek as $scheduleWeek) {
+                try {
+                    if (array_search($scheduleWeek->id, array_column($this->weeks, 'id')) === false) {
+                        $scheduleWeek->delete();
+        
+                        $listTimes = $this->getTimesByJob($scheduleWeek->id);
+        
+                        foreach ($listTimes as $scheduleTime) {
+                            $scheduleTime->delete();
+                        }    
+                    }
+                } catch (\Throwable $th) {
+                    Log::info("===removeDeletedWeek===");
+
+                    Log::info($th);
+                    //throw $th;
                 }
-            } catch (\Throwable $th) {
-                Log::info("===removeDeletedWeek===");
-
-                Log::info($th);
-                //throw $th;
             }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
@@ -93,18 +98,22 @@ class PrepareWeekService implements IService
     private function removeDeletedSchedules($tmp_week, $tmp_times) {
         $listAllTimes = $this->getTimesByJob($this->job_id, $tmp_week["id"]);
 
-        foreach ($listAllTimes as $scheduleTime) {
-            try {
-                if (array_search($scheduleTime->id, array_column($tmp_times, 'id')) === false) {
-                    $scheduleTime->delete();
+        try {
+            foreach ($listAllTimes as $scheduleTime) {
+                try {
+                    if (array_search($scheduleTime->id, array_column($tmp_times, 'id')) === false) {
+                        $scheduleTime->delete();
+                    }
+                } catch (\Throwable $th) {
+                    Log::info("===removeDeletedSchedules===");
+    
+                    Log::info($th);
+                    //throw $th;
                 }
-            } catch (\Throwable $th) {
-                Log::info("===removeDeletedSchedules===");
-
-                Log::info($th);
-                //throw $th;
+                
             }
-            
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
