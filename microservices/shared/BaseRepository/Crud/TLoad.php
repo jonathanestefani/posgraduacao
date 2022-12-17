@@ -2,6 +2,7 @@
 
 namespace App\BaseRepository\Crud;
 
+use App\BaseRepository\Enum\EOperation;
 use App\BaseRepository\Exceptions\ErrorBaseRepositoryException;
 
 trait TLoad {
@@ -18,6 +19,8 @@ trait TLoad {
             if (method_exists($this, 'loadRelationsByApi')) {
                 $this->loadRelationsByApi();
             }
+
+            $this->operation = EOperation::LOAD;
 
             if (empty($this->instance)) {
                 throw new ErrorBaseRepositoryException("Não foi possível encontrar os dados na base de dados!");

@@ -20,9 +20,11 @@ trait TAggregate
 
     public function executeAggregate()
     {
+        /*
         if (method_exists($this, 'defineAggregate')) {
             $this->defineAggregate();
         }
+        */
 
         if (count($this->with) > 0) {
             foreach ($this->with as $tableRelationModel => $scope) {

@@ -66,16 +66,19 @@ trait THttpRequest
 
     protected function openModelInstance($id)
     {
+        /*
         if (method_exists($this, 'defineAggregate')) {
             $this->defineAggregate();
         }
+        */
+        if (!method_exists($this, 'load')) {
+            $this->data = $this->instance->find($id);
 
-        $this->data = $this->instance->find($id);
-
-        if (empty($this->data)) {
-            throw new ErrorServiceException("Não foi possível encontrar os dados na base de dados!");
+            if (empty($this->data)) {
+                throw new ErrorServiceException("Não foi possível encontrar os dados na base de dados!");
+            }
+    
+            $this->operation = EOperation::UPDATE;
         }
-
-        $this->operation = EOperation::UPDATE;
     }
 }

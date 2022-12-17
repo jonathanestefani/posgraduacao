@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Filters\ListFilter;
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\ListAllService;
+use App\BaseRepository\Services\ListIndexService;
+use App\BaseRepository\Services\LoadService;
+use App\BaseRepository\Services\StoreService;
 use App\Models\States;
-use App\Services\States\DestroyService;
-use App\Services\States\ListIndexService;
-use App\Services\States\StoreService;
 use App\Exceptions\ErrorServiceException;
-use App\Services\States\ListAllService;
-use App\Services\States\LoadService;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -22,9 +23,19 @@ class StatesController extends Controller
             $data = [];
 
             if ($request->all == true) {
-                $data = (new ListAllService(States::class))->setRequest($request)->execute();
+                $data = (new ListAllService(States::class))
+                ->setRequest($request)
+                ->setFilters([
+                    "name" => new ListFilter(FilterStringLike::class, "name")
+                ])
+                ->execute();
             } else {
-                $data = (new ListIndexService(States::class))->setRequest($request)->execute();
+                $data = (new ListIndexService(States::class))
+                ->setRequest($request)
+                ->setFilters([
+                    "name" => new ListFilter(FilterStringLike::class, "name")
+                ])
+                ->execute();
             }
 
             return response()->json($data);
@@ -43,9 +54,12 @@ class StatesController extends Controller
                 "id" => $id
             ]);
 
-            Log::info($params);
-
-            $data = (new LoadService(States::class))->setRequest($params)->execute();
+            $data = (new LoadService(States::class))
+            ->setRequest($params)
+            ->setFilters([
+                "name" => new ListFilter(FilterStringLike::class, "name")
+            ])
+            ->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);

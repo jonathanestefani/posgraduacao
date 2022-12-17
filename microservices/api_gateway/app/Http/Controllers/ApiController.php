@@ -116,7 +116,6 @@ class ApiController extends Controller
             $this->defineApiGateway($request);
 
             if (!$this->routesIgnored()) {
-                Log::info('entrou aqui');
                 $route_apigateway = str_replace('/api', '', $this->resource);
 
                 switch ($this->method) {

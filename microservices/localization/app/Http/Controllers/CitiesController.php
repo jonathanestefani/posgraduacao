@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseRepository\Filters\ListFilter;
+use App\BaseRepository\Services\DestroyService;
+use App\BaseRepository\Services\ListAllService;
+use App\BaseRepository\Services\ListIndexService;
+use App\BaseRepository\Services\LoadService;
+use App\BaseRepository\Services\StoreService;
 use App\Models\Cities;
-use App\Services\Cities\DestroyService;
-use App\Services\Cities\ListIndexService;
-use App\Services\Cities\StoreService;
 use App\Exceptions\ErrorServiceException;
-use App\Services\Cities\ListAllService;
-use App\Services\Cities\LoadService;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -22,9 +23,19 @@ class CitiesController extends Controller
             $data = [];
 
             if ($request->all == true) {
-                $data = (new ListAllService(Cities::class))->setRequest($request)->execute();
+                $data = (new ListAllService(Cities::class))
+                ->setRequest($request)
+                ->setFilters([
+                    "name" => new ListFilter(FilterStringLike::class, "name")
+                ])
+                ->execute();
             } else {
-                $data = (new ListIndexService(Cities::class))->setRequest($request)->execute();
+                $data = (new ListIndexService(Cities::class))
+                ->setRequest($request)
+                ->setFilters([
+                    "name" => new ListFilter(FilterStringLike::class, "name")
+                ])
+                ->execute();
             }
 
             return response()->json($data);
@@ -43,7 +54,12 @@ class CitiesController extends Controller
                 "id" => $id
             ]);
 
-            $data = (new LoadService(Cities::class))->setRequest($params)->execute();
+            $data = (new LoadService(Cities::class))
+            ->setRequest($params)
+            ->setFilters([
+                "name" => new ListFilter(FilterStringLike::class, "name")
+            ])
+            ->execute();
             return new Response($data);
         } catch (ErrorServiceException $th) {
             return new Response(["message" => $th->getMessage()], 400);
@@ -56,7 +72,9 @@ class CitiesController extends Controller
     public function update(Request $request)
     {
         try {
-            $data = (new StoreService(Cities::class))->setRequest($request)->execute();
+            $data = (new StoreService(Cities::class))
+            ->setRequest($request)
+            ->execute();
 
             return response()->json($data);
         } catch (ErrorServiceException $th) {
